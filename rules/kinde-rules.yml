@@ -1,0 +1,122 @@
+extends: spectral:oas
+rules:
+  kinde-operation-summary-title-case:
+    description: All operation summaries must use Title Case.
+    severity: warn
+    given: "$.paths[*][*].summary"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^([A-Z][a-z0-9]*(\\s[A-Z][a-z0-9]*)*)"
+
+  kinde-operation-id-camel-case:
+    description: OperationIds use camelCase across the Kinde API surface.
+    severity: warn
+    given: "$.paths[*][*].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]*$"
+
+  kinde-tags-required:
+    description: Every operation must declare at least one tag for grouping in the docs.
+    severity: error
+    given: "$.paths[*][*]"
+    then:
+      field: tags
+      function: truthy
+
+  kinde-tags-title-case:
+    description: Top-level tags must be Title Case.
+    severity: warn
+    given: "$.tags[*].name"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^([A-Z][a-zA-Z0-9]*)(\\s[A-Z][a-zA-Z0-9]*)*$"
+
+  kinde-bearer-auth-required:
+    description: The Kinde Management API requires Bearer (M2M) authentication.
+    severity: error
+    given: "$.components.securitySchemes"
+    then:
+      function: truthy
+
+  kinde-server-subdomain-template:
+    description: Server URL must use the {subdomain}.kinde.com template.
+    severity: warn
+    given: "$.servers[*].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: ".*\\.kinde\\.com.*"
+
+  kinde-version-in-path:
+    description: All API paths should include the /api/v1 or /account_api/v1 version prefix.
+    severity: warn
+    given: "$.paths"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(/api/v[0-9]+|/account_api/v[0-9]+)"
+
+  kinde-pagination-page-size-integer:
+    description: List endpoints exposing page_size must declare it as an integer query parameter.
+    severity: info
+    given: "$.paths[*][get].parameters[?(@.name=='page_size')]"
+    then:
+      field: schema.type
+      function: enumeration
+      functionOptions:
+        values:
+          - integer
+
+  kinde-cursor-pagination-starting-after:
+    description: List endpoints should use a starting_after cursor for pagination rather than offset.
+    severity: info
+    given: "$.paths[*][get].parameters[*].name"
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - page_size
+          - starting_after
+          - sort
+          - email
+          - username
+          - id
+          - code
+          - key
+          - subnav
+          - return_url
+          - customer_id
+          - user_id
+          - org_code
+          - feature_flag_key
+          - key_type
+          - next_token
+
+  kinde-snake-case-query-params:
+    description: Kinde uses snake_case for query parameters.
+    severity: warn
+    given: "$.paths[*][*].parameters[?(@.in=='query')].name"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-z0-9_]*$"
+
+  kinde-snake-case-path-params:
+    description: Kinde uses snake_case for path parameters too.
+    severity: warn
+    given: "$.paths[*][*].parameters[?(@.in=='path')].name"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-z0-9_]*$"
+
+  kinde-error-response-defined:
+    description: Operations should define at least one 4xx error response.
+    severity: warn
+    given: "$.paths[*][*].responses"
+    then:
+      function: truthy

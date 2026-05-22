@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.com/schemas/kinde/role",
+  "title": "Role",
+  "description": "A Kinde role — a named bundle of permissions that can be assigned to a user within an organization. Roles drive Kinde's RBAC authorization model.",
+  "type": "object",
+  "required": ["id", "key"],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "key": {
+      "type": "string",
+      "description": "Stable string key used in code (e.g. `admin`, `viewer`)."
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable role name."
+    },
+    "description": {
+      "type": ["string", "null"]
+    },
+    "is_default_role": {
+      "type": "boolean",
+      "description": "Whether new users in an org are auto-assigned this role."
+    }
+  }
+}

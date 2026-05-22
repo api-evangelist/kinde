@@ -1,0 +1,81 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Kinde
+providerId: kinde
+created: '2026-05-22'
+modified: '2026-05-22'
+reconciled: true
+tags:
+  - FinOps
+  - FOCUS
+  - Identity
+  - Authentication
+  - Developer Platform
+description: >-
+  FOCUS-aligned FinOps profile for Kinde. Kinde charges a flat monthly fee per Business with progressively
+  higher MAU / MAO ceilings and feature unlocks at each tier; M2M tokens are an additional usage meter on
+  the Free tier and a configurable allocation on paid tiers. Customers should track Business-level spend,
+  MAU growth, and M2M token volume to forecast tier transitions.
+sources:
+  - https://kinde.com/pricing/
+  - https://docs.kinde.com/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Kinde
+serviceCategory: Identity
+billingModel:
+  pricingCategory: Tiered flat-rate + usage overage
+  billingFrequency: Monthly
+  billingCurrency: USD
+focusColumns:
+  ServiceName: Kinde
+  ServiceCategory: Identity
+  ProviderName: Kinde
+  PublisherName: Kinde
+  BillingCurrency: USD
+meters:
+  - name: monthly_active_users
+    unit: MAU
+    aggregation: max
+    notes: Each distinct user who signs in during the billing month counts as one MAU.
+  - name: monthly_active_organizations
+    unit: MAO
+    aggregation: max
+    notes: Each org with at least one signed-in member during the month counts as one MAO.
+  - name: m2m_tokens_issued
+    unit: token
+    aggregation: sum
+    notes: Free plan includes 2,000 per month; paid plans expand the allocation.
+  - name: webhooks_per_environment
+    unit: webhook
+    aggregation: max
+  - name: feature_flags
+    unit: flag
+    aggregation: max
+  - name: custom_roles
+    unit: role
+    aggregation: max
+  - name: environments
+    unit: environment-month
+    aggregation: max
+principles:
+  - name: Visibility
+    description: Track Kinde MAU and M2M token volume month over month per Business.
+  - name: Allocation
+    description: Tag Kinde spend to the product line / customer segment it powers (consumer vs B2B).
+  - name: Optimization
+    description: Right-size the tier; deprovision unused environments and webhooks; consolidate roles.
+  - name: Accountability
+    description: Set MAU growth alerts before crossing the 10,500 Free threshold; review quarterly.
+recommendedKPIs:
+  - kpi: Cost per MAU
+    formula: total_monthly_cost / monthly_active_users
+  - kpi: M2M token utilisation
+    formula: m2m_tokens_issued / m2m_tokens_included
+  - kpi: Active environments
+    formula: count(environments_with_traffic)

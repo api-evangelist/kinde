@@ -1,0 +1,39 @@
+{
+  "title": "Kinde Organization Structure",
+  "description": "Documented structure of a Kinde organization (B2B tenant container) record.",
+  "entity": "Organization",
+  "provider": "Kinde",
+  "groups": [
+    {
+      "name": "Identity",
+      "fields": [
+        { "name": "code", "type": "string", "required": true, "description": "Stable org code (e.g. org_a1b2c3)." },
+        { "name": "external_id", "type": "string", "required": false },
+        { "name": "handle", "type": "string", "required": false }
+      ]
+    },
+    {
+      "name": "Profile",
+      "fields": [
+        { "name": "name", "type": "string", "required": true },
+        { "name": "logo", "type": "uri", "required": false },
+        { "name": "color_scheme", "type": "string", "required": false },
+        { "name": "sender_name", "type": "string", "required": false },
+        { "name": "sender_email", "type": "email", "required": false }
+      ]
+    },
+    {
+      "name": "Behavior",
+      "fields": [
+        { "name": "is_default", "type": "boolean", "required": false },
+        { "name": "is_allow_registrations", "type": "boolean", "required": false }
+      ]
+    },
+    {
+      "name": "Timestamps",
+      "fields": [
+        { "name": "created_on", "type": "date-time", "required": false }
+      ]
+    }
+  ]
+}

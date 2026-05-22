@@ -1,0 +1,160 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Kinde Management API — Organizations
+  description: 'Kinde Management API — Organizations. Manages B2B organizations (tenants) inside a Kinde business:
+    create / read / update / delete organizations, manage organization users and invitations, assign roles and
+    permissions inside an org, attach feature flags, and manage organization-level properties and handles.
+    Self-contained Naftiko capability covering one Kinde business surface.'
+  tags:
+  - Kinde
+  - Organizations
+  - B2B
+  - Multi-Tenancy
+  created: '2026-05-22'
+  modified: '2026-05-22'
+binds:
+- namespace: env
+  keys:
+    KINDE_SUBDOMAIN: KINDE_SUBDOMAIN
+    KINDE_ACCESS_TOKEN: KINDE_ACCESS_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: kinde-organizations
+    baseUri: https://{KINDE_SUBDOMAIN}.kinde.com/api/v1
+    description: Kinde Management API — Organizations business capability. Self-contained, no shared references.
+    resources:
+    - name: organizations
+      path: /organizations
+      operations:
+      - name: getOrganizations
+        method: GET
+        description: List organizations in the business.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page_size
+          in: query
+          type: integer
+      - name: createOrganization
+        method: POST
+        description: Create a new organization.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: organization
+      path: /organization
+      operations:
+      - name: getOrganization
+        method: GET
+        description: Get a single organization by code.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: code
+          in: query
+          type: string
+          required: true
+      - name: updateOrganization
+        method: PATCH
+        description: Update an organization's properties.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: org_code
+          in: query
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: organization-users
+      path: /organizations/{org_code}/users
+      operations:
+      - name: getOrganizationUsers
+        method: GET
+        description: List users in an organization.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: org_code
+          in: path
+          type: string
+          required: true
+      - name: addOrganizationUsers
+        method: POST
+        description: Add existing users to an organization with optional roles/permissions.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: org_code
+          in: path
+          type: string
+          required: true
+        - name: body
+          in: body
+          type: object
+          required: true
+    - name: organization-user-roles
+      path: /organizations/{org_code}/users/{user_id}/roles
+      operations:
+      - name: getOrganizationUserRoles
+        method: GET
+        description: List roles a user holds in an organization.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: org_code
+          in: path
+          type: string
+          required: true
+        - name: user_id
+          in: path
+          type: string
+          required: true
+    - name: organization-feature-flags
+      path: /organizations/{org_code}/feature_flags/{feature_flag_key}
+      operations:
+      - name: updateOrganizationFeatureFlag
+        method: PATCH
+        description: Override a feature flag value for a specific organization.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: org_code
+          in: path
+          type: string
+          required: true
+        - name: feature_flag_key
+          in: path
+          type: string
+          required: true

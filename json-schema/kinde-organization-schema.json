@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.com/schemas/kinde/organization",
+  "title": "Organization",
+  "description": "A Kinde organization — a tenant container inside a Kinde business used for B2B multi-tenancy. Organizations have their own users, roles, permissions, feature-flag overrides, and (on Scale plans) per-org SSO and properties.",
+  "type": "object",
+  "required": ["code"],
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Stable organization code used as the org identifier (e.g. org_a1b2c3)."
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable organization name."
+    },
+    "handle": {
+      "type": ["string", "null"],
+      "description": "URL-safe slug for the organization."
+    },
+    "external_id": {
+      "type": ["string", "null"],
+      "description": "Optional external id from the customer's system of record."
+    },
+    "is_default": {
+      "type": "boolean",
+      "description": "Whether this is the business's default organization."
+    },
+    "is_allow_registrations": {
+      "type": "boolean",
+      "description": "Whether new users can self-register into this organization."
+    },
+    "sender_name": {
+      "type": ["string", "null"]
+    },
+    "sender_email": {
+      "type": ["string", "null"],
+      "format": "email"
+    },
+    "logo": {
+      "type": ["string", "null"],
+      "format": "uri"
+    },
+    "color_scheme": {
+      "type": ["string", "null"]
+    },
+    "created_on": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    }
+  }
+}

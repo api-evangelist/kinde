@@ -1,0 +1,90 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "kinde": "https://api-evangelist.com/vocab/kinde#",
+    "schema": "https://schema.org/",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "User": "schema:Person",
+    "Organization": "schema:Organization",
+    "Application": "kinde:Application",
+    "Role": "kinde:Role",
+    "Permission": "kinde:Permission",
+    "FeatureFlag": "kinde:FeatureFlag",
+    "Webhook": "kinde:Webhook",
+    "Connection": "kinde:Connection",
+    "Directory": "kinde:Directory",
+    "ApiKey": "kinde:ApiKey",
+    "BillingEntitlement": "kinde:BillingEntitlement",
+    "BillingAgreement": "kinde:BillingAgreement",
+    "Property": "kinde:Property",
+
+    "id": "@id",
+    "type": "@type",
+
+    "name": "schema:name",
+    "description": "schema:description",
+    "preferred_email": "schema:email",
+    "first_name": "schema:givenName",
+    "last_name": "schema:familyName",
+    "full_name": "foaf:name",
+    "picture": "schema:image",
+    "username": "foaf:nick",
+    "code": "schema:identifier",
+    "handle": "schema:alternateName",
+    "external_id": "schema:identifier",
+
+    "created_on": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "last_signed_in": {
+      "@id": "kinde:lastSignedIn",
+      "@type": "xsd:dateTime"
+    },
+    "is_suspended": {
+      "@id": "kinde:isSuspended",
+      "@type": "xsd:boolean"
+    },
+    "is_default": {
+      "@id": "kinde:isDefault",
+      "@type": "xsd:boolean"
+    },
+
+    "organizations": {
+      "@id": "schema:memberOf",
+      "@type": "@id"
+    },
+    "identities": "kinde:identity",
+
+    "role": {
+      "@id": "kinde:hasRole",
+      "@type": "@id"
+    },
+    "permission": {
+      "@id": "kinde:hasPermission",
+      "@type": "@id"
+    },
+    "application": {
+      "@id": "kinde:registeredApplication",
+      "@type": "@id"
+    },
+
+    "key": "schema:identifier",
+    "endpoint": "schema:url",
+    "event_types": "kinde:eventType",
+    "is_active": {
+      "@id": "kinde:isActive",
+      "@type": "xsd:boolean"
+    },
+
+    "client_id": "kinde:oauthClientId",
+    "redirect_uris": "kinde:redirectUri",
+    "logout_uris": "kinde:logoutUri",
+
+    "subscription": "kinde:billingAgreement",
+    "entitlement": "kinde:billingEntitlement",
+    "meter_usage": "kinde:meteredUsage"
+  }
+}

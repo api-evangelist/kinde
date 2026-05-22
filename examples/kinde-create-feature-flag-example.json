@@ -1,0 +1,29 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://acme.kinde.com/api/v1/feature_flags",
+    "headers": {
+      "Authorization": "Bearer <KINDE_M2M_ACCESS_TOKEN>",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "name": "Beta Dashboard",
+      "description": "Enable the new analytics dashboard.",
+      "key": "beta_dashboard",
+      "type": "boolean",
+      "allow_override_level": "org",
+      "default_value": "false"
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "feature_flag": {
+        "key": "beta_dashboard",
+        "name": "Beta Dashboard",
+        "type": "boolean",
+        "value": false
+      }
+    }
+  }
+}

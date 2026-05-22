@@ -1,0 +1,30 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://acme.kinde.com/api/v1/user",
+    "headers": {
+      "Authorization": "Bearer <KINDE_M2M_ACCESS_TOKEN>",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "profile": {
+        "given_name": "Ada",
+        "family_name": "Lovelace"
+      },
+      "identities": [
+        {
+          "type": "email",
+          "details": { "email": "ada@example.com" }
+        }
+      ],
+      "organization_code": "org_a1b2c3"
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "id": "kp_19fe0ab23",
+      "created": true
+    }
+  }
+}

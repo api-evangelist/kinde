@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.com/schemas/kinde/webhook",
+  "title": "Webhook",
+  "description": "A Kinde webhook — an outbound HTTPS endpoint that receives signed event notifications when resources change in a Kinde business (users, organizations, feature flags, roles, permissions, etc.).",
+  "type": "object",
+  "required": ["endpoint", "event_types"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Webhook id."
+    },
+    "name": {
+      "type": ["string", "null"]
+    },
+    "description": {
+      "type": ["string", "null"]
+    },
+    "endpoint": {
+      "type": "string",
+      "format": "uri",
+      "description": "The HTTPS URL Kinde POSTs events to."
+    },
+    "event_types": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Event type key (e.g. user.created, organization.updated, user.role.assigned)."
+      },
+      "minItems": 1
+    },
+    "is_active": {
+      "type": "boolean"
+    },
+    "signing_key": {
+      "type": ["string", "null"],
+      "description": "Secret used to HMAC-sign event payloads."
+    },
+    "created_on": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    }
+  }
+}

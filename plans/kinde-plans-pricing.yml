@@ -1,0 +1,254 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Kinde
+providerId: kinde
+created: '2026-05-22'
+modified: '2026-05-22'
+reconciled: true
+tags:
+  - Identity
+  - Authentication
+  - B2B SaaS
+  - Developer Platform
+description: >-
+  Kinde's published pricing as of May 2026. Four self-serve tiers (Free, Pro, Plus, Scale) plus a custom
+  Enterprise tier. Pricing is flat-rate per month with progressively higher MAU / MAO ceilings and
+  feature unlocks.
+sources:
+  - https://kinde.com/pricing/
+plans:
+  - id: kinde-free
+    name: Free
+    type: freemium
+    description: $0/month. Free up to 10,500 MAU and 5 monthly active organizations.
+    entries:
+      - label: Monthly base
+        name: base
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Monthly active users
+        name: mau
+        type: quota
+        metric: MAU
+        limit: 10500
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Monthly active organizations
+        name: mao
+        type: quota
+        metric: MAO
+        limit: 5
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Feature flags
+        name: feature_flags
+        type: quota
+        metric: flag
+        limit: 10
+        timeFrame: lifetime
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Custom properties
+        name: properties
+        type: quota
+        metric: property
+        limit: 5
+        timeFrame: lifetime
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Webhooks per environment
+        name: webhooks
+        type: quota
+        metric: webhook
+        limit: 1
+        timeFrame: lifetime
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Custom roles
+        name: roles
+        type: quota
+        metric: role
+        limit: 2
+        timeFrame: lifetime
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Permissions per role
+        name: permissions_per_role
+        type: quota
+        metric: permission
+        limit: 10
+        timeFrame: lifetime
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: M2M tokens included
+        name: m2m_tokens
+        type: quota
+        metric: token
+        limit: 2000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Email + social login
+      - name: MFA
+      - name: B2B organizations
+      - name: Custom domains
+      - name: Attack protection
+      - name: Workflows
+      - name: 2 environments (production + development)
+
+  - id: kinde-pro
+    name: Pro
+    type: paid
+    description: $25/month. Unlimited MAU and organizations plus paid-tier security features.
+    entries:
+      - label: Monthly base
+        name: base
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '25.00'
+        userMultiplied: false
+      - label: Monthly active users
+        name: mau
+        type: quota
+        metric: MAU
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+      - label: Monthly active organizations
+        name: mao
+        type: quota
+        metric: MAO
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Everything in Free
+      - name: Unlimited MAU and organizations
+      - name: API keys
+      - name: Unlimited webhooks
+      - name: Unlimited custom roles and permissions
+      - name: SOC 2 attestation report
+
+  - id: kinde-plus
+    name: Plus
+    type: paid
+    description: $75/month. Adds enterprise SSO, more environments, API scopes, organization-owned M2M.
+    entries:
+      - label: Monthly base
+        name: base
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '75.00'
+        userMultiplied: false
+      - label: Environments
+        name: environments
+        type: quota
+        metric: environment
+        limit: 6
+        timeFrame: lifetime
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Everything in Pro
+      - name: Free enterprise SSO
+      - name: 6 environments
+      - name: API permissions (scopes)
+      - name: Organization-owned M2M apps
+      - name: Preview mode
+      - name: Hotjar analytics integration
+
+  - id: kinde-scale
+    name: Scale
+    type: paid
+    description: $250/month. SCIM, per-org domains and MFA, ISO 27001 reports, 11 environments.
+    entries:
+      - label: Monthly base
+        name: base
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '250.00'
+        userMultiplied: false
+      - label: Environments
+        name: environments
+        type: quota
+        metric: environment
+        limit: 11
+        timeFrame: lifetime
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Everything in Plus
+      - name: 11 environments
+      - name: Custom domain / email / allowlist per organization
+      - name: SCIM support
+      - name: ISO 27001 reports
+      - name: MFA per organization
+
+  - id: kinde-enterprise
+    name: Enterprise
+    type: custom
+    description: Custom pricing. Contact sales for procurement, SLAs, and dedicated support.
+    entries:
+      - label: Custom contract
+        name: contract
+        type: subscription
+        metric: contract
+        limit: -1
+        timeFrame: year
+        geo: global
+        unit: 1
+        price: 'contact-sales'
+        userMultiplied: false
+    elements:
+      - name: Everything in Scale
+      - name: Dedicated support
+      - name: Custom SLAs
+      - name: Procurement / legal terms

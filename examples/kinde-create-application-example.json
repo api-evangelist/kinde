@@ -1,0 +1,26 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://acme.kinde.com/api/v1/applications",
+    "headers": {
+      "Authorization": "Bearer <KINDE_M2M_ACCESS_TOKEN>",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "name": "Acme Web App",
+      "type": "reg"
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "application": {
+        "id": "app_a1b2c3",
+        "name": "Acme Web App",
+        "type": "reg",
+        "client_id": "1a2b3c4d5e6f7g8h9i0j",
+        "client_secret": "abcd1234secret"
+      }
+    }
+  }
+}

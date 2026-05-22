@@ -1,0 +1,210 @@
+vocabulary:
+  name: Kinde Vocabulary
+  description: >-
+    Domain vocabulary for the Kinde authentication, authorization, billing, and
+    feature-flag platform. Covers customer identity, B2B multi-tenancy, RBAC,
+    OAuth/OIDC, monetization, and release-management concepts as exposed by the
+    Kinde Management API, Account API, and MCP server.
+  version: '1.0'
+  created: '2026-05-22'
+  modified: '2026-05-22'
+
+identity-concepts:
+  - term: Business
+    definition: >-
+      The top-level Kinde tenant. Each customer of Kinde has one Business,
+      identified by a subdomain like `acme.kinde.com`. Everything below — users,
+      organizations, applications, environments — lives inside one Business.
+    related:
+      - Environment
+      - Organization
+      - User
+
+  - term: User
+    definition: >-
+      An end-user account inside a Kinde Business. A User can have multiple
+      Identities (email, phone, social, enterprise SSO) and belong to one or
+      more Organizations.
+    related:
+      - Identity
+      - Organization
+      - Role
+
+  - term: Identity
+    definition: >-
+      A specific login method linked to a User — for example an email/password
+      record, a Google OAuth identity, a Microsoft Entra ID SAML identity, or a
+      passwordless phone identity. A User can hold many Identities.
+    related:
+      - User
+      - Connection
+
+  - term: Organization
+    definition: >-
+      A B2B tenant container inside a Business. Organizations are how Kinde
+      models multi-tenant SaaS: each customer of the customer is an
+      Organization with its own Users, Roles, Permissions, feature-flag
+      overrides, and (on Scale plans) per-org SSO.
+    related:
+      - User
+      - Role
+      - FeatureFlag
+
+  - term: Connection
+    definition: >-
+      An authentication source configured in a Business — for example a Google
+      OAuth provider, a Microsoft SAML provider, an email/password database,
+      or a passwordless flow.
+    related:
+      - Application
+      - Identity
+      - Directory
+
+  - term: Directory
+    definition: >-
+      A SCIM-provisioned source of Users available on plans that support it.
+      Allows external IdPs to push user lifecycle events into Kinde.
+    related:
+      - Connection
+      - Organization
+
+authorization-concepts:
+  - term: Role
+    definition: >-
+      A named bundle of Permissions assignable to a User inside an Organization.
+      Roles are the unit of grant in Kinde's RBAC model.
+    related:
+      - Permission
+      - User
+      - Organization
+
+  - term: Permission
+    definition: >-
+      A stable string key (e.g. `posts:read`, `billing:write`) representing a
+      single authorization grant. Permissions are attached to Roles; never
+      assigned directly to Users.
+    related:
+      - Role
+      - Scope
+
+  - term: Scope
+    definition: >-
+      An OAuth scope value declared on an Application's API permissions. Scopes
+      are present in issued access tokens and let the API enforce
+      authorization.
+    related:
+      - Application
+      - Permission
+
+application-concepts:
+  - term: Application
+    definition: >-
+      An OAuth/OIDC client registered in a Business. Applications can be
+      regular web apps, single-page apps, native apps, or machine-to-machine
+      (M2M) clients. Each has a client_id, optional client_secret, redirect
+      URLs, and a set of allowed connections.
+    related:
+      - Connection
+      - Scope
+      - User
+
+  - term: M2M Application
+    definition: >-
+      A confidential OAuth client whose tokens authorize backend code (not
+      end-users) to call the Kinde Management API or the customer's own APIs.
+    related:
+      - Application
+      - ApiKey
+
+  - term: ApiKey
+    definition: >-
+      A programmatic API key issued by a Business, used for server-to-server
+      access and for routing AI clients through the MCP server. Keys can be
+      verified, rotated, and revoked.
+    related:
+      - M2M Application
+      - MCPServer
+
+release-concepts:
+  - term: Environment
+    definition: >-
+      An isolated copy of a Business's configuration. Free plans get
+      production + development; paid tiers add up to 11 environments.
+    related:
+      - FeatureFlag
+      - Business
+
+  - term: FeatureFlag
+    definition: >-
+      A typed (boolean / string / integer / JSON) configuration value, scoped
+      to an Environment and overridable per Organization or per User. Drives
+      progressive delivery and entitlement gating.
+    related:
+      - Environment
+      - Organization
+
+  - term: Workflow
+    definition: >-
+      A code-defined customisation point that lets a Business inject logic
+      into Kinde flows (e.g. token issuance, user creation). Modeled in the
+      `kinde-oss/infrastructure` and `workflows-runtime` repos.
+    related:
+      - Environment
+
+monetization-concepts:
+  - term: BillingAgreement
+    definition: >-
+      A subscription/plan relationship between a customer of the customer and
+      a Business's billing setup.
+    related:
+      - BillingEntitlement
+      - Organization
+
+  - term: BillingEntitlement
+    definition: >-
+      An active grant attached to a BillingAgreement that says what a customer
+      is entitled to consume — for example "10,000 API calls / month",
+      "10 seats", "feature_flag:beta_dashboard=on".
+    related:
+      - BillingAgreement
+      - FeatureFlag
+
+  - term: BillingMeterUsage
+    definition: >-
+      A recorded metered-usage event against a billing meter, used for
+      usage-based billing.
+    related:
+      - BillingAgreement
+
+operational-concepts:
+  - term: Webhook
+    definition: >-
+      An outbound HTTPS endpoint that receives signed event notifications when
+      Kinde resources change. Configured per environment with a subscribed
+      list of event types.
+    related:
+      - Event
+
+  - term: Event
+    definition: >-
+      A structured notification describing a state change in Kinde (e.g.
+      user.created, organization.user.added, role.permissions.updated).
+    related:
+      - Webhook
+
+  - term: MCPServer
+    definition: >-
+      Kinde's Model Context Protocol server, which exposes a subset of the
+      Management API as MCP tools so AI assistants can query and modify a
+      Business through a scoped ApiKey.
+    related:
+      - ApiKey
+      - Application
+
+  - term: Property
+    definition: >-
+      A custom metadata field defined on Users, Organizations, or
+      Applications. Grouped under PropertyCategories.
+    related:
+      - User
+      - Organization

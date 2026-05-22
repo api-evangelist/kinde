@@ -1,0 +1,26 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://acme.kinde.com/api/v1/roles",
+    "headers": {
+      "Authorization": "Bearer <KINDE_M2M_ACCESS_TOKEN>",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "name": "Billing Admin",
+      "description": "Can view and modify billing settings.",
+      "key": "billing_admin",
+      "is_default_role": false
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "role": {
+        "id": "role_a1b2c3",
+        "key": "billing_admin",
+        "name": "Billing Admin"
+      }
+    }
+  }
+}

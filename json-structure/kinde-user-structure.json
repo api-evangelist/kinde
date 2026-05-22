@@ -1,0 +1,43 @@
+{
+  "title": "Kinde User Structure",
+  "description": "Documented structure of a Kinde user record, organizing fields by purpose for use in catalog tooling.",
+  "entity": "User",
+  "provider": "Kinde",
+  "groups": [
+    {
+      "name": "Identity",
+      "fields": [
+        { "name": "id", "type": "string", "required": true, "description": "Internal Kinde user id." },
+        { "name": "provided_id", "type": "string", "required": false, "description": "External id from a customer system." }
+      ]
+    },
+    {
+      "name": "Profile",
+      "fields": [
+        { "name": "preferred_email", "type": "email", "required": false },
+        { "name": "username", "type": "string", "required": false },
+        { "name": "first_name", "type": "string", "required": false },
+        { "name": "last_name", "type": "string", "required": false },
+        { "name": "full_name", "type": "string", "required": false },
+        { "name": "picture", "type": "uri", "required": false }
+      ]
+    },
+    {
+      "name": "Status",
+      "fields": [
+        { "name": "is_suspended", "type": "boolean", "required": false },
+        { "name": "total_sign_ins", "type": "integer", "required": false },
+        { "name": "failed_sign_ins", "type": "integer", "required": false },
+        { "name": "last_signed_in", "type": "date-time", "required": false },
+        { "name": "created_on", "type": "date-time", "required": false }
+      ]
+    },
+    {
+      "name": "Relationships",
+      "fields": [
+        { "name": "organizations", "type": "array<string>", "required": false, "description": "Codes of orgs the user belongs to." },
+        { "name": "identities", "type": "array<object>", "required": false, "description": "All linked sign-in identities." }
+      ]
+    }
+  ]
+}

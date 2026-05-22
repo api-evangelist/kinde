@@ -1,0 +1,26 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://acme.kinde.com/api/v1/organization",
+    "headers": {
+      "Authorization": "Bearer <KINDE_M2M_ACCESS_TOKEN>",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "name": "Acme Corp",
+      "handle": "acme-corp",
+      "external_id": "crm-12345",
+      "sender_name": "Acme Team",
+      "sender_email": "noreply@acme.com",
+      "is_allow_registrations": false
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "code": "org_d4e5f6",
+      "name": "Acme Corp",
+      "handle": "acme-corp"
+    }
+  }
+}

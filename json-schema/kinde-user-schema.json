@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://api-evangelist.com/schemas/kinde/user",
+  "title": "User",
+  "description": "A Kinde user — an end-user account inside a Kinde business. Users can authenticate via multiple identities (email, phone, social, enterprise SSO) and belong to one or more organizations.",
+  "type": "object",
+  "required": ["id"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Globally unique Kinde-generated user id (e.g. kp_abc123)."
+    },
+    "provided_id": {
+      "type": ["string", "null"],
+      "description": "External id provided when creating the user."
+    },
+    "preferred_email": {
+      "type": ["string", "null"],
+      "format": "email",
+      "description": "Primary email address used for sign-in and notifications."
+    },
+    "username": {
+      "type": ["string", "null"],
+      "description": "Optional username for the user."
+    },
+    "first_name": {
+      "type": ["string", "null"]
+    },
+    "last_name": {
+      "type": ["string", "null"]
+    },
+    "full_name": {
+      "type": ["string", "null"]
+    },
+    "is_suspended": {
+      "type": "boolean",
+      "description": "Whether the user has been suspended from signing in."
+    },
+    "picture": {
+      "type": ["string", "null"],
+      "format": "uri",
+      "description": "URL of the user's profile picture."
+    },
+    "total_sign_ins": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "failed_sign_ins": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "last_signed_in": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "created_on": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "organizations": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "List of organization codes the user belongs to."
+    },
+    "identities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string", "enum": ["email", "phone", "username", "oauth2:google", "oauth2:microsoft", "oauth2:apple", "saml", "oidc"] },
+          "details": { "type": "object" }
+        }
+      },
+      "description": "All identities (login methods) linked to the user."
+    }
+  }
+}

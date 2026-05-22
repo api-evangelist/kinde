@@ -1,0 +1,73 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Kinde Management API — Billing
+  description: 'Kinde Management API — Billing. Surfaces Kinde''s native billing/monetization product:
+    list billing entitlements granted to a customer, fetch billing agreements (subscriptions/plans), and
+    record metered usage against billing meters. Self-contained Naftiko capability covering one Kinde
+    business surface.'
+  tags:
+  - Kinde
+  - Billing
+  - Monetization
+  - Entitlements
+  - Metering
+  created: '2026-05-22'
+  modified: '2026-05-22'
+binds:
+- namespace: env
+  keys:
+    KINDE_SUBDOMAIN: KINDE_SUBDOMAIN
+    KINDE_ACCESS_TOKEN: KINDE_ACCESS_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: kinde-billing
+    baseUri: https://{KINDE_SUBDOMAIN}.kinde.com/api/v1
+    description: Kinde Management API — Billing business capability. Self-contained, no shared references.
+    resources:
+    - name: billing-entitlements
+      path: /billing/entitlements
+      operations:
+      - name: getBillingEntitlements
+        method: GET
+        description: List billing entitlements granted to a customer / organization.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: customer_id
+          in: query
+          type: string
+    - name: billing-agreements
+      path: /billing/agreements
+      operations:
+      - name: getBillingAgreements
+        method: GET
+        description: List billing agreements (subscriptions) for a customer.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: customer_id
+          in: query
+          type: string
+    - name: billing-meter-usage
+      path: /billing/meter_usage
+      operations:
+      - name: createBillingMeterUsage
+        method: POST
+        description: Record a metered-usage event against a billing meter.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          required: true

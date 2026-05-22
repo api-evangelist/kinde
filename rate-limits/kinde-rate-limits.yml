@@ -1,0 +1,52 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Kinde
+providerId: kinde
+created: '2026-05-22'
+modified: '2026-05-22'
+reconciled: false
+tags:
+  - Rate Limiting
+  - Identity
+description: >-
+  Kinde does not publish a precise per-endpoint rate-limit table on its public docs. It does state that
+  M2M token issuance is metered (the Free plan includes 2,000 M2M tokens per month) and that "attack
+  protection" mitigations (anomaly detection, IP-based throttling, denial-of-service rate limits) are
+  applied to the authentication endpoints. The values below reflect the documented quota signals and
+  reasonable defaults — verify against current docs before relying in production.
+sources:
+  - https://kinde.com/pricing/
+  - https://kinde.com/blog/blog/mitigating-denial-of-service-attacks-with-a-mix-of-fingerprinting-and-rate-limits/
+headers:
+  limit: not-documented
+  remaining: not-documented
+  reset: not-documented
+responseCodes:
+  throttled: 429
+  attackProtection: 429
+limits:
+  - name: M2M tokens (Free plan)
+    scope: tenant
+    metric: tokens_per_month
+    limit: 2000
+    timeFrame: month
+    notes: Documented in the Free-tier inclusions on the pricing page.
+  - name: M2M tokens (Pro / Plus / Scale)
+    scope: tenant
+    metric: tokens_per_month
+    limit: configurable
+    timeFrame: month
+    notes: Paid plans expand the M2M token quota; exact number is configurable.
+  - name: Authentication endpoints — anomaly detection
+    scope: ip
+    metric: auth_attempts
+    limit: configurable
+    timeFrame: rolling
+    notes: Kinde applies fingerprint + IP-based throttling on auth endpoints as part of "attack protection".
+  - name: Management API
+    scope: tenant
+    metric: requests
+    limit: not-published
+    timeFrame: second
+    notes: Kinde reserves the right to throttle Management API calls. Exact thresholds are not published.

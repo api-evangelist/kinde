@@ -1,0 +1,38 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://acme.kinde.com/api/v1/webhooks",
+    "headers": {
+      "Authorization": "Bearer <KINDE_M2M_ACCESS_TOKEN>",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "endpoint": "https://api.acme.com/kinde/webhooks",
+      "name": "Acme sync",
+      "description": "Sync Kinde users to internal CRM.",
+      "event_types": [
+        "user.created",
+        "user.updated",
+        "user.deleted",
+        "organization.created",
+        "organization.user.added"
+      ]
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "webhook": {
+        "id": "wh_a1b2c3",
+        "endpoint": "https://api.acme.com/kinde/webhooks",
+        "event_types": [
+          "user.created",
+          "user.updated",
+          "user.deleted",
+          "organization.created",
+          "organization.user.added"
+        ]
+      }
+    }
+  }
+}

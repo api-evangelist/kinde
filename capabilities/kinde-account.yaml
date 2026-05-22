@@ -1,0 +1,111 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Kinde Account API — Self-Service
+  description: 'Kinde Account API — Self-Service. The Frontend/Account API gives the currently signed-in
+    user (via their session token) read access to their own identity, organization memberships,
+    feature-flag values, permissions, roles, properties, and billing entitlements, plus a self-serve
+    portal URL they can be redirected to. Self-contained Naftiko capability covering one Kinde business
+    surface.'
+  tags:
+  - Kinde
+  - Account
+  - Self-Service
+  - Frontend
+  created: '2026-05-22'
+  modified: '2026-05-22'
+binds:
+- namespace: env
+  keys:
+    KINDE_SUBDOMAIN: KINDE_SUBDOMAIN
+    KINDE_USER_TOKEN: KINDE_USER_TOKEN
+capability:
+  consumes:
+  - type: http
+    namespace: kinde-account
+    baseUri: https://{KINDE_SUBDOMAIN}.kinde.com/account_api/v1
+    description: Kinde Account API — Self-Service business capability. Self-contained, no shared references.
+    resources:
+    - name: feature_flags
+      path: /feature_flags
+      operations:
+      - name: getFeatureFlags
+        method: GET
+        description: Get the resolved feature-flag values for the signed-in user.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters: []
+    - name: permissions
+      path: /permissions
+      operations:
+      - name: getPermissions
+        method: GET
+        description: List permissions held by the signed-in user.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page_size
+          in: query
+          type: integer
+    - name: roles
+      path: /roles
+      operations:
+      - name: getRoles
+        method: GET
+        description: List roles held by the signed-in user.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: page_size
+          in: query
+          type: integer
+    - name: billing
+      path: /billing/entitlements
+      operations:
+      - name: getEntitlements
+        method: GET
+        description: List billing entitlements active for the signed-in user / organization.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters: []
+    - name: portal_link
+      path: /portal_link
+      operations:
+      - name: getPortalLink
+        method: GET
+        description: Generate a self-serve portal URL that the user can be redirected to.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: subnav
+          in: query
+          type: string
+        - name: return_url
+          in: query
+          type: string
+    - name: properties
+      path: /properties
+      operations:
+      - name: getProperties
+        method: GET
+        description: Read custom properties on the signed-in user.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters: []
