@@ -344,6 +344,8 @@ common:
 - type: Documentation
   url: https://github.com/kinde-oss/documentation
   x-description: Source of the public Kinde documentation site (Astro/MDX)
+- type: LLMsTxt
+  url: https://docs.kinde.com/llms.txt
 maintainers:
 - FN: Kin Lane
   email: info@apievangelist.com
