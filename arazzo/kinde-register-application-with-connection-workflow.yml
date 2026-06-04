@@ -1,0 +1,119 @@
+arazzo: 1.0.1
+info:
+  title: Kinde Register Application with Connection
+  summary: Create an application, set its callback URLs, create a social connection, and enable it.
+  description: >-
+    Bootstraps a new client application end to end. The workflow creates the
+    application, registers its redirect callback URLs, creates an auth
+    connection (e.g. a social identity provider), and enables that connection
+    for the new application. Every step inlines its request so the flow can be
+    read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: kindeManagementApi
+  url: ../openapi/kinde-management-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: register-application-with-connection
+  summary: Create an app, set callbacks, create a connection, and enable it for the app.
+  description: >-
+    Creates an application, adds its redirect callback URLs, creates an auth
+    connection, and enables the connection on the application.
+  inputs:
+    type: object
+    required:
+    - appName
+    - appType
+    - redirectUrls
+    - connectionName
+    - connectionDisplayName
+    - connectionStrategy
+    properties:
+      appName:
+        type: string
+        description: The application's name.
+      appType:
+        type: string
+        description: The application type - one of reg, spa, m2m, device.
+      redirectUrls:
+        type: array
+        description: Redirect callback URLs to register for the application.
+        items:
+          type: string
+      connectionName:
+        type: string
+        description: The internal name of the connection.
+      connectionDisplayName:
+        type: string
+        description: The public facing name of the connection.
+      connectionStrategy:
+        type: string
+        description: The identity provider strategy (e.g. oauth2:google).
+  steps:
+  - stepId: createApplication
+    description: >-
+      Create the application. Returns the application id and client id used by
+      the following steps.
+    operationId: createApplication
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.appName
+        type: $inputs.appType
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      applicationId: $response.body#/application/id
+      clientId: $response.body#/application/client_id
+  - stepId: addCallbackUrls
+    description: >-
+      Register the application's redirect callback URLs so the auth flow can
+      return to the application.
+    operationId: addRedirectCallbackURLs
+    parameters:
+    - name: app_id
+      in: path
+      value: $steps.createApplication.outputs.applicationId
+    requestBody:
+      contentType: application/json
+      payload:
+        urls: $inputs.redirectUrls
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      callbackResult: $response.body#/code
+  - stepId: createConnection
+    description: >-
+      Create the auth connection (identity provider) that the application will
+      authenticate against. Returns the connection id.
+    operationId: CreateConnection
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.connectionName
+        display_name: $inputs.connectionDisplayName
+        strategy: $inputs.connectionStrategy
+        enabled_applications:
+        - $steps.createApplication.outputs.clientId
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      connectionId: $response.body#/connection/id
+  - stepId: enableConnection
+    description: >-
+      Enable the new connection for the application so end users can sign in
+      with it.
+    operationId: EnableConnection
+    parameters:
+    - name: application_id
+      in: path
+      value: $steps.createApplication.outputs.applicationId
+    - name: connection_id
+      in: path
+      value: $steps.createConnection.outputs.connectionId
+    successCriteria:
+    - condition: $statusCode == 200
+  outputs:
+    applicationId: $steps.createApplication.outputs.applicationId
+    clientId: $steps.createApplication.outputs.clientId
+    connectionId: $steps.createConnection.outputs.connectionId

@@ -1,0 +1,102 @@
+arazzo: 1.0.1
+info:
+  title: Kinde Assign Organization User Role
+  summary: Find an existing user by email and grant them a role within an organization.
+  description: >-
+    Grants a role to an existing user inside a specific organization. The
+    workflow searches for the user by email or name, branches on whether a match
+    was found, assigns the supplied role id to the matched user within the
+    organization, and then reads back the user's organization roles to confirm
+    the grant. Every step inlines its request so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: kindeManagementApi
+  url: ../openapi/kinde-management-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: assign-org-user-role
+  summary: Resolve a user by search and assign an organization role.
+  description: >-
+    Searches users by query, branches when a match exists, adds the supplied
+    role to the user within the organization, then verifies the resulting role
+    list.
+  inputs:
+    type: object
+    required:
+    - query
+    - orgCode
+    - roleId
+    properties:
+      query:
+        type: string
+        description: Email or name to search the user by. Use '*' to match all.
+      orgCode:
+        type: string
+        description: The organization code the role is granted within.
+      roleId:
+        type: string
+        description: The id of the role to assign to the user.
+  steps:
+  - stepId: findUser
+    description: >-
+      Search for the user by the supplied query, returning at most one page of
+      results to resolve the user id.
+    operationId: searchUsers
+    parameters:
+    - name: query
+      in: query
+      value: $inputs.query
+    - name: page_size
+      in: query
+      value: 1
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      matchedUserId: $response.body#/results/0/id
+    onSuccess:
+    - name: userFound
+      type: goto
+      stepId: assignRole
+      criteria:
+      - context: $response.body
+        condition: $.results.length > 0
+        type: jsonpath
+  - stepId: assignRole
+    description: >-
+      Add the supplied role to the matched user within the organization.
+    operationId: CreateOrganizationUserRole
+    parameters:
+    - name: org_code
+      in: path
+      value: $inputs.orgCode
+    - name: user_id
+      in: path
+      value: $steps.findUser.outputs.matchedUserId
+    requestBody:
+      contentType: application/json
+      payload:
+        role_id: $inputs.roleId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      assignCode: $response.body#/code
+  - stepId: verifyRoles
+    description: >-
+      Read back the user's roles within the organization to confirm the new
+      role is present.
+    operationId: GetOrganizationUserRoles
+    parameters:
+    - name: org_code
+      in: path
+      value: $inputs.orgCode
+    - name: user_id
+      in: path
+      value: $steps.findUser.outputs.matchedUserId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      roles: $response.body#/roles
+  outputs:
+    userId: $steps.findUser.outputs.matchedUserId
+    roles: $steps.verifyRoles.outputs.roles

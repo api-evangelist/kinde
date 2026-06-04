@@ -1,0 +1,103 @@
+arazzo: 1.0.1
+info:
+  title: Kinde Create Organization with Users
+  summary: Stand up a new organization and seed it with existing users and roles.
+  description: >-
+    Spins up a new tenant organization and seeds it with an initial set of
+    existing users. The workflow creates the organization, captures the
+    generated organization code, adds the supplied users (with role and
+    permission keys) to that organization, and reads back the organization's
+    user list to confirm membership. Every step inlines its request so the flow
+    can be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: kindeManagementApi
+  url: ../openapi/kinde-management-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: create-organization-with-users
+  summary: Create an organization and add existing users with roles to it.
+  description: >-
+    Creates a new organization, adds a list of existing users (each with role
+    and permission keys) to the new organization, then lists the organization's
+    members to verify the seeding succeeded.
+  inputs:
+    type: object
+    required:
+    - name
+    - users
+    properties:
+      name:
+        type: string
+        description: The organization's display name.
+      handle:
+        type: string
+        description: Optional unique handle for the organization.
+      isAutoMembershipEnabled:
+        type: boolean
+        description: Whether users join automatically when the org code is supplied at auth.
+      users:
+        type: array
+        description: Existing users to add to the new organization.
+        items:
+          type: object
+          properties:
+            id:
+              type: string
+            roles:
+              type: array
+              items:
+                type: string
+            permissions:
+              type: array
+              items:
+                type: string
+  steps:
+  - stepId: createOrganization
+    description: >-
+      Create the organization. The generated organization code is captured for
+      use by the membership steps.
+    operationId: createOrganization
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.name
+        handle: $inputs.handle
+        is_auto_membership_enabled: $inputs.isAutoMembershipEnabled
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      orgCode: $response.body#/organization/code
+  - stepId: addUsers
+    description: >-
+      Add the supplied existing users to the new organization, applying their
+      role and permission keys.
+    operationId: AddOrganizationUsers
+    parameters:
+    - name: org_code
+      in: path
+      value: $steps.createOrganization.outputs.orgCode
+    requestBody:
+      contentType: application/json
+      payload:
+        users: $inputs.users
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      addResult: $response.body#/code
+  - stepId: listMembers
+    description: >-
+      List the organization's users to confirm the supplied users are now
+      members of the new organization.
+    operationId: GetOrganizationUsers
+    parameters:
+    - name: org_code
+      in: path
+      value: $steps.createOrganization.outputs.orgCode
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      organizationUsers: $response.body#/organization_users
+  outputs:
+    orgCode: $steps.createOrganization.outputs.orgCode
+    organizationUsers: $steps.listMembers.outputs.organizationUsers

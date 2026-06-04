@@ -1,0 +1,93 @@
+arazzo: 1.0.1
+info:
+  title: Kinde End User Self-Serve Portal
+  summary: Read the signed-in user's profile, roles, and entitlements, then mint a self-serve portal link.
+  description: >-
+    A front-end (account API) flow run with the signed-in end user's token. It
+    reads the user's profile, lists their roles within the active organization,
+    fetches their billing entitlements, and finally generates a self-serve
+    portal link the user can be redirected to in order to manage their account.
+    Every step inlines its request so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: kindeFrontendApi
+  url: ../openapi/kinde-frontend-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: end-user-self-serve-portal
+  summary: Gather the signed-in user's profile, roles, and entitlements, then issue a portal link.
+  description: >-
+    Reads the authenticated user's profile, roles, and entitlements, then
+    generates a self-serve portal link scoped to the requested sub-navigation
+    area.
+  inputs:
+    type: object
+    properties:
+      subnav:
+        type: string
+        description: >-
+          The portal area to land the user on (e.g. profile, plan_details,
+          payment_details).
+      returnUrl:
+        type: string
+        description: URL to redirect the user to after they finish in the portal.
+  steps:
+  - stepId: getProfile
+    description: >-
+      Read the signed-in user's profile to identify who the portal link is being
+      generated for.
+    operationId: getUserProfileV2
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      sub: $response.body#/sub
+      name: $response.body#/name
+  - stepId: getRoles
+    description: >-
+      List the user's roles within the active organization to drive in-app
+      authorization decisions.
+    operationId: GetUserRoles
+    parameters:
+    - name: page_size
+      in: query
+      value: 100
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      roles: $response.body#/data/roles
+      orgCode: $response.body#/data/org_code
+  - stepId: getEntitlements
+    description: >-
+      Fetch the user's billing entitlements so the application knows what the
+      user currently has access to.
+    operationId: GetEntitlements
+    parameters:
+    - name: page_size
+      in: query
+      value: 100
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      entitlements: $response.body#/data
+  - stepId: getPortalLink
+    description: >-
+      Generate a self-serve portal link scoped to the requested area, which the
+      user can be redirected to in order to manage their account.
+    operationId: GetPortalLink
+    parameters:
+    - name: subnav
+      in: query
+      value: $inputs.subnav
+    - name: return_url
+      in: query
+      value: $inputs.returnUrl
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      portalUrl: $response.body#/url
+  outputs:
+    sub: $steps.getProfile.outputs.sub
+    roles: $steps.getRoles.outputs.roles
+    entitlements: $steps.getEntitlements.outputs.entitlements
+    portalUrl: $steps.getPortalLink.outputs.portalUrl

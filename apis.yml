@@ -169,6 +169,36 @@ apis:
   - type: Documentation
     url: https://docs.kinde.com/mcp-server/about-mcp-server/
 common:
+- type: ArazzoWorkflows
+  url: arazzo/
+  workflows:
+  - url: arazzo/kinde-assign-org-user-role-workflow.yml
+    name: Kinde Assign Organization User Role
+    summary: Find an existing user by email and grant them a role within an organization.
+  - url: arazzo/kinde-create-organization-with-users-workflow.yml
+    name: Kinde Create Organization with Users
+    summary: Stand up a new organization and seed it with existing users and roles.
+  - url: arazzo/kinde-create-role-with-permission-workflow.yml
+    name: Kinde Create Role with Permission
+    summary: Create a permission, create a role, and attach the permission to the role.
+  - url: arazzo/kinde-end-user-self-serve-portal-workflow.yml
+    name: Kinde End User Self-Serve Portal
+    summary: Read the signed-in user's profile, roles, and entitlements, then mint a self-serve portal link.
+  - url: arazzo/kinde-invite-user-to-organization-workflow.yml
+    name: Kinde Invite User to Organization
+    summary: Validate roles, create an organization invitation, and poll until it is sent.
+  - url: arazzo/kinde-migrate-user-with-password-workflow.yml
+    name: Kinde Migrate User with Password
+    summary: Create a user with an email identity and import their existing hashed password.
+  - url: arazzo/kinde-provision-user-workflow.yml
+    name: Kinde Provision User into Organization
+    summary: Create a user, add them to an organization, and grant a role in one pass.
+  - url: arazzo/kinde-register-application-with-connection-workflow.yml
+    name: Kinde Register Application with Connection
+    summary: Create an application, set its callback URLs, create a social connection, and enable it.
+  - url: arazzo/kinde-rollout-feature-flag-workflow.yml
+    name: Kinde Roll Out Feature Flag to Organization
+    summary: Create an org-overridable feature flag and set its value for one organization.
 - type: Portal
   url: https://docs.kinde.com
 - type: SignIn

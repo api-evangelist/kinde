@@ -1,0 +1,109 @@
+arazzo: 1.0.1
+info:
+  title: Kinde Provision User into Organization
+  summary: Create a user, add them to an organization, and grant a role in one pass.
+  description: >-
+    The canonical onboarding flow for a Kinde tenant. This workflow creates a
+    new user record with an email identity, adds that user to a target
+    organization (assigning role keys at the same time), and then resolves the
+    user's roles within the organization to confirm the assignment took effect.
+    Every step inlines its request so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: kindeManagementApi
+  url: ../openapi/kinde-management-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: provision-user
+  summary: Create a user and onboard them into an organization with a role.
+  description: >-
+    Creates a user with a verified email identity, adds the user to the supplied
+    organization with one or more role keys, then reads back the user's
+    organization roles to verify the grant.
+  inputs:
+    type: object
+    required:
+    - givenName
+    - familyName
+    - email
+    - orgCode
+    - roleKeys
+    properties:
+      givenName:
+        type: string
+        description: The user's first name.
+      familyName:
+        type: string
+        description: The user's last name.
+      email:
+        type: string
+        description: The email address to register as the user's identity.
+      orgCode:
+        type: string
+        description: The organization code to add the user to (e.g. org_1ccfb819462).
+      roleKeys:
+        type: array
+        description: Role keys to assign to the user within the organization.
+        items:
+          type: string
+  steps:
+  - stepId: createUser
+    description: >-
+      Create the user record with a verified email identity. Returns the Kinde
+      user id used by every following step.
+    operationId: createUser
+    requestBody:
+      contentType: application/json
+      payload:
+        profile:
+          given_name: $inputs.givenName
+          family_name: $inputs.familyName
+        identities:
+        - type: email
+          is_verified: true
+          details:
+            email: $inputs.email
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      userId: $response.body#/id
+      created: $response.body#/created
+  - stepId: addUserToOrganization
+    description: >-
+      Add the freshly created user to the organization, assigning the supplied
+      role keys at the same time.
+    operationId: AddOrganizationUsers
+    parameters:
+    - name: org_code
+      in: path
+      value: $inputs.orgCode
+    requestBody:
+      contentType: application/json
+      payload:
+        users:
+        - id: $steps.createUser.outputs.userId
+          roles: $inputs.roleKeys
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      addResult: $response.body#/code
+  - stepId: verifyOrganizationRoles
+    description: >-
+      Read back the roles assigned to the user within the organization to
+      confirm the onboarding completed as expected.
+    operationId: GetOrganizationUserRoles
+    parameters:
+    - name: org_code
+      in: path
+      value: $inputs.orgCode
+    - name: user_id
+      in: path
+      value: $steps.createUser.outputs.userId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      roles: $response.body#/roles
+  outputs:
+    userId: $steps.createUser.outputs.userId
+    assignedRoles: $steps.verifyOrganizationRoles.outputs.roles

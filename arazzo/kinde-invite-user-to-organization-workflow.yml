@@ -1,0 +1,117 @@
+arazzo: 1.0.1
+info:
+  title: Kinde Invite User to Organization
+  summary: Validate roles, create an organization invitation, and poll until it is sent.
+  description: >-
+    Invites a new user into an organization with a set of roles. The workflow
+    first lists the tenant's roles so the caller can confirm the requested role
+    keys exist, creates the organization invitation (optionally sending the
+    invitation email), and then polls the invitation by its code until the email
+    send flag flips to sent. Every step inlines its request so the flow can be
+    read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: kindeManagementApi
+  url: ../openapi/kinde-management-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: invite-user-to-organization
+  summary: Create an organization invitation and poll until it is sent.
+  description: >-
+    Lists available roles, creates an organization invite with the supplied role
+    keys, and polls the invitation until its send flag is set.
+  inputs:
+    type: object
+    required:
+    - orgCode
+    - email
+    - roleKeys
+    properties:
+      orgCode:
+        type: string
+        description: The organization code to invite the user into.
+      email:
+        type: string
+        description: The email address of the user to invite.
+      firstName:
+        type: string
+        description: Optional first name of the invitee.
+      lastName:
+        type: string
+        description: Optional last name of the invitee.
+      roleKeys:
+        type: array
+        description: Role keys to assign to the invited user.
+        items:
+          type: string
+  steps:
+  - stepId: listRoles
+    description: >-
+      List the tenant's roles so the caller can confirm the requested role keys
+      exist before issuing the invitation.
+    operationId: GetRoles
+    parameters:
+    - name: sort
+      in: query
+      value: name_asc
+    - name: page_size
+      in: query
+      value: 100
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      roles: $response.body#/roles
+  - stepId: createInvite
+    description: >-
+      Create the organization invitation with the supplied roles and send the
+      invitation email. Returns the invitation code used for polling.
+    operationId: createOrganizationInvite
+    parameters:
+    - name: org_code
+      in: path
+      value: $inputs.orgCode
+    requestBody:
+      contentType: application/json
+      payload:
+        email: $inputs.email
+        first_name: $inputs.firstName
+        last_name: $inputs.lastName
+        roles: $inputs.roleKeys
+        send_email: true
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      inviteCode: $response.body#/invite/code
+  - stepId: pollInviteSent
+    description: >-
+      Poll the invitation by its code until the is_sent flag indicates the
+      invitation email has been dispatched.
+    operationId: getOrganizationInvite
+    parameters:
+    - name: org_code
+      in: path
+      value: $inputs.orgCode
+    - name: invite_code
+      in: path
+      value: $steps.createInvite.outputs.inviteCode
+    successCriteria:
+    - condition: $statusCode == 200
+    - context: $response.body
+      condition: $.is_sent == true
+      type: jsonpath
+    outputs:
+      inviteLink: $response.body#/invite_link
+      isSent: $response.body#/is_sent
+    onSuccess:
+    - name: invitationSent
+      type: end
+    onFailure:
+    - name: retryInvitePoll
+      type: retry
+      retryAfter: 3
+      retryLimit: 10
+      criteria:
+      - condition: $statusCode == 200
+  outputs:
+    inviteCode: $steps.createInvite.outputs.inviteCode
+    inviteLink: $steps.pollInviteSent.outputs.inviteLink

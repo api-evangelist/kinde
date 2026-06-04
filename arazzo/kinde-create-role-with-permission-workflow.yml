@@ -1,0 +1,126 @@
+arazzo: 1.0.1
+info:
+  title: Kinde Create Role with Permission
+  summary: Create a permission, create a role, and attach the permission to the role.
+  description: >-
+    Builds out a tenant's access model from scratch. The workflow creates a new
+    permission, lists permissions to resolve the newly created permission's id
+    (the create endpoint returns only a success envelope), creates a new role,
+    and finally attaches the resolved permission to the new role. Branching
+    guards the case where the permission cannot be resolved. Every step inlines
+    its request so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: kindeManagementApi
+  url: ../openapi/kinde-management-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: create-role-with-permission
+  summary: Create a permission and a role, then bind the permission to the role.
+  description: >-
+    Creates a permission, resolves its id by listing permissions and matching on
+    key, creates a role, and updates the role's permissions to include the
+    resolved permission.
+  inputs:
+    type: object
+    required:
+    - permissionName
+    - permissionKey
+    - roleName
+    - roleKey
+    properties:
+      permissionName:
+        type: string
+        description: The display name of the permission to create.
+      permissionKey:
+        type: string
+        description: The code-facing key for the permission (e.g. "create:invoices").
+      permissionDescription:
+        type: string
+        description: Optional description of the permission.
+      roleName:
+        type: string
+        description: The display name of the role to create.
+      roleKey:
+        type: string
+        description: The code-facing key for the role (e.g. "billing_admin").
+      roleDescription:
+        type: string
+        description: Optional description of the role.
+  steps:
+  - stepId: createPermission
+    description: >-
+      Create the permission. The create endpoint returns a success envelope
+      only, so the permission id is resolved in the next step.
+    operationId: CreatePermission
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.permissionName
+        key: $inputs.permissionKey
+        description: $inputs.permissionDescription
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      createCode: $response.body#/code
+  - stepId: resolvePermissionId
+    description: >-
+      List permissions and locate the one whose key matches the permission just
+      created so its id can be attached to the role.
+    operationId: GetPermissions
+    parameters:
+    - name: sort
+      in: query
+      value: name_asc
+    - name: page_size
+      in: query
+      value: 100
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      permissions: $response.body#/permissions
+    onSuccess:
+    - name: permissionFound
+      type: goto
+      stepId: createRole
+      criteria:
+      - context: $response.body
+        condition: $.permissions[?(@.key == '$inputs.permissionKey')].id
+        type: jsonpath
+  - stepId: createRole
+    description: >-
+      Create the role that the permission will be attached to. Returns the new
+      role's id.
+    operationId: CreateRole
+    requestBody:
+      contentType: application/json
+      payload:
+        name: $inputs.roleName
+        key: $inputs.roleKey
+        description: $inputs.roleDescription
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      roleId: $response.body#/role/id
+  - stepId: attachPermission
+    description: >-
+      Attach the resolved permission to the new role by submitting the
+      permission id in the role permissions update.
+    operationId: UpdateRolePermissions
+    parameters:
+    - name: role_id
+      in: path
+      value: $steps.createRole.outputs.roleId
+    requestBody:
+      contentType: application/json
+      payload:
+        permissions:
+        - id: $steps.resolvePermissionId.outputs.permissions[?(@.key == '$inputs.permissionKey')].id
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      updateCode: $response.body#/code
+  outputs:
+    roleId: $steps.createRole.outputs.roleId
+    permissions: $steps.resolvePermissionId.outputs.permissions
