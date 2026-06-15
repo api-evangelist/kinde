@@ -1,381 +1,354 @@
 aid: kinde
 name: Kinde
-description: 'Kinde is a developer-first authentication and customer identity platform that bundles authentication
-  (passwords, passwordless, social, enterprise SSO), authorization (roles, permissions, scopes), B2B organizations,
-  billing, and feature flags into a single integrated product. Founded in Australia, Kinde positions itself as
-  "the fully integrated developer platform — secure and monetize your product from day one" and is used by over
-  70,000 developers. The platform exposes a Management API for tenant administration and an Account API for
-  end-user self-service flows, both backed by published OpenAPI specs and a large open-source SDK ecosystem on
-  GitHub (TypeScript, React, Next.js, Python, Go, Java, .NET, PHP, Ruby, Elixir, Flutter, iOS, Android, Expo,
-  React Native, SvelteKit, Nuxt, Remix, TanStack Start) plus a Go-based CLI, a Terraform provider, and a Model
-  Context Protocol (MCP) server for AI agents.
-
-  '
+description: >
+  Kinde is a developer-first authentication and customer identity platform that bundles authentication (passwords,
+  passwordless, social, enterprise SSO), authorization (roles, permissions, scopes), B2B organizations, billing, and
+  feature flags into a single integrated product. Founded in Australia, Kinde positions itself as "the fully integrated
+  developer platform — secure and monetize your product from day one" and is used by over 70,000 developers. The
+  platform exposes a Management API for tenant administration and an Account API for end-user self-service flows, both
+  backed by published OpenAPI specs and a large open-source SDK ecosystem on GitHub (TypeScript, React, Next.js, Python,
+  Go, Java, .NET, PHP, Ruby, Elixir, Flutter, iOS, Android, Expo, React Native, SvelteKit, Nuxt, Remix, TanStack Start)
+  plus a Go-based CLI, a Terraform provider, and a Model Context Protocol (MCP) server for AI agents.
 type: Index
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
-- Authentication
-- Authorization
-- Customer Identity
-- Identity Management
-- OAuth
-- OpenID Connect
-- Single Sign-On
-- Multi-Factor Authentication
-- Role-Based Access Control
-- Feature Flags
-- Billing
-- B2B
-- SaaS
-- Developer Platform
+  - Authentication
+  - Authorization
+  - Customer Identity
+  - Identity Management
+  - OAuth
+  - OpenID Connect
+  - Single Sign-On
+  - Multi-Factor Authentication
+  - Role-Based Access Control
+  - Feature Flags
+  - Billing
+  - B2B
+  - SaaS
+  - Developer Platform
 url: https://raw.githubusercontent.com/api-evangelist/kinde/refs/heads/main/apis.yml
 created: '2026-05-22'
 modified: '2026-05-22'
 specificationVersion: '0.19'
 apis:
-- aid: kinde:kinde-management-api
-  name: Kinde Management API
-  description: 'The Kinde Management API exposes administrative endpoints for managing a Kinde business: users,
-    organizations, applications, APIs, scopes, roles, permissions, connections, directories, environments,
-    environment variables, feature flags, properties, property categories, webhooks, subscribers, billing
-    entitlements/agreements/meter usage, API keys, connected apps, and identities. The spec covers 97 paths and
-    169 operations across 27 tag groups. Authentication uses an M2M (machine-to-machine) OAuth client to obtain
-    a bearer token, and the base URL is templated as ``https://{subdomain}.kinde.com``.
-
-    '
-  humanURL: https://docs.kinde.com/kinde-apis/management/
-  baseURL: https://{subdomain}.kinde.com/api/v1
-  tags:
-  - Authentication
-  - Authorization
-  - Customer Identity
-  - User Management
-  - Organizations
-  - Roles
-  - Permissions
-  - Feature Flags
-  - Webhooks
-  - Billing
-  - API Keys
-  - Connections
-  properties:
-  - type: Documentation
-    url: https://docs.kinde.com/kinde-apis/management/
-  - type: GettingStarted
-    url: https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/
-  - type: Authentication
-    url: https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/
-  - type: OpenAPI
-    url: openapi/kinde-management-api-openapi.yml
-  - type: OpenAPICanonical
-    url: https://api-spec.kinde.com/kinde-management-api-spec.yaml
-  - type: NaftikoCapability
-    url: capabilities/kinde-users.yaml
-  - type: NaftikoCapability
-    url: capabilities/kinde-organizations.yaml
-  - type: NaftikoCapability
-    url: capabilities/kinde-applications.yaml
-  - type: NaftikoCapability
-    url: capabilities/kinde-roles-permissions.yaml
-  - type: NaftikoCapability
-    url: capabilities/kinde-feature-flags.yaml
-  - type: NaftikoCapability
-    url: capabilities/kinde-webhooks.yaml
-  - type: NaftikoCapability
-    url: capabilities/kinde-billing.yaml
-  - type: NaftikoCapability
-    url: capabilities/kinde-api-keys.yaml
-  - type: NaftikoCapability
-    url: capabilities/kinde-connections.yaml
-  - type: NaftikoCapability
-    url: capabilities/kinde-properties.yaml
-  - type: SpectralRules
-    url: rules/kinde-rules.yml
-  - type: JSONSchema
-    url: json-schema/kinde-user-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-organization-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-application-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-role-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-permission-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-feature-flag-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-webhook-schema.json
-  - type: JSONStructure
-    url: json-structure/kinde-user-structure.json
-  - type: JSONStructure
-    url: json-structure/kinde-organization-structure.json
-  - type: Examples
-    url: examples/kinde-create-user-example.json
-  - type: Examples
-    url: examples/kinde-create-organization-example.json
-  - type: Examples
-    url: examples/kinde-create-application-example.json
-  - type: Examples
-    url: examples/kinde-create-role-example.json
-  - type: Examples
-    url: examples/kinde-create-feature-flag-example.json
-  - type: Examples
-    url: examples/kinde-create-webhook-example.json
-- aid: kinde:kinde-account-api
-  name: Kinde Account API
-  description: 'The Kinde Account API (also documented as the Frontend API) provides endpoints for the
-    currently signed-in user to inspect their own identity, sessions, billing entitlements, feature-flag values,
-    organization memberships, roles, permissions, properties, and self-serve portal URLs. The spec covers 10
-    paths across 7 tag groups (Billing, Feature Flags, OAuth, Permissions, Self-serve Portal, Properties,
-    Roles). It is intended to be called from the user''s own browser/app using their authenticated session
-    token rather than a backend M2M token.
-
-    '
-  humanURL: https://docs.kinde.com/kinde-apis/frontend/
-  baseURL: https://{subdomain}.kinde.com/account_api/v1
-  tags:
-  - Account Management
-  - Self-Service
-  - Billing
-  - Feature Flags
-  - Permissions
-  - Roles
-  - Properties
-  properties:
-  - type: Documentation
-    url: https://docs.kinde.com/kinde-apis/frontend/
-  - type: OpenAPI
-    url: openapi/kinde-frontend-api-openapi.yml
-  - type: OpenAPICanonical
-    url: https://api-spec.kinde.com/kinde-frontend-api-spec.yaml
-  - type: NaftikoCapability
-    url: capabilities/kinde-account.yaml
-- aid: kinde:kinde-mcp-server
-  name: Kinde MCP Server
-  description: 'The Kinde MCP (Model Context Protocol) server acts as a bridge between AI assistants and a
-    Kinde account. It exposes a subset of the Kinde Management API as MCP tools (query organizations, check
-    user existence by email, retrieve user roles, list users in an organization, manage users and
-    permissions), authenticated via an environment-level API key whose scopes constrain which tools the AI
-    client can call.
-
-    '
-  humanURL: https://docs.kinde.com/mcp-server/about-mcp-server/
-  tags:
-  - MCP
-  - AI Agents
-  - Model Context Protocol
-  - Identity
-  properties:
-  - type: Documentation
-    url: https://docs.kinde.com/mcp-server/about-mcp-server/
+  - aid: kinde:kinde-management-api
+    name: Kinde Management API
+    description: >
+      The Kinde Management API exposes administrative endpoints for managing a Kinde business: users, organizations,
+      applications, APIs, scopes, roles, permissions, connections, directories, environments, environment variables,
+      feature flags, properties, property categories, webhooks, subscribers, billing entitlements/agreements/meter
+      usage, API keys, connected apps, and identities. The spec covers 97 paths and 169 operations across 27 tag groups.
+      Authentication uses an M2M (machine-to-machine) OAuth client to obtain a bearer token, and the base URL is
+      templated as ``https://{subdomain}.kinde.com``.
+    humanURL: https://docs.kinde.com/kinde-apis/management/
+    baseURL: https://{subdomain}.kinde.com/api/v1
+    tags:
+      - Authentication
+      - Authorization
+      - Customer Identity
+      - User Management
+      - Organizations
+      - Roles
+      - Permissions
+      - Feature Flags
+      - Webhooks
+      - Billing
+      - API Keys
+      - Connections
+    properties:
+      - type: Documentation
+        url: https://docs.kinde.com/kinde-apis/management/
+      - type: GettingStarted
+        url: https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/
+      - type: Authentication
+        url: https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/
+      - type: OpenAPI
+        url: openapi/kinde-management-api-openapi.yml
+      - type: OpenAPICanonical
+        url: https://api-spec.kinde.com/kinde-management-api-spec.yaml
+      - type: SpectralRules
+        url: rules/kinde-rules.yml
+      - type: JSONSchema
+        url: json-schema/kinde-user-schema.json
+      - type: JSONSchema
+        url: json-schema/kinde-organization-schema.json
+      - type: JSONSchema
+        url: json-schema/kinde-application-schema.json
+      - type: JSONSchema
+        url: json-schema/kinde-role-schema.json
+      - type: JSONSchema
+        url: json-schema/kinde-permission-schema.json
+      - type: JSONSchema
+        url: json-schema/kinde-feature-flag-schema.json
+      - type: JSONSchema
+        url: json-schema/kinde-webhook-schema.json
+      - type: JSONStructure
+        url: json-structure/kinde-user-structure.json
+      - type: JSONStructure
+        url: json-structure/kinde-organization-structure.json
+      - type: Examples
+        url: examples/kinde-create-user-example.json
+      - type: Examples
+        url: examples/kinde-create-organization-example.json
+      - type: Examples
+        url: examples/kinde-create-application-example.json
+      - type: Examples
+        url: examples/kinde-create-role-example.json
+      - type: Examples
+        url: examples/kinde-create-feature-flag-example.json
+      - type: Examples
+        url: examples/kinde-create-webhook-example.json
+  - aid: kinde:kinde-account-api
+    name: Kinde Account API
+    description: >
+      The Kinde Account API (also documented as the Frontend API) provides endpoints for the currently signed-in user to
+      inspect their own identity, sessions, billing entitlements, feature-flag values, organization memberships, roles,
+      permissions, properties, and self-serve portal URLs. The spec covers 10 paths across 7 tag groups (Billing,
+      Feature Flags, OAuth, Permissions, Self-serve Portal, Properties, Roles). It is intended to be called from the
+      user's own browser/app using their authenticated session token rather than a backend M2M token.
+    humanURL: https://docs.kinde.com/kinde-apis/frontend/
+    baseURL: https://{subdomain}.kinde.com/account_api/v1
+    tags:
+      - Account Management
+      - Self-Service
+      - Billing
+      - Feature Flags
+      - Permissions
+      - Roles
+      - Properties
+    properties:
+      - type: Documentation
+        url: https://docs.kinde.com/kinde-apis/frontend/
+      - type: OpenAPI
+        url: openapi/kinde-frontend-api-openapi.yml
+      - type: OpenAPICanonical
+        url: https://api-spec.kinde.com/kinde-frontend-api-spec.yaml
+  - aid: kinde:kinde-mcp-server
+    name: Kinde MCP Server
+    description: >
+      The Kinde MCP (Model Context Protocol) server acts as a bridge between AI assistants and a Kinde account. It
+      exposes a subset of the Kinde Management API as MCP tools (query organizations, check user existence by email,
+      retrieve user roles, list users in an organization, manage users and permissions), authenticated via an
+      environment-level API key whose scopes constrain which tools the AI client can call.
+    humanURL: https://docs.kinde.com/mcp-server/about-mcp-server/
+    tags:
+      - MCP
+      - AI Agents
+      - Model Context Protocol
+      - Identity
+    properties:
+      - type: Documentation
+        url: https://docs.kinde.com/mcp-server/about-mcp-server/
 common:
-- type: ArazzoWorkflows
-  url: arazzo/
-  workflows:
-  - url: arazzo/kinde-assign-org-user-role-workflow.yml
-    name: Kinde Assign Organization User Role
-    summary: Find an existing user by email and grant them a role within an organization.
-  - url: arazzo/kinde-create-organization-with-users-workflow.yml
-    name: Kinde Create Organization with Users
-    summary: Stand up a new organization and seed it with existing users and roles.
-  - url: arazzo/kinde-create-role-with-permission-workflow.yml
-    name: Kinde Create Role with Permission
-    summary: Create a permission, create a role, and attach the permission to the role.
-  - url: arazzo/kinde-end-user-self-serve-portal-workflow.yml
-    name: Kinde End User Self-Serve Portal
-    summary: Read the signed-in user's profile, roles, and entitlements, then mint a self-serve portal link.
-  - url: arazzo/kinde-invite-user-to-organization-workflow.yml
-    name: Kinde Invite User to Organization
-    summary: Validate roles, create an organization invitation, and poll until it is sent.
-  - url: arazzo/kinde-migrate-user-with-password-workflow.yml
-    name: Kinde Migrate User with Password
-    summary: Create a user with an email identity and import their existing hashed password.
-  - url: arazzo/kinde-provision-user-workflow.yml
-    name: Kinde Provision User into Organization
-    summary: Create a user, add them to an organization, and grant a role in one pass.
-  - url: arazzo/kinde-register-application-with-connection-workflow.yml
-    name: Kinde Register Application with Connection
-    summary: Create an application, set its callback URLs, create a social connection, and enable it.
-  - url: arazzo/kinde-rollout-feature-flag-workflow.yml
-    name: Kinde Roll Out Feature Flag to Organization
-    summary: Create an org-overridable feature flag and set its value for one organization.
-- type: Portal
-  url: https://docs.kinde.com
-- type: SignIn
-  url: https://app.kinde.com/admin
-- type: SignUp
-  url: https://app.kinde.com/register
-- type: Pricing
-  url: https://kinde.com/pricing/
-- type: Blog
-  url: https://kinde.com/blog/
-- type: StatusPage
-  url: https://status.kinde.com
-- type: StatusPageRSS
-  url: https://status.kinde.com/history.rss
-- type: StatusPageAtom
-  url: https://status.kinde.com/history.atom
-- type: Changelog
-  url: https://updates.kinde.com
-- type: Roadmap
-  url: https://updates.kinde.com/board
-- type: GitHub
-  url: https://github.com/kinde-oss
-- type: TermsOfService
-  url: https://docs.kinde.com/trust-center/agreements/terms-of-service/
-- type: TrustCenter
-  url: https://docs.kinde.com/trust-center/
-- type: Support
-  url: mailto:support@kinde.com
-- type: ContactSales
-  url: https://kinde.com/contact-us/
-- type: Plans
-  url: plans/kinde-plans-pricing.yml
-- type: RateLimits
-  url: rate-limits/kinde-rate-limits.yml
-- type: FinOps
-  url: finops/kinde-finops.yml
-- type: Vocabulary
-  url: vocabulary/kinde-vocabulary.yml
-- type: JSONLD
-  url: json-ld/kinde-context.jsonld
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-typescript-sdk
-  x-language: TypeScript
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-auth-nextjs
-  x-language: TypeScript
-  x-framework: Next.js
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-auth-react
-  x-language: TypeScript
-  x-framework: React
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-auth-pkce-js
-  x-language: JavaScript
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-nodejs-sdk
-  x-language: JavaScript
-  x-framework: Node.js
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-node-express
-  x-language: TypeScript
-  x-framework: Express
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-node-express-api
-  x-language: JavaScript
-  x-framework: Express
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-remix-sdk
-  x-language: TypeScript
-  x-framework: Remix
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-auth-remix-sdk
-  x-language: JavaScript
-  x-framework: Remix
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-sveltekit-sdk
-  x-language: TypeScript
-  x-framework: SvelteKit
-- type: SDK
-  url: https://github.com/kinde-oss/nuxt-kinde
-  x-language: TypeScript
-  x-framework: Nuxt
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-tsr
-  x-language: TypeScript
-  x-framework: TanStack Start
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-python-sdk
-  x-language: Python
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-go
-  x-language: Go
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-java-sdk
-  x-language: Java
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-dotnet-sdk
-  x-language: C#
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-php-sdk
-  x-language: PHP
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-ruby-sdk
-  x-language: Ruby
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-elixir-sdk
-  x-language: Elixir
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-auth-wordpress
-  x-language: PHP
-  x-framework: WordPress
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-flutter-sdk
-  x-language: Dart
-  x-framework: Flutter
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-sdk-ios
-  x-language: Swift
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-sdk-android
-  x-language: Kotlin
-- type: SDK
-  url: https://github.com/kinde-oss/expo
-  x-language: TypeScript
-  x-framework: Expo
-- type: SDK
-  url: https://github.com/kinde-oss/kinde-react-native-sdk-0-7x
-  x-language: TypeScript
-  x-framework: React Native
-- type: SDK
-  url: https://github.com/kinde-oss/management-api-js
-  x-language: TypeScript
-  x-description: Generated JavaScript client for the Kinde Management API
-- type: CLI
-  url: https://github.com/kinde-oss/kinde-cli
-  x-language: Go
-- type: CLI
-  url: https://github.com/kinde-oss/homebrew-kinde-cli
-  x-description: Homebrew tap for the Kinde CLI
-- type: CLI
-  url: https://github.com/kinde-oss/scoop-kinde-cli
-  x-description: Scoop bucket for the Kinde CLI
-- type: Tools
-  url: https://github.com/kinde-oss/jwt-validator
-  x-description: JavaScript JWT validator with support for mobile and edge runtimes
-- type: Tools
-  url: https://github.com/kinde-oss/jwt-decoder
-  x-description: Typesafe JWT decoder
-- type: Tools
-  url: https://github.com/kinde-oss/js-utils
-  x-description: Token-handling utilities
-- type: Tools
-  url: https://github.com/kinde-oss/webhook
-  x-description: JS library to decode and validate Kinde webhooks
-- type: Tools
-  url: https://github.com/kinde-oss/kinde-translations
-  x-description: Translations for Kinde public-facing screens
-- type: Tools
-  url: https://github.com/kinde-oss/infrastructure
-  x-description: Typing layer for interacting with Kinde workflows
-- type: Tools
-  url: https://github.com/kinde-oss/workflows-runtime
-  x-description: Go runtime for Kinde workflows
-- type: Tools
-  url: https://github.com/kinde-oss/terraform-provider-kinde
-  x-description: Terraform provider for managing Kinde resources
-- type: Tools
-  url: https://github.com/kinde-oss/kinde-convex-sync
-  x-description: Convex integration for syncing Kinde data
-- type: Tools
-  url: https://github.com/kinde-oss/kinde-convex-billing
-  x-description: Convex integration for Kinde billing
-- type: Documentation
-  url: https://github.com/kinde-oss/documentation
-  x-description: Source of the public Kinde documentation site (Astro/MDX)
-- type: LLMsTxt
-  url: https://docs.kinde.com/llms.txt
+  - type: PostmanWorkspace
+    url: https://www.postman.com/kinlaneapi/kinde/overview
+  - type: ArazzoWorkflows
+    url: arazzo/
+    workflows:
+      - url: arazzo/kinde-assign-org-user-role-workflow.yml
+        name: Kinde Assign Organization User Role
+        summary: Find an existing user by email and grant them a role within an organization.
+      - url: arazzo/kinde-create-organization-with-users-workflow.yml
+        name: Kinde Create Organization with Users
+        summary: Stand up a new organization and seed it with existing users and roles.
+      - url: arazzo/kinde-create-role-with-permission-workflow.yml
+        name: Kinde Create Role with Permission
+        summary: Create a permission, create a role, and attach the permission to the role.
+      - url: arazzo/kinde-end-user-self-serve-portal-workflow.yml
+        name: Kinde End User Self-Serve Portal
+        summary: Read the signed-in user's profile, roles, and entitlements, then mint a self-serve portal link.
+      - url: arazzo/kinde-invite-user-to-organization-workflow.yml
+        name: Kinde Invite User to Organization
+        summary: Validate roles, create an organization invitation, and poll until it is sent.
+      - url: arazzo/kinde-migrate-user-with-password-workflow.yml
+        name: Kinde Migrate User with Password
+        summary: Create a user with an email identity and import their existing hashed password.
+      - url: arazzo/kinde-provision-user-workflow.yml
+        name: Kinde Provision User into Organization
+        summary: Create a user, add them to an organization, and grant a role in one pass.
+      - url: arazzo/kinde-register-application-with-connection-workflow.yml
+        name: Kinde Register Application with Connection
+        summary: Create an application, set its callback URLs, create a social connection, and enable it.
+      - url: arazzo/kinde-rollout-feature-flag-workflow.yml
+        name: Kinde Roll Out Feature Flag to Organization
+        summary: Create an org-overridable feature flag and set its value for one organization.
+  - type: Portal
+    url: https://docs.kinde.com
+  - type: SignIn
+    url: https://app.kinde.com/admin
+  - type: SignUp
+    url: https://app.kinde.com/register
+  - type: Pricing
+    url: https://kinde.com/pricing/
+  - type: Blog
+    url: https://kinde.com/blog/
+  - type: StatusPage
+    url: https://status.kinde.com
+  - type: StatusPageRSS
+    url: https://status.kinde.com/history.rss
+  - type: StatusPageAtom
+    url: https://status.kinde.com/history.atom
+  - type: Changelog
+    url: https://updates.kinde.com
+  - type: Roadmap
+    url: https://updates.kinde.com/board
+  - type: GitHub
+    url: https://github.com/kinde-oss
+  - type: TermsOfService
+    url: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  - type: TrustCenter
+    url: https://docs.kinde.com/trust-center/
+  - type: Support
+    url: mailto:support@kinde.com
+  - type: ContactSales
+    url: https://kinde.com/contact-us/
+  - type: Plans
+    url: plans/kinde-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/kinde-rate-limits.yml
+  - type: FinOps
+    url: finops/kinde-finops.yml
+  - type: Vocabulary
+    url: vocabulary/kinde-vocabulary.yml
+  - type: JSONLD
+    url: json-ld/kinde-context.jsonld
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-typescript-sdk
+    x-language: TypeScript
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-auth-nextjs
+    x-language: TypeScript
+    x-framework: Next.js
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-auth-react
+    x-language: TypeScript
+    x-framework: React
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-auth-pkce-js
+    x-language: JavaScript
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-nodejs-sdk
+    x-language: JavaScript
+    x-framework: Node.js
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-node-express
+    x-language: TypeScript
+    x-framework: Express
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-node-express-api
+    x-language: JavaScript
+    x-framework: Express
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-remix-sdk
+    x-language: TypeScript
+    x-framework: Remix
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-auth-remix-sdk
+    x-language: JavaScript
+    x-framework: Remix
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-sveltekit-sdk
+    x-language: TypeScript
+    x-framework: SvelteKit
+  - type: SDK
+    url: https://github.com/kinde-oss/nuxt-kinde
+    x-language: TypeScript
+    x-framework: Nuxt
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-tsr
+    x-language: TypeScript
+    x-framework: TanStack Start
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-python-sdk
+    x-language: Python
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-go
+    x-language: Go
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-java-sdk
+    x-language: Java
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-dotnet-sdk
+    x-language: C#
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-php-sdk
+    x-language: PHP
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-ruby-sdk
+    x-language: Ruby
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-elixir-sdk
+    x-language: Elixir
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-auth-wordpress
+    x-language: PHP
+    x-framework: WordPress
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-flutter-sdk
+    x-language: Dart
+    x-framework: Flutter
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-sdk-ios
+    x-language: Swift
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-sdk-android
+    x-language: Kotlin
+  - type: SDK
+    url: https://github.com/kinde-oss/expo
+    x-language: TypeScript
+    x-framework: Expo
+  - type: SDK
+    url: https://github.com/kinde-oss/kinde-react-native-sdk-0-7x
+    x-language: TypeScript
+    x-framework: React Native
+  - type: SDK
+    url: https://github.com/kinde-oss/management-api-js
+    x-language: TypeScript
+    x-description: Generated JavaScript client for the Kinde Management API
+  - type: CLI
+    url: https://github.com/kinde-oss/kinde-cli
+    x-language: Go
+  - type: CLI
+    url: https://github.com/kinde-oss/homebrew-kinde-cli
+    x-description: Homebrew tap for the Kinde CLI
+  - type: CLI
+    url: https://github.com/kinde-oss/scoop-kinde-cli
+    x-description: Scoop bucket for the Kinde CLI
+  - type: Tools
+    url: https://github.com/kinde-oss/jwt-validator
+    x-description: JavaScript JWT validator with support for mobile and edge runtimes
+  - type: Tools
+    url: https://github.com/kinde-oss/jwt-decoder
+    x-description: Typesafe JWT decoder
+  - type: Tools
+    url: https://github.com/kinde-oss/js-utils
+    x-description: Token-handling utilities
+  - type: Tools
+    url: https://github.com/kinde-oss/webhook
+    x-description: JS library to decode and validate Kinde webhooks
+  - type: Tools
+    url: https://github.com/kinde-oss/kinde-translations
+    x-description: Translations for Kinde public-facing screens
+  - type: Tools
+    url: https://github.com/kinde-oss/infrastructure
+    x-description: Typing layer for interacting with Kinde workflows
+  - type: Tools
+    url: https://github.com/kinde-oss/workflows-runtime
+    x-description: Go runtime for Kinde workflows
+  - type: Tools
+    url: https://github.com/kinde-oss/terraform-provider-kinde
+    x-description: Terraform provider for managing Kinde resources
+  - type: Tools
+    url: https://github.com/kinde-oss/kinde-convex-sync
+    x-description: Convex integration for syncing Kinde data
+  - type: Tools
+    url: https://github.com/kinde-oss/kinde-convex-billing
+    x-description: Convex integration for Kinde billing
+  - type: Documentation
+    url: https://github.com/kinde-oss/documentation
+    x-description: Source of the public Kinde documentation site (Astro/MDX)
+  - type: LLMsTxt
+    url: https://docs.kinde.com/llms.txt
 maintainers:
-- FN: Kin Lane
-  email: info@apievangelist.com
+  - FN: Kin Lane
+    email: info@apievangelist.com

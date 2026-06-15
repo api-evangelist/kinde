@@ -1,0 +1,4888 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kinde Management API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "API Keys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get API keys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/api_keys",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 50 if parameter not sent."
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the API key to start after."
+              },
+              {
+                "name": "key_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by API key type (organization or user)."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by API key status (active, inactive, revoked)."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by user ID to get API keys associated with a specific user."
+              },
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "query",
+                "description": "Filter by organization code to get API keys associated with a specific organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of API keys.\n\n<div>\n  <code>read:api_keys</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/api_keys",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new API key.\n\n<div>\n  <code>create:api_keys</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/api_keys/:key_id",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the API key."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve API key details by ID.\n\n<div>\n  <code>read:api_keys</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Rotate API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{subdomain}.kinde.com/api/v1/api_keys/:key_id",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the API key to rotate."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Rotate an API key to generate a new key while maintaining the same permissions and associations.\n\n<div>\n  <code>update:api_keys</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/api_keys/:key_id",
+            "params": [
+              {
+                "name": "key_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the API key."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an API key.\n\n<div>\n  <code>delete:api_keys</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Verify API key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/api_keys/verify",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Verify an API key (public endpoint, no authentication required).\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "APIs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get APIs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/apis",
+            "params": [
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Additional data to include in the response. Allowed value: \"scopes\"."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of your APIs. The APIs are returned sorted by name.\n\n<div>\n  <code>read:apis</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create API",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/apis",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Register a new API. For more information read [Register and manage APIs](https://docs.kinde.com/developer-tools/your-apis/register-manage-apis/).\n\n<div>\n  <code>create:apis</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get API",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/apis/:api_id",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "The API's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve API details by ID.\n\n<div>\n  <code>read:apis</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete API",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/apis/:api_id",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "The API's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an API you previously created.\n\n<div>\n  <code>delete:apis</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get API scopes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/apis/:api_id/scopes",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve API scopes by API ID.\n\n<div>\n  <code>read:api_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create API scope",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/apis/:api_id/scopes",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new API scope.\n\n<div>\n  <code>create:api_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get API scope",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/apis/:api_id/scopes/:scope_id",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              },
+              {
+                "name": "scope_id",
+                "value": "",
+                "type": "path",
+                "description": "Scope ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve API scope by API ID.\n\n<div>\n  <code>read:api_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update API scope",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/apis/:api_id/scopes/:scope_id",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              },
+              {
+                "name": "scope_id",
+                "value": "",
+                "type": "path",
+                "description": "Scope ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an API scope.\n\n<div>\n  <code>update:api_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete API scope",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/apis/:api_id/scopes/:scope_id",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              },
+              {
+                "name": "scope_id",
+                "value": "",
+                "type": "path",
+                "description": "Scope ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an API scope you previously created.\n\n<div>\n  <code>delete:apis_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Authorize API applications",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/apis/:api_id/applications",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "The API's ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Authorize applications to be allowed to request access tokens for an API\n\n<div>\n  <code>update:apis</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add scope to API application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/apis/:api_id/applications/:application_id/scopes/:scope_id",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              },
+              {
+                "name": "application_id",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              },
+              {
+                "name": "scope_id",
+                "value": "",
+                "type": "path",
+                "description": "Scope ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add a scope to an API application.\n\n<div>\n  <code>create:api_application_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete API application scope",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/apis/:api_id/applications/:application_id/scopes/:scope_id",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              },
+              {
+                "name": "application_id",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              },
+              {
+                "name": "scope_id",
+                "value": "",
+                "type": "path",
+                "description": "Scope ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an API application scope you previously created.\n\n<div>\n  <code>delete:apis_application_scopes</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Applications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get applications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field and order to sort the result by."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "next_token",
+                "value": "",
+                "type": "query",
+                "description": "A string to get the next page of results if there are more results."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a list of applications / clients.\n\n<div>\n  <code>read:applications</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new client.\n\n<div>\n  <code>create:applications</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get application",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:application_id",
+            "params": [
+              {
+                "name": "application_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Gets an application given the application's ID.\n\n<div>\n  <code>read:applications</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Application",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:application_id",
+            "params": [
+              {
+                "name": "application_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Updates a client's settings. For more information, read [Applications in Kinde](https://docs.kinde.com/build/applications/about-applications)\n\n<div>\n  <code>update:applications</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete application",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:application_id",
+            "params": [
+              {
+                "name": "application_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a client / application.\n\n<div>\n  <code>delete:applications</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:application_id/connections",
+            "params": [
+              {
+                "name": "application_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier/client ID for the application."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Gets all connections for an application.\n\n<div>\n  <code>read:application_connections</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Enable connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:application_id/connections/:connection_id",
+            "params": [
+              {
+                "name": "application_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier/client ID for the application."
+              },
+              {
+                "name": "connection_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the connection."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Enable an auth connection for an application.\n\n<div>\n  <code>create:application_connections</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Remove connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:application_id/connections/:connection_id",
+            "params": [
+              {
+                "name": "application_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier/client ID for the application."
+              },
+              {
+                "name": "connection_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the connection."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Turn off an auth connection for an application\n\n<div>\n  <code>delete:application_connections</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get property values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:application_id/properties",
+            "params": [
+              {
+                "name": "application_id",
+                "value": "",
+                "type": "path",
+                "description": "The application's ID / client ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Gets properties for an application by client ID.\n\n<div>\n  <code>read:application_properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update property",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:application_id/properties/:property_key",
+            "params": [
+              {
+                "name": "application_id",
+                "value": "",
+                "type": "path",
+                "description": "The application's ID / client ID."
+              },
+              {
+                "name": "property_key",
+                "value": "",
+                "type": "path",
+                "description": "The property's key."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update application property value.\n\n<div>\n  <code>update:application_properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update application tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:application_id/tokens",
+            "params": [
+              {
+                "name": "application_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier/client ID for the application."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Configure tokens for an application.\n  <div>\n    <code>update:application_tokens</code>\n  </div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Billing Entitlements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get billing entitlements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/billing/entitlements",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the billing entitlement to start after."
+              },
+              {
+                "name": "ending_before",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the billing entitlement to end before."
+              },
+              {
+                "name": "customer_id",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the billing customer to retrieve entitlements for"
+              },
+              {
+                "name": "max_value",
+                "value": "",
+                "type": "query",
+                "description": "When the maximum limit of an entitlement is null, this value is returned as the maximum limit"
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Additional plan data to include in the response. Allowed value: \"plans\"."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all the entitlements a billing customer currently has access to\n\n<div>\n  <code>read:billing_entitlements</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Billing Agreements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get billing agreements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/billing/agreements",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the billing agreement to start after."
+              },
+              {
+                "name": "ending_before",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the billing agreement to end before."
+              },
+              {
+                "name": "customer_id",
+                "value": "customer_0195ac80a14c2ca2cec97d026d864de0",
+                "type": "query",
+                "description": "The ID of the billing customer to retrieve agreements for"
+              },
+              {
+                "name": "feature_code",
+                "value": "",
+                "type": "query",
+                "description": "The feature code to filter by agreements only containing that feature"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all the agreements a billing customer currently has access to\n\n<div>\n  <code>read:billing_agreements</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create billing agreement",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/billing/agreements",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new billing agreement based on the plan code passed, and cancels the customer's existing agreements\n\n<div>\n  <code>create:billing_agreements</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Billing Meter Usage",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create meter usage record",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/billing/meter_usage",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new meter usage record\n\n<div>\n  <code>create:meter_usage</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Business",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get business",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/business",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get your business details.\n\n<div>\n  <code>read:businesses</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update business",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/business",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update your business details.\n\n<div>\n  <code>update:businesses</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Industries",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get industries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/industries",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a list of industries and associated industry keys.\n\n<div>\n  <code>read:industries</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Timezones",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get timezones",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/timezones",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a list of timezones and associated timezone keys.\n\n<div>\n  <code>read:timezones</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Callbacks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Callback URLs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:app_id/auth_redirect_urls",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns an application's redirect callback URLs.\n\n<div>\n  <code>read:applications_redirect_uris</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add Redirect Callback URLs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:app_id/auth_redirect_urls",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add additional redirect callback URLs.\n\n<div>\n  <code>create:applications_redirect_uris</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Replace Redirect Callback URLs",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:app_id/auth_redirect_urls",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replace all redirect callback URLs.\n\n<div>\n  <code>update:applications_redirect_uris</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Callback URLs",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:app_id/auth_redirect_urls",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              },
+              {
+                "name": "urls",
+                "value": "",
+                "type": "query",
+                "description": "Urls to delete, comma separated and url encoded."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete callback URLs.\n\n<div>\n  <code>delete:applications_redirect_uris</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "List logout URLs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:app_id/auth_logout_urls",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns an application's logout redirect URLs.\n\n<div>\n  <code>read:application_logout_uris</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add logout redirect URLs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:app_id/auth_logout_urls",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add additional logout redirect URLs.\n\n<div>\n  <code>create:application_logout_uris</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Replace logout redirect URls",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:app_id/auth_logout_urls",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replace all logout redirect URLs.\n\n<div>\n  <code>update:application_logout_uris</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Logout URLs",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/applications/:app_id/auth_logout_urls",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              },
+              {
+                "name": "urls",
+                "value": "",
+                "type": "query",
+                "description": "Urls to delete, comma separated and url encoded."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete logout URLs.\n\n<div>\n  <code>delete:application_logout_uris</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Connected Apps",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Connected App URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/connected_apps/auth_url",
+            "params": [
+              {
+                "name": "key_code_ref",
+                "value": "",
+                "type": "query",
+                "description": "The unique key code reference of the connected app to authenticate against."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "The id of the user that needs to authenticate to the third-party connected app."
+              },
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "query",
+                "description": "The code of the Kinde organization that needs to authenticate to the third-party connected app."
+              },
+              {
+                "name": "override_callback_url",
+                "value": "",
+                "type": "query",
+                "description": "A URL that overrides the default callback URL setup in your connected app configuration"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a URL that authenticates and authorizes a user to a third-party connected app.\n\n<div>\n  <code>read:connected_apps</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get Connected App Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/connected_apps/token",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "query",
+                "description": "The unique sesssion id representing the login session of a user."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an access token that can be used to call the third-party provider linked to the connected app.\n\n<div>\n  <code>read:connected_apps</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Revoke Connected App Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/connected_apps/revoke",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "query",
+                "description": "The unique sesssion id representing the login session of a user."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Revoke the tokens linked to the connected app session.\n\n<div>\n  <code>create:connected_apps</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Connections",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/connections",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "home_realm_domain",
+                "value": "",
+                "type": "query",
+                "description": "Filter the results by the home realm domain."
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the connection to start after."
+              },
+              {
+                "name": "ending_before",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the connection to end before."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of authentication connections. Optionally you can filter this by a home realm domain.\n\n<div>\n  <code>read:connections</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create Connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/connections",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create Connection.\n\n<div>\n  <code>create:connections</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get Connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/connections/:connection_id",
+            "params": [
+              {
+                "name": "connection_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the connection."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get Connection.\n\n<div>\n  <code>read:connections</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Replace Connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{subdomain}.kinde.com/api/v1/connections/:connection_id",
+            "params": [
+              {
+                "name": "connection_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the connection."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replace Connection Config.\n\n<div>\n  <code>update:connections</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/connections/:connection_id",
+            "params": [
+              {
+                "name": "connection_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the connection."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update Connection.\n\n<div>\n  <code>update:connections</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/connections/:connection_id",
+            "params": [
+              {
+                "name": "connection_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the connection."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete connection.\n\n<div>\n  <code>delete:connections</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Directories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get SCIM directories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/directories",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 50 if parameter not sent."
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the directory to start after."
+              },
+              {
+                "name": "organization_code",
+                "value": "",
+                "type": "query",
+                "description": "Filter by organization code to get directories for a specific organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of SCIM directories for your organization.\n\n<div>\n  <code>read:scim_directories</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create SCIM directory",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/directories",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new SCIM directory for user and group synchronization.\n\n<div>\n  <code>create:scim_directories</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get SCIM directory",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/directories/:directory_id",
+            "params": [
+              {
+                "name": "directory_id",
+                "value": "",
+                "type": "path",
+                "description": "The directory's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve SCIM directory details by ID.\n\n<div>\n  <code>read:scim_directories</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update SCIM directory",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/directories/:directory_id",
+            "params": [
+              {
+                "name": "directory_id",
+                "value": "",
+                "type": "path",
+                "description": "The directory's ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update SCIM directory configuration.\n"
+        },
+        {
+          "info": {
+            "name": "Delete SCIM directory",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/directories/:directory_id",
+            "params": [
+              {
+                "name": "directory_id",
+                "value": "",
+                "type": "path",
+                "description": "The directory's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a SCIM directory and all associated data.\n\n<div>\n  <code>delete:scim_directories</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Environments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get environment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/environment",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Gets the current environment.\n\n<div>\n  <code>read:environments</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "List Environment Feature Flags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/environment/feature_flags",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get environment feature flags.\n\n<div>\n  <code>read:environment_feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Environment Feature Flag Overrides",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/environment/feature_flags",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete all environment feature flag overrides.\n\n<div>\n  <code>delete:environment_feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Environment Feature Flag Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/environment/feature_flags/:feature_flag_key",
+            "params": [
+              {
+                "name": "feature_flag_key",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the feature flag."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update environment feature flag override.\n\n<div>\n  <code>update:environment_feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Environment Feature Flag Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/environment/feature_flags/:feature_flag_key",
+            "params": [
+              {
+                "name": "feature_flag_key",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the feature flag."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete environment feature flag override.\n\n<div>\n  <code>delete:environment_feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Read logo details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/environment/logos",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Read environment logo details\n\n<div>\n  <code>read:environments</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add logo",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{subdomain}.kinde.com/api/v1/environment/logos/:type",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The type of logo to add."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "logo",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add environment logo\n\n<div>\n  <code>update:environments</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete logo",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/environment/logos/:type",
+            "params": [
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The type of logo to delete."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete environment logo\n\n<div>\n  <code>update:environments</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Environment variables",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get environment variables",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/environment_variables",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get environment variables. This feature is in beta and admin UI is not yet available.\n\n<div>\n  <code>read:environment_variables</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create environment variable",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/environment_variables",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new environment variable. This feature is in beta and admin UI is not yet available.\n\n<div>\n  <code>create:environment_variables</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get environment variable",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/environment_variables/:variable_id",
+            "params": [
+              {
+                "name": "variable_id",
+                "value": "",
+                "type": "path",
+                "description": "The environment variable's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve environment variable details by ID. This feature is in beta and admin UI is not yet available.\n\n<div>\n  <code>read:environment_variables</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update environment variable",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/environment_variables/:variable_id",
+            "params": [
+              {
+                "name": "variable_id",
+                "value": "",
+                "type": "path",
+                "description": "The environment variable's ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an environment variable you previously created. This feature is in beta and admin UI is not yet available.\n\n<div>\n  <code>update:environment_variables</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete environment variable",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/environment_variables/:variable_id",
+            "params": [
+              {
+                "name": "variable_id",
+                "value": "",
+                "type": "path",
+                "description": "The environment variable's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an environment variable you previously created. This feature is in beta and admin UI is not yet available.\n\n<div>\n  <code>delete:environment_variables</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Feature Flags",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Feature Flag",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/feature_flags",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create feature flag.\n\n<div>\n  <code>create:feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Replace Feature Flag",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{subdomain}.kinde.com/api/v1/feature_flags/:feature_flag_key",
+            "params": [
+              {
+                "name": "feature_flag_key",
+                "value": "",
+                "type": "path",
+                "description": "The key identifier for the feature flag."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "The name of the flag."
+              },
+              {
+                "name": "description",
+                "value": "",
+                "type": "query",
+                "description": "Description of the flag purpose."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The variable type"
+              },
+              {
+                "name": "allow_override_level",
+                "value": "",
+                "type": "query",
+                "description": "Allow the flag to be overridden at a different level."
+              },
+              {
+                "name": "default_value",
+                "value": "",
+                "type": "query",
+                "description": "Default value for the flag used by environments and organizations."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update feature flag.\n\n<div>\n  <code>update:feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Feature Flag",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/feature_flags/:feature_flag_key",
+            "params": [
+              {
+                "name": "feature_flag_key",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the feature flag."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete feature flag\n\n<div>\n  <code>delete:feature_flags</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Identities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get identity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/identities/:identity_id",
+            "params": [
+              {
+                "name": "identity_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the identity."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns an identity by ID\n\n<div>\n  <code>read:identities</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update identity",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/identities/:identity_id",
+            "params": [
+              {
+                "name": "identity_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the identity."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update identity by ID.\n\n<div>\n  <code>update:identities</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete identity",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/identities/:identity_id",
+            "params": [
+              {
+                "name": "identity_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the identity."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete identity by ID.\n\n<div>\n  <code>delete:identities</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Organizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get organization invites",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/organization/:org_code/invites",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field and order to sort the result by."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "next_token",
+                "value": "",
+                "type": "query",
+                "description": "A string to get the next page of results if there are more results."
+              },
+              {
+                "name": "include_revoked",
+                "value": "",
+                "type": "query",
+                "description": "Include revoked invitations in the results."
+              },
+              {
+                "name": "include_accepted",
+                "value": "",
+                "type": "query",
+                "description": "Include accepted invitations in the results."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a list of invitations for an organization. By default, only pending (non-revoked, non-accepted) invitations are returned.\n\n<div>\n  <code>read:organization_invites</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create organization invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/organization/:org_code/invites",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new invitation for an organization. An invitation email will be sent to the provided email address if `send_email` is set to `true`.\n\nInvitations cannot be created for organizations that are managed by directory sync; user and role changes for those organizations must be made in the upstream identity provider.\n\nRoles that require an explicit assignment permission cannot be granted to an invitee unless the caller (or the user the token represents) holds that permission. On Kinde-hosted p"
+        },
+        {
+          "info": {
+            "name": "Get organization invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/organization/:org_code/invites/:invite_code",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "invite_code",
+                "value": "",
+                "type": "path",
+                "description": "The invitation's code."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get details of a specific invitation by its code.\n\n<div>\n  <code>read:organization_invites</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete organization invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/organization/:org_code/invites/:invite_code",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "invite_code",
+                "value": "",
+                "type": "path",
+                "description": "The invitation's code."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Revoke (delete) an invitation. This will mark the invitation as revoked and prevent it from being accepted.\n\n<div>\n  <code>delete:organization_invites</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/organization",
+            "params": [
+              {
+                "name": "code",
+                "value": "",
+                "type": "query",
+                "description": "The organization's code."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Additional data to include in the response. Allowed value: \"billing\"."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve organization details by code.\n\n<div>\n  <code>read:organizations</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/organization",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new organization. To learn more read about [multi tenancy using organizations](https://docs.kinde.com/build/organizations/multi-tenancy-using-organizations/)\n\n<div>\n  <code>create:organizations</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get organizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field and order to sort the result by."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "next_token",
+                "value": "",
+                "type": "query",
+                "description": "A string to get the next page of results if there are more results."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a list of organizations.\n\n<div>\n  <code>read:organizations</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/organization/:org_code",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Additional data to include in the response. Allowed value: \"billing\"."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an organization.\n\n<div>\n  <code>update:organizations</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/organization/:org_code",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an organization.\n\n<div>\n  <code>delete:organizations</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get organization users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/users",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field and order to sort the result by."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "next_token",
+                "value": "",
+                "type": "query",
+                "description": "A string to get the next page of results if there are more results."
+              },
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "permissions",
+                "value": "",
+                "type": "query",
+                "description": "Filter by user permissions comma separated (where all match)"
+              },
+              {
+                "name": "roles",
+                "value": "",
+                "type": "query",
+                "description": "Filter by user roles comma separated (where all match)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get user details for all members of an organization.\n\n<div>\n  <code>read:organization_users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add Organization Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/users",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add existing users to an organization.\n\n<div>\n  <code>create:organization_users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Organization Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/users",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update users that belong to an organization.\n\n<div>\n  <code>update:organization_users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "List Organization User Roles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/users/:user_id/roles",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's id."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get roles for an organization user.\n\n<div>\n  <code>read:organization_user_roles</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add Organization User Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/users/:user_id/roles",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's id."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add role to an organization user.\n\n<div>\n  <code>create:organization_user_roles</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Organization User Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/users/:user_id/roles/:role_id",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's id."
+              },
+              {
+                "name": "role_id",
+                "value": "",
+                "type": "path",
+                "description": "The role id."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete role for an organization user.\n\n<div>\n  <code>delete:organization_user_roles</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "List Organization User Permissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/users/:user_id/permissions",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's id."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Additional data to include in the response. Allowed value: \"roles\"."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get permissions for an organization user.\n\n<div>\n  <code>read:organization_user_permissions</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add Organization User Permission",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/users/:user_id/permissions",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's id."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add permission to an organization user.\n\n<div>\n  <code>create:organization_user_permissions</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Organization User Permission",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/users/:user_id/permissions/:permission_id",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's id."
+              },
+              {
+                "name": "permission_id",
+                "value": "",
+                "type": "path",
+                "description": "The permission id."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete permission for an organization user.\n\n<div>\n  <code>delete:organization_user_permissions</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Remove Organization User",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/users/:user_id",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's id."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Remove user from an organization.\n\n<div>\n  <code>delete:organization_users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add scope to organization user api",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/users/:user_id/apis/:api_id/scopes/:scope_id",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "User ID"
+              },
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              },
+              {
+                "name": "scope_id",
+                "value": "",
+                "type": "path",
+                "description": "Scope ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add a scope to an organization user api.\n\n<div>\n  <code>create:organization_user_api_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete scope from organization user API",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/users/:user_id/apis/:api_id/scopes/:scope_id",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "User ID"
+              },
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              },
+              {
+                "name": "scope_id",
+                "value": "",
+                "type": "path",
+                "description": "Scope ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a scope from an organization user api you previously created.\n\n<div>\n  <code>delete:organization_user_api_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get an organization user's MFA configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/users/:user_id/mfa",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an organization user’s MFA configuration.\n\n<div>\n  <code>read:organization_user_mfa</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Reset all organization MFA for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/users/:user_id/mfa",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Reset all organization MFA factors for a user.\n\n<div>\n  <code>delete:organization_user_mfa</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Reset specific organization MFA for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/users/:user_id/mfa/:factor_id",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              },
+              {
+                "name": "factor_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the MFA factor"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Reset a specific organization MFA factor for a user.\n\n<div>\n  <code>delete:organization_user_mfa</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "List Organization Feature Flags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/feature_flags",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all organization feature flags.\n\n<div>\n  <code>read:organization_feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Organization Feature Flag Overrides",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/feature_flags",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete all organization feature flag overrides.\n\n<div>\n  <code>delete:organization_feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Organization Feature Flag Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/feature_flags/:feature_flag_key",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization"
+              },
+              {
+                "name": "feature_flag_key",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the feature flag"
+              },
+              {
+                "name": "value",
+                "value": "",
+                "type": "query",
+                "description": "Override value"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update organization feature flag override.\n\n<div>\n  <code>update:organization_feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Organization Feature Flag Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/feature_flags/:feature_flag_key",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              },
+              {
+                "name": "feature_flag_key",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the feature flag."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete organization feature flag override.\n\n<div>\n  <code>delete:organization_feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Organization Property value",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/properties/:property_key",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization"
+              },
+              {
+                "name": "property_key",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the property"
+              },
+              {
+                "name": "value",
+                "value": "",
+                "type": "query",
+                "description": "The new property value"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update organization property value.\n\n<div>\n  <code>update:organization_properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get Organization Property Values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/properties",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Gets properties for an organization by org code.\n\n<div>\n  <code>read:organization_properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Organization Property values",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/properties",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update organization property values.\n\n<div>\n  <code>update:organization_properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Replace Organization MFA Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/mfa",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replace Organization MFA Configuration.\n\n<div>\n  <code>update:organization_mfa</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete organization handle",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/organization/:org_code/handle",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete organization handle\n\n<div>\n  <code>delete:organization_handles</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Read organization logo details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/logos",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Read organization logo details\n\n<div>\n  <code>read:organizations</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add organization logo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/logos/:type",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The type of logo to add."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "logo",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add organization logo\n\n<div>\n  <code>update:organizations</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete organization logo",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/logos/:type",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The type of logo to delete."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete organization logo\n\n<div>\n  <code>update:organizations</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:organization_code/connections",
+            "params": [
+              {
+                "name": "organization_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization code."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Gets all connections for an organization.\n\n<div>\n  <code>read:organization_connections</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Enable connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:organization_code/connections/:connection_id",
+            "params": [
+              {
+                "name": "organization_code",
+                "value": "",
+                "type": "path",
+                "description": "The unique code for the organization."
+              },
+              {
+                "name": "connection_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the connection."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Enable an auth connection for an organization.\n\n<div>\n  <code>create:organization_connections</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Remove connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:organization_code/connections/:connection_id",
+            "params": [
+              {
+                "name": "organization_code",
+                "value": "",
+                "type": "path",
+                "description": "The unique code for the organization."
+              },
+              {
+                "name": "connection_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the connection."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Turn off an auth connection for an organization\n\n<div>\n  <code>delete:organization_connections</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update organization session configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/organizations/:org_code/sessions",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update the organization's session configuration.\n\n<div>\n  <code>update:organizations</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "MFA",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Replace MFA Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{subdomain}.kinde.com/api/v1/mfa",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replace MFA Configuration.\n\n<div>\n  <code>update:mfa</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Permissions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Permissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/permissions",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field and order to sort the result by."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "next_token",
+                "value": "",
+                "type": "query",
+                "description": "A string to get the next page of results if there are more results."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "The returned list can be sorted by permission name or permission ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.\n\n<div>\n  <code>read:permissions</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create Permission",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/permissions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new permission.\n\n<div>\n  <code>create:permissions</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Permission",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/permissions/:permission_id",
+            "params": [
+              {
+                "name": "permission_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the permission."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update permission\n\n<div>\n  <code>update:permissions</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Permission",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/permissions/:permission_id",
+            "params": [
+              {
+                "name": "permission_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the permission."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete permission\n\n<div>\n  <code>delete:permissions</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Properties",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List properties",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/properties",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the property to start after."
+              },
+              {
+                "name": "ending_before",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the property to end before."
+              },
+              {
+                "name": "context",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by user,  organization or application context"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of properties\n\n<div>\n  <code>read:properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create Property",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/properties",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create property.\n\n<div>\n  <code>create:properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Property",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{subdomain}.kinde.com/api/v1/properties/:property_id",
+            "params": [
+              {
+                "name": "property_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the property."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update property.\n\n<div>\n  <code>update:properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Property",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/properties/:property_id",
+            "params": [
+              {
+                "name": "property_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the property."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete property.\n\n<div>\n  <code>delete:properties</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Property Categories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/property_categories",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the category to start after."
+              },
+              {
+                "name": "ending_before",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the category to end before."
+              },
+              {
+                "name": "context",
+                "value": "",
+                "type": "query",
+                "description": "Filter the results by User or Organization context"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of categories.\n\n<div>\n  <code>read:property_categories</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create Category",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/property_categories",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create category.\n\n<div>\n  <code>create:property_categories</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Category",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{subdomain}.kinde.com/api/v1/property_categories/:category_id",
+            "params": [
+              {
+                "name": "category_id",
+                "value": "",
+                "type": "path",
+                "description": "The unique identifier for the category."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update category.\n\n<div>\n  <code>update:property_categories</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Roles",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List roles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/roles",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field and order to sort the result by."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "next_token",
+                "value": "",
+                "type": "query",
+                "description": "A string to get the next page of results if there are more results."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.\n\n<div>\n  <code>read:roles</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create role",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/roles",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create role.\n\n<div>\n  <code>create:roles</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get role",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/roles/:role_id",
+            "params": [
+              {
+                "name": "role_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the role."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a role\n\n<div>\n  <code>read:roles</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update role",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/roles/:role_id",
+            "params": [
+              {
+                "name": "role_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the role."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a role\n\n<div>\n  <code>update:roles</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete role",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/roles/:role_id",
+            "params": [
+              {
+                "name": "role_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the role."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete role\n\n<div>\n  <code>delete:roles</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get role scopes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/roles/:role_id/scopes",
+            "params": [
+              {
+                "name": "role_id",
+                "value": "",
+                "type": "path",
+                "description": "The role id."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get scopes for a role.\n\n<div>\n  <code>read:role_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add role scope",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/roles/:role_id/scopes",
+            "params": [
+              {
+                "name": "role_id",
+                "value": "",
+                "type": "path",
+                "description": "The role id."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add scope to role.\n\n<div>\n  <code>create:role_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete role scope",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/roles/:role_id/scopes/:scope_id",
+            "params": [
+              {
+                "name": "role_id",
+                "value": "",
+                "type": "path",
+                "description": "The role id."
+              },
+              {
+                "name": "scope_id",
+                "value": "",
+                "type": "path",
+                "description": "The scope id."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete scope from role.\n\n<div>\n  <code>delete:role_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get role permissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/roles/:role_id/permissions",
+            "params": [
+              {
+                "name": "role_id",
+                "value": "",
+                "type": "path",
+                "description": "The role's public id."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field and order to sort the result by."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "next_token",
+                "value": "",
+                "type": "query",
+                "description": "A string to get the next page of results if there are more results."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get permissions for a role.\n\n<div>\n  <code>read:role_permissions</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update role permissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/roles/:role_id/permissions",
+            "params": [
+              {
+                "name": "role_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the role."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update role permissions.\n\n<div>\n  <code>update:role_permissions</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Remove role permission",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/roles/:role_id/permissions/:permission_id",
+            "params": [
+              {
+                "name": "role_id",
+                "value": "",
+                "type": "path",
+                "description": "The role's public id."
+              },
+              {
+                "name": "permission_id",
+                "value": "",
+                "type": "path",
+                "description": "The permission's public id."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Remove a permission from a role.\n\n<div>\n  <code>delete:role_permissions</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/search/users",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search the users by email or name. Use '*' to search all."
+              },
+              {
+                "name": "api_scopes",
+                "value": "",
+                "type": "query",
+                "description": "Search the users by api scopes."
+              },
+              {
+                "name": "properties",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the user to start after."
+              },
+              {
+                "name": "ending_before",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the user to end before."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Additional data to include in the response. One or more of (comma-separated): \"organizations\", \"identities\", \"properties\"."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Search for users based on the provided query string. Set query to '*' to filter by other parameters only.\nThe number of records to return at a time can be controlled using the `page_size` query string parameter.\n\n<div>\n  <code>read:users</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Subscribers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Subscribers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/subscribers",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field and order to sort the result by."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "next_token",
+                "value": "",
+                "type": "query",
+                "description": "A string to get the next page of results if there are more results."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "The returned list can be sorted by full name or email address\nin ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query\nstring parameter.\n\n<div>\n  <code>read:subscribers</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create Subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/subscribers",
+            "params": [
+              {
+                "name": "first_name",
+                "value": "",
+                "type": "query",
+                "description": "Subscriber's first name."
+              },
+              {
+                "name": "last_name",
+                "value": "",
+                "type": "query",
+                "description": "Subscriber's last name."
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "The email address of the subscriber."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create subscriber.\n\n<div>\n  <code>create:subscribers</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get Subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/subscribers/:subscriber_id",
+            "params": [
+              {
+                "name": "subscriber_id",
+                "value": "",
+                "type": "path",
+                "description": "The subscriber's id."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve a subscriber record.\n\n<div>\n  <code>read:subscribers</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/users",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter the results by User ID. The query string should be comma separated and url encoded."
+              },
+              {
+                "name": "next_token",
+                "value": "",
+                "type": "query",
+                "description": "A string to get the next page of results if there are more results."
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "Filter the results by email address. The query string should be comma separated and url encoded."
+              },
+              {
+                "name": "username",
+                "value": "",
+                "type": "query",
+                "description": "Filter the results by username. The query string should be comma separated and url encoded."
+              },
+              {
+                "name": "phone",
+                "value": "",
+                "type": "query",
+                "description": "Filter the results by phone. The query string should be comma separated and url encoded."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Additional data to include in the response. One or more of (comma-separated): \"organizations\", \"identities\", \"billing\"."
+              },
+              {
+                "name": "has_organization",
+                "value": "",
+                "type": "query",
+                "description": "Filter the results by if the user has at least one organization assigned."
+              },
+              {
+                "name": "active_since",
+                "value": "",
+                "type": "query",
+                "description": "Filter the results to only include users who have been active since this date. Date should be in ISO 8601 format."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.\n\n<div>\n  <code>read:users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Refresh User Claims and Invalidate Cache",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/users/:user_id/refresh_claims",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the user whose claims needs to be updated."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Refreshes the user's claims and invalidates the current cache.\n\n<div>\n  <code>update:user_refresh_claims</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/user",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "The user's id."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Additional data to include in the response. One or more of (comma-separated): \"organizations\", \"identities\", \"billing\"."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve a user record.\n\n<div>\n  <code>read:users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/user",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a user record and optionally zero or more identities for the user. An example identity could be the email\naddress of the user.\n\n<div>\n  <code>create:users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update user",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/user",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "The user's id."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a user record.\n\n<div>\n  <code>update:users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/user",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "The user's id."
+              },
+              {
+                "name": "is_delete_profile",
+                "value": "",
+                "type": "query",
+                "description": "Delete all data and remove the user's profile from all of Kinde, including the subscriber list"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a user record.\n\n<div>\n  <code>delete:users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update User Feature Flag Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/users/:user_id/feature_flags/:feature_flag_key",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              },
+              {
+                "name": "feature_flag_key",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the feature flag"
+              },
+              {
+                "name": "value",
+                "value": "",
+                "type": "query",
+                "description": "Override value"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update user feature flag override.\n\n<div>\n  <code>update:user_feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Property value",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{subdomain}.kinde.com/api/v1/users/:user_id/properties/:property_key",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              },
+              {
+                "name": "property_key",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the property"
+              },
+              {
+                "name": "value",
+                "value": "",
+                "type": "query",
+                "description": "The new property value"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update property value.\n\n<div>\n  <code>update:user_properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get property values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/users/:user_id/properties",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Gets properties for an user by ID.\n\n<div>\n  <code>read:user_properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Property values",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/users/:user_id/properties",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update property values.\n\n<div>\n  <code>update:user_properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Set User password",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{subdomain}.kinde.com/api/v1/users/:user_id/password",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set user password.\n\n<div>\n  <code>update:user_passwords</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get identities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/users/:user_id/identities",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's ID."
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the identity to start after."
+              },
+              {
+                "name": "ending_before",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the identity to end before."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Gets a list of identities for an user by ID.\n\n<div>\n  <code>read:user_identities</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create identity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/users/:user_id/identities",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates an identity for a user.\n\n<div>\n  <code>create:user_identities</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get user sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/users/:user_id/sessions",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve the list of active sessions for a specific user.\n\n<div>\n  <code>read:user_sessions</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete user sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/users/:user_id/sessions",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Invalidate user sessions.\n\n<div>\n  <code>delete:user_sessions</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get user's MFA configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/users/:user_id/mfa",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a user’s MFA configuration.\n\n<div>\n  <code>read:user_mfa</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Reset all environment MFA for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/users/:user_id/mfa",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Reset all environment MFA factors for a user.\n\n<div>\n  <code>delete:user_mfa</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Reset specific environment MFA for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/users/:user_id/mfa/:factor_id",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              },
+              {
+                "name": "factor_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the MFA factor"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Reset a specific environment MFA factor for a user.\n\n<div>\n  <code>delete:user_mfa</code>\n</div>\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/events/:event_id",
+            "params": [
+              {
+                "name": "event_id",
+                "value": "",
+                "type": "path",
+                "description": "The event id."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns an event\n\n<div>\n  <code>read:events</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "List Event Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/event_types",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list event type definitions\n\n<div>\n  <code>read:event_types</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update a Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{subdomain}.kinde.com/api/v1/webhooks/:webhook_id",
+            "params": [
+              {
+                "name": "webhook_id",
+                "value": "",
+                "type": "path",
+                "description": "The webhook id."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a webhook\n\n<div>\n  <code>update:webhooks</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{subdomain}.kinde.com/api/v1/webhooks/:webhook_id",
+            "params": [
+              {
+                "name": "webhook_id",
+                "value": "",
+                "type": "path",
+                "description": "The webhook id."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete webhook\n\n<div>\n  <code>delete:webhooks</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "List Webhooks",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{subdomain}.kinde.com/api/v1/webhooks",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "List webhooks\n\n<div>\n  <code>read:webhooks</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create a Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{subdomain}.kinde.com/api/v1/webhooks",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a webhook\n\n<div>\n  <code>create:webhooks</code>\n</div>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

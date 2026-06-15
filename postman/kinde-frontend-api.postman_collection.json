@@ -1,0 +1,2411 @@
+{
+  "info": {
+    "_postman_id": "801770cf-ce17-4d9f-b3b2-ba54870f33c8",
+    "name": "Kinde Account API",
+    "description": "\nProvides endpoints to operate on an authenticated user.\n\n## Intro\n\n## How to use\n\n1. Get a user access token - this can be obtained when a user signs in via the methods you've setup in Kinde (e.g. Google, passwordless, etc).\n\n2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.\n\n\nContact Support:\n Name: Kinde Support Team\n Email: support@kinde.com",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:10:16.000Z",
+    "updatedAt": "2026-06-05T15:10:16.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-801770cf-ce17-4d9f-b3b2-ba54870f33c8"
+  },
+  "item": [
+    {
+      "name": "account_api",
+      "item": [
+        {
+          "name": "v1",
+          "item": [
+            {
+              "name": "entitlements",
+              "item": [
+                {
+                  "name": "Get entitlements",
+                  "id": "206dde1b-8e1a-4562-8931-ec8e91b6babe",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/account_api/v1/entitlements?page_size=<integer>&starting_after=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "account_api",
+                        "v1",
+                        "entitlements"
+                      ],
+                      "query": [
+                        {
+                          "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                          "key": "page_size",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "The ID of the entitlement to start after.",
+                          "key": "starting_after",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "description": "Returns all the entitlements the user currently has access to\n"
+                  },
+                  "response": [
+                    {
+                      "id": "a7fb524f-24d3-4eb2-b40f-e1fa9f8abd9f",
+                      "name": "Billing entitlements successfully retrieved.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/entitlements?page_size=<integer>&starting_after=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "entitlements"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                              "key": "page_size",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The ID of the entitlement to start after.",
+                              "key": "starting_after",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"org_code\": \"<string>\",\n    \"plans\": [\n      {\n        \"key\": \"<string>\",\n        \"name\": \"<string>\",\n        \"subscribed_on\": \"<dateTime>\"\n      },\n      {\n        \"key\": \"<string>\",\n        \"name\": \"<string>\",\n        \"subscribed_on\": \"<dateTime>\"\n      }\n    ],\n    \"entitlements\": [\n      {\n        \"id\": \"<string>\",\n        \"fixed_charge\": \"<integer>\",\n        \"price_name\": \"<string>\",\n        \"unit_amount\": \"<integer>\",\n        \"feature_key\": \"<string>\",\n        \"feature_name\": \"<string>\",\n        \"entitlement_limit_max\": \"<integer>\",\n        \"entitlement_limit_min\": \"<integer>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"fixed_charge\": \"<integer>\",\n        \"price_name\": \"<string>\",\n        \"unit_amount\": \"<integer>\",\n        \"feature_key\": \"<string>\",\n        \"feature_name\": \"<string>\",\n        \"entitlement_limit_max\": \"<integer>\",\n        \"entitlement_limit_min\": \"<integer>\"\n      }\n    ]\n  },\n  \"metadata\": {\n    \"has_more\": \"<boolean>\",\n    \"next_page_starting_after\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-a7fb524f-24d3-4eb2-b40f-e1fa9f8abd9f"
+                    },
+                    {
+                      "id": "81694549-b889-4461-ae97-2fba5525ab38",
+                      "name": "Invalid credentials.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/entitlements?page_size=<integer>&starting_after=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "entitlements"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                              "key": "page_size",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The ID of the entitlement to start after.",
+                              "key": "starting_after",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-81694549-b889-4461-ae97-2fba5525ab38"
+                    },
+                    {
+                      "id": "37186427-4767-41ee-bb34-4c29246ac4a2",
+                      "name": "Request was throttled.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/entitlements?page_size=<integer>&starting_after=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "entitlements"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                              "key": "page_size",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The ID of the entitlement to start after.",
+                              "key": "starting_after",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Too Many Requests",
+                      "code": 429,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-37186427-4767-41ee-bb34-4c29246ac4a2"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-206dde1b-8e1a-4562-8931-ec8e91b6babe"
+                }
+              ],
+              "id": "2e26fb96-72a6-405a-b9c8-6736b3d55d3f",
+              "createdAt": "2026-06-05T15:10:16.000Z",
+              "updatedAt": "2026-06-05T15:10:16.000Z",
+              "uid": "35240-2e26fb96-72a6-405a-b9c8-6736b3d55d3f"
+            },
+            {
+              "name": "entitlement",
+              "item": [
+                {
+                  "name": "Get entitlement",
+                  "id": "6e9fdf55-344b-493c-bd25-7b1637e38ad7",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/account_api/v1/entitlement",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "account_api",
+                        "v1",
+                        "entitlement"
+                      ],
+                      "variable": [
+                        {
+                          "id": "3af79f30-cb91-4efe-b785-9ea8fc1b987d",
+                          "key": "key",
+                          "value": "<string>",
+                          "description": "(Required) The key of the feature"
+                        }
+                      ]
+                    },
+                    "description": "Returns a single entitlement by the feature key\n"
+                  },
+                  "response": [
+                    {
+                      "id": "5835a1e4-ffa6-48e3-a5a9-71d580177143",
+                      "name": "Billing entitlement successfully retrieved.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/entitlement",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "entitlement"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"org_code\": \"<string>\",\n    \"entitlement\": {\n      \"id\": \"<string>\",\n      \"fixed_charge\": \"<integer>\",\n      \"price_name\": \"<string>\",\n      \"unit_amount\": \"<integer>\",\n      \"feature_key\": \"<string>\",\n      \"feature_name\": \"<string>\",\n      \"entitlement_limit_max\": \"<integer>\",\n      \"entitlement_limit_min\": \"<integer>\"\n    }\n  },\n  \"metadata\": {}\n}",
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-5835a1e4-ffa6-48e3-a5a9-71d580177143"
+                    },
+                    {
+                      "id": "2268b873-c7b7-42f3-8b61-b403514da911",
+                      "name": "Invalid credentials.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/entitlement",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "entitlement"
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-2268b873-c7b7-42f3-8b61-b403514da911"
+                    },
+                    {
+                      "id": "12730989-c3bd-4579-ba42-cd982c7b71d6",
+                      "name": "Request was throttled.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/entitlement",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "entitlement"
+                          ]
+                        }
+                      },
+                      "status": "Too Many Requests",
+                      "code": 429,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-12730989-c3bd-4579-ba42-cd982c7b71d6"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-6e9fdf55-344b-493c-bd25-7b1637e38ad7"
+                }
+              ],
+              "id": "9d96bae1-df33-4f1a-8c52-7d122539fecd",
+              "createdAt": "2026-06-05T15:10:16.000Z",
+              "updatedAt": "2026-06-05T15:10:16.000Z",
+              "uid": "35240-9d96bae1-df33-4f1a-8c52-7d122539fecd"
+            },
+            {
+              "name": "feature_flags",
+              "item": [
+                {
+                  "name": "Get feature flags",
+                  "id": "4126ab6c-151c-4eec-9241-d438b1108e2f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/account_api/v1/feature_flags?page_size=<integer>&starting_after=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "account_api",
+                        "v1",
+                        "feature_flags"
+                      ],
+                      "query": [
+                        {
+                          "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                          "key": "page_size",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "The ID of the flag to start after.",
+                          "key": "starting_after",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "description": "Returns all the feature flags that affect the user\n"
+                  },
+                  "response": [
+                    {
+                      "id": "5d3ef5ba-7bbe-4ff7-9895-528108dcf043",
+                      "name": "Feature flags successfully retrieved.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/feature_flags?page_size=<integer>&starting_after=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "feature_flags"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                              "key": "page_size",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The ID of the flag to start after.",
+                              "key": "starting_after",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"feature_flags\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"key\": \"<string>\",\n        \"type\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"key\": \"<string>\",\n        \"type\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ]\n  }\n}",
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-5d3ef5ba-7bbe-4ff7-9895-528108dcf043"
+                    },
+                    {
+                      "id": "d165f4d3-e462-4132-bb4e-54a1c8a4bbd2",
+                      "name": "Invalid credentials.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/feature_flags?page_size=<integer>&starting_after=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "feature_flags"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                              "key": "page_size",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The ID of the flag to start after.",
+                              "key": "starting_after",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-d165f4d3-e462-4132-bb4e-54a1c8a4bbd2"
+                    },
+                    {
+                      "id": "7e55fb48-3d35-4923-8642-8ba365dda2ea",
+                      "name": "Request was throttled.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/feature_flags?page_size=<integer>&starting_after=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "feature_flags"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                              "key": "page_size",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The ID of the flag to start after.",
+                              "key": "starting_after",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Too Many Requests",
+                      "code": 429,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-7e55fb48-3d35-4923-8642-8ba365dda2ea"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-4126ab6c-151c-4eec-9241-d438b1108e2f"
+                }
+              ],
+              "id": "5a57a0a6-d356-42c2-8f99-eb1f4855030b",
+              "createdAt": "2026-06-05T15:10:16.000Z",
+              "updatedAt": "2026-06-05T15:10:16.000Z",
+              "uid": "35240-5a57a0a6-d356-42c2-8f99-eb1f4855030b"
+            },
+            {
+              "name": "permissions",
+              "item": [
+                {
+                  "name": "Get permissions",
+                  "id": "1e1d423a-e96c-406d-9bb1-44efcc868ec0",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/account_api/v1/permissions?page_size=<integer>&starting_after=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "account_api",
+                        "v1",
+                        "permissions"
+                      ],
+                      "query": [
+                        {
+                          "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                          "key": "page_size",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "The ID of the permission to start after.",
+                          "key": "starting_after",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "description": "Returns all the permissions the user has\n"
+                  },
+                  "response": [
+                    {
+                      "id": "dfa25a6d-5864-486b-9e01-85a8c752e630",
+                      "name": "Permissions successfully retrieved.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/permissions?page_size=<integer>&starting_after=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "permissions"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                              "key": "page_size",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The ID of the permission to start after.",
+                              "key": "starting_after",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"org_code\": \"<string>\",\n    \"permissions\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"key\": \"<string>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"key\": \"<string>\"\n      }\n    ]\n  },\n  \"metadata\": {\n    \"has_more\": \"<boolean>\",\n    \"next_page_starting_after\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-dfa25a6d-5864-486b-9e01-85a8c752e630"
+                    },
+                    {
+                      "id": "e139694f-271e-407d-8f42-d0e3b648e30f",
+                      "name": "Invalid credentials.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/permissions?page_size=<integer>&starting_after=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "permissions"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                              "key": "page_size",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The ID of the permission to start after.",
+                              "key": "starting_after",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-e139694f-271e-407d-8f42-d0e3b648e30f"
+                    },
+                    {
+                      "id": "7152fc20-4912-4ae3-a50e-a028a78c5c3a",
+                      "name": "Request was throttled.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/permissions?page_size=<integer>&starting_after=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "permissions"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                              "key": "page_size",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The ID of the permission to start after.",
+                              "key": "starting_after",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Too Many Requests",
+                      "code": 429,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-7152fc20-4912-4ae3-a50e-a028a78c5c3a"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-1e1d423a-e96c-406d-9bb1-44efcc868ec0"
+                }
+              ],
+              "id": "b4f232e5-cece-43ae-8902-4a7bf904eb31",
+              "createdAt": "2026-06-05T15:10:16.000Z",
+              "updatedAt": "2026-06-05T15:10:16.000Z",
+              "uid": "35240-b4f232e5-cece-43ae-8902-4a7bf904eb31"
+            },
+            {
+              "name": "portal_link",
+              "item": [
+                {
+                  "name": "Get self-serve portal link",
+                  "id": "3feaff2b-7973-4347-ba0b-b50312310dea",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/account_api/v1/portal_link?subnav=organization_details&return_url=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "account_api",
+                        "v1",
+                        "portal_link"
+                      ],
+                      "query": [
+                        {
+                          "description": "The area of the portal you want the user to land on",
+                          "key": "subnav",
+                          "value": "organization_details"
+                        },
+                        {
+                          "description": "The URL to redirect the user to after they have completed their actions in the portal.",
+                          "key": "return_url",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "description": "Returns a link to the self-serve portal for the authenticated user. The user can use this link to manage their account, update their profile, and view their entitlements.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "ed0913b1-bccb-4ffc-95ed-2838bf46f769",
+                      "name": "Successfully generated the portal link",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/portal_link?subnav=organization_details&return_url=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "portal_link"
+                          ],
+                          "query": [
+                            {
+                              "description": "The area of the portal you want the user to land on",
+                              "key": "subnav",
+                              "value": "organization_details"
+                            },
+                            {
+                              "description": "The URL to redirect the user to after they have completed their actions in the portal.",
+                              "key": "return_url",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"url\": \"<string>\"\n}",
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-ed0913b1-bccb-4ffc-95ed-2838bf46f769"
+                    },
+                    {
+                      "id": "08032c5c-8619-4d5c-b549-c3f23933eac8",
+                      "name": "Invalid credentials.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/portal_link?subnav=organization_details&return_url=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "portal_link"
+                          ],
+                          "query": [
+                            {
+                              "description": "The area of the portal you want the user to land on",
+                              "key": "subnav",
+                              "value": "organization_details"
+                            },
+                            {
+                              "description": "The URL to redirect the user to after they have completed their actions in the portal.",
+                              "key": "return_url",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-08032c5c-8619-4d5c-b549-c3f23933eac8"
+                    },
+                    {
+                      "id": "17717002-a59e-40c9-b7f3-e3f4675bd43c",
+                      "name": "Request was throttled.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/portal_link?subnav=organization_details&return_url=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "portal_link"
+                          ],
+                          "query": [
+                            {
+                              "description": "The area of the portal you want the user to land on",
+                              "key": "subnav",
+                              "value": "organization_details"
+                            },
+                            {
+                              "description": "The URL to redirect the user to after they have completed their actions in the portal.",
+                              "key": "return_url",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Too Many Requests",
+                      "code": 429,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-17717002-a59e-40c9-b7f3-e3f4675bd43c"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-3feaff2b-7973-4347-ba0b-b50312310dea"
+                }
+              ],
+              "id": "a40d0107-2516-40de-9013-278c8965dc5c",
+              "createdAt": "2026-06-05T15:10:16.000Z",
+              "updatedAt": "2026-06-05T15:10:16.000Z",
+              "uid": "35240-a40d0107-2516-40de-9013-278c8965dc5c"
+            },
+            {
+              "name": "properties",
+              "item": [
+                {
+                  "name": "Get properties",
+                  "id": "ef864ef9-8639-42e9-8e89-11bcd4c01cf8",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/account_api/v1/properties?page_size=<integer>&starting_after=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "account_api",
+                        "v1",
+                        "properties"
+                      ],
+                      "query": [
+                        {
+                          "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                          "key": "page_size",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "The ID of the property to start after.",
+                          "key": "starting_after",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "description": "Returns all properties for the user\n"
+                  },
+                  "response": [
+                    {
+                      "id": "89691f4c-b70f-4784-8993-06b80777c5bd",
+                      "name": "Properties successfully retrieved.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/properties?page_size=<integer>&starting_after=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "properties"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                              "key": "page_size",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The ID of the property to start after.",
+                              "key": "starting_after",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"properties\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"key\": \"<string>\",\n        \"value\": \"<string>\"\n      }\n    ]\n  },\n  \"metadata\": {\n    \"has_more\": \"<boolean>\",\n    \"next_page_starting_after\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-89691f4c-b70f-4784-8993-06b80777c5bd"
+                    },
+                    {
+                      "id": "036eb293-fbef-495b-936a-65e64b12163d",
+                      "name": "Invalid credentials.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/properties?page_size=<integer>&starting_after=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "properties"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                              "key": "page_size",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The ID of the property to start after.",
+                              "key": "starting_after",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-036eb293-fbef-495b-936a-65e64b12163d"
+                    },
+                    {
+                      "id": "25e59af0-29ac-46e3-bb57-f627dfa7ef79",
+                      "name": "Request was throttled.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/properties?page_size=<integer>&starting_after=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "properties"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                              "key": "page_size",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The ID of the property to start after.",
+                              "key": "starting_after",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Too Many Requests",
+                      "code": 429,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-25e59af0-29ac-46e3-bb57-f627dfa7ef79"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-ef864ef9-8639-42e9-8e89-11bcd4c01cf8"
+                }
+              ],
+              "id": "5604c6fb-9a04-4f48-bb65-62ddb5ba4513",
+              "createdAt": "2026-06-05T15:10:16.000Z",
+              "updatedAt": "2026-06-05T15:10:16.000Z",
+              "uid": "35240-5604c6fb-9a04-4f48-bb65-62ddb5ba4513"
+            },
+            {
+              "name": "roles",
+              "item": [
+                {
+                  "name": "Get roles",
+                  "id": "8b4e9174-2381-4ef7-be4a-8bc0eac50693",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/account_api/v1/roles?page_size=<integer>&starting_after=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "account_api",
+                        "v1",
+                        "roles"
+                      ],
+                      "query": [
+                        {
+                          "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                          "key": "page_size",
+                          "value": "<integer>"
+                        },
+                        {
+                          "description": "The ID of the role to start after.",
+                          "key": "starting_after",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "description": "Returns all roles for the user\n"
+                  },
+                  "response": [
+                    {
+                      "id": "a3491ddb-3597-48db-9ad1-2eb9a35b182b",
+                      "name": "Roles successfully retrieved.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/roles?page_size=<integer>&starting_after=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "roles"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                              "key": "page_size",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The ID of the role to start after.",
+                              "key": "starting_after",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"org_code\": \"<string>\",\n    \"roles\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"key\": \"<string>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"key\": \"<string>\"\n      }\n    ]\n  },\n  \"metadata\": {\n    \"has_more\": \"<boolean>\",\n    \"next_page_starting_after\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-a3491ddb-3597-48db-9ad1-2eb9a35b182b"
+                    },
+                    {
+                      "id": "806d8363-e4da-43e6-9a05-9239d1af6f15",
+                      "name": "Invalid credentials.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/roles?page_size=<integer>&starting_after=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "roles"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                              "key": "page_size",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The ID of the role to start after.",
+                              "key": "starting_after",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-806d8363-e4da-43e6-9a05-9239d1af6f15"
+                    },
+                    {
+                      "id": "1e4303a0-35e2-4828-be6a-b97b26d2af6e",
+                      "name": "Request was throttled.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/account_api/v1/roles?page_size=<integer>&starting_after=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "account_api",
+                            "v1",
+                            "roles"
+                          ],
+                          "query": [
+                            {
+                              "description": "Number of results per page. Defaults to 10 if parameter not sent.",
+                              "key": "page_size",
+                              "value": "<integer>"
+                            },
+                            {
+                              "description": "The ID of the role to start after.",
+                              "key": "starting_after",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Too Many Requests",
+                      "code": 429,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-1e4303a0-35e2-4828-be6a-b97b26d2af6e"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-8b4e9174-2381-4ef7-be4a-8bc0eac50693"
+                }
+              ],
+              "id": "ad10645b-b085-450e-a592-c4a94cfcb099",
+              "createdAt": "2026-06-05T15:10:16.000Z",
+              "updatedAt": "2026-06-05T15:10:16.000Z",
+              "uid": "35240-ad10645b-b085-450e-a592-c4a94cfcb099"
+            }
+          ],
+          "id": "75a62164-38f9-40c7-9ad7-49cb69b36f03",
+          "createdAt": "2026-06-05T15:10:16.000Z",
+          "updatedAt": "2026-06-05T15:10:16.000Z",
+          "uid": "35240-75a62164-38f9-40c7-9ad7-49cb69b36f03"
+        }
+      ],
+      "id": "bb24fd4d-5c40-4fcd-b718-15689e92b4cc",
+      "createdAt": "2026-06-05T15:10:16.000Z",
+      "updatedAt": "2026-06-05T15:10:16.000Z",
+      "uid": "35240-bb24fd4d-5c40-4fcd-b718-15689e92b4cc"
+    },
+    {
+      "name": "oauth2",
+      "item": [
+        {
+          "name": "v2",
+          "item": [
+            {
+              "name": "user_profile",
+              "item": [
+                {
+                  "name": "Get user profile",
+                  "id": "ed35b243-ab37-419e-8621-6a6f56ba341a",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/oauth2/v2/user_profile",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "oauth2",
+                        "v2",
+                        "user_profile"
+                      ]
+                    },
+                    "description": "This endpoint returns a user's ID, names, profile picture URL and email of the currently logged in user.\n"
+                  },
+                  "response": [
+                    {
+                      "id": "f45ee51e-8bfb-4234-85d5-ce3fe4c7079e",
+                      "name": "Details of logged in user.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/oauth2/v2/user_profile",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "oauth2",
+                            "v2",
+                            "user_profile"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"sub\": \"<string>\",\n  \"provided_id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"given_name\": \"<string>\",\n  \"family_name\": \"<string>\",\n  \"updated_at\": \"<integer>\",\n  \"email\": \"<string>\",\n  \"email_verified\": \"<boolean>\",\n  \"picture\": \"<string>\",\n  \"preferred_username\": \"<string>\",\n  \"id\": \"<string>\"\n}",
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-f45ee51e-8bfb-4234-85d5-ce3fe4c7079e"
+                    },
+                    {
+                      "id": "314bdbf7-4c08-4abf-8419-f9a820d531e3",
+                      "name": "Invalid credentials.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/oauth2/v2/user_profile",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "oauth2",
+                            "v2",
+                            "user_profile"
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-314bdbf7-4c08-4abf-8419-f9a820d531e3"
+                    },
+                    {
+                      "id": "61342381-704d-41de-a0a9-7d530ffb30a4",
+                      "name": "Request was throttled.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/oauth2/v2/user_profile",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "oauth2",
+                            "v2",
+                            "user_profile"
+                          ]
+                        }
+                      },
+                      "status": "Too Many Requests",
+                      "code": 429,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-06-05T15:10:16.000Z",
+                      "updatedAt": "2026-06-05T15:10:16.000Z",
+                      "uid": "35240-61342381-704d-41de-a0a9-7d530ffb30a4"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-ed35b243-ab37-419e-8621-6a6f56ba341a"
+                }
+              ],
+              "id": "a0bbb4b8-4a39-4a94-8462-c0181bd17640",
+              "createdAt": "2026-06-05T15:10:16.000Z",
+              "updatedAt": "2026-06-05T15:10:16.000Z",
+              "uid": "35240-a0bbb4b8-4a39-4a94-8462-c0181bd17640"
+            }
+          ],
+          "id": "743bfac3-d45f-4769-8f7f-79089bedb18f",
+          "createdAt": "2026-06-05T15:10:16.000Z",
+          "updatedAt": "2026-06-05T15:10:16.000Z",
+          "uid": "35240-743bfac3-d45f-4769-8f7f-79089bedb18f"
+        },
+        {
+          "name": "introspect",
+          "item": [
+            {
+              "name": "Introspect",
+              "id": "c77a2d20-593e-4a37-8d9c-8b95eb4ed7b3",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "description": "(Required) The token to be introspected.",
+                      "key": "token",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "A hint about the token type being queried in the request.",
+                      "key": "token_type_hint",
+                      "value": "access_token"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/oauth2/introspect",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "oauth2",
+                    "introspect"
+                  ]
+                },
+                "description": "Retrieve information about the provided token."
+              },
+              "response": [
+                {
+                  "id": "a71e945f-cb24-40e2-b315-8f8d1ea14240",
+                  "name": "Details of the token.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/x-www-form-urlencoded"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "urlencoded",
+                      "urlencoded": [
+                        {
+                          "description": "(Required) The token to be introspected.",
+                          "key": "token",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "A hint about the token type being queried in the request.",
+                          "key": "token_type_hint",
+                          "value": "access_token"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/oauth2/introspect",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "oauth2",
+                        "introspect"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"active\": \"<boolean>\",\n  \"aud\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"client_id\": \"<string>\",\n  \"exp\": \"<integer>\",\n  \"iat\": \"<integer>\"\n}",
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-a71e945f-cb24-40e2-b315-8f8d1ea14240"
+                },
+                {
+                  "id": "8477c268-2b2a-4f58-a3da-48907525521b",
+                  "name": "Bad request.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/x-www-form-urlencoded"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "urlencoded",
+                      "urlencoded": [
+                        {
+                          "description": "(Required) The token to be introspected.",
+                          "key": "token",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "A hint about the token type being queried in the request.",
+                          "key": "token_type_hint",
+                          "value": "access_token"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/oauth2/introspect",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "oauth2",
+                        "introspect"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": \"<string>\",\n  \"error_description\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-8477c268-2b2a-4f58-a3da-48907525521b"
+                },
+                {
+                  "id": "d2374f0d-891e-4e21-8e6b-2d5382641ea7",
+                  "name": "Invalid credentials.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/x-www-form-urlencoded"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "urlencoded",
+                      "urlencoded": [
+                        {
+                          "description": "(Required) The token to be introspected.",
+                          "key": "token",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "A hint about the token type being queried in the request.",
+                          "key": "token_type_hint",
+                          "value": "access_token"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/oauth2/introspect",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "oauth2",
+                        "introspect"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-d2374f0d-891e-4e21-8e6b-2d5382641ea7"
+                },
+                {
+                  "id": "d04bc233-a6ce-4fd3-846a-96813db4ee9b",
+                  "name": "Request was throttled.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/x-www-form-urlencoded"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "urlencoded",
+                      "urlencoded": [
+                        {
+                          "description": "(Required) The token to be introspected.",
+                          "key": "token",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "A hint about the token type being queried in the request.",
+                          "key": "token_type_hint",
+                          "value": "access_token"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/oauth2/introspect",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "oauth2",
+                        "introspect"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-d04bc233-a6ce-4fd3-846a-96813db4ee9b"
+                }
+              ],
+              "createdAt": "2026-06-05T15:10:16.000Z",
+              "updatedAt": "2026-06-05T15:10:16.000Z",
+              "uid": "35240-c77a2d20-593e-4a37-8d9c-8b95eb4ed7b3"
+            }
+          ],
+          "id": "65a20b72-4027-4fea-b887-ac71ba22cfeb",
+          "createdAt": "2026-06-05T15:10:16.000Z",
+          "updatedAt": "2026-06-05T15:10:16.000Z",
+          "uid": "35240-65a20b72-4027-4fea-b887-ac71ba22cfeb"
+        },
+        {
+          "name": "revoke",
+          "item": [
+            {
+              "name": "Revoke token",
+              "id": "4aa8ca74-9d7e-42d0-8651-c7e0ea62798d",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/x-www-form-urlencoded"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "description": "(Required) The token to be revoked.",
+                      "key": "token",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "(Required) The `client_id` of your application.",
+                      "key": "client_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "The `client_secret` of your application. Required for backend apps only.",
+                      "key": "client_secret",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "The type of token to be revoked.",
+                      "key": "token_type_hint",
+                      "value": "access_token"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/oauth2/revoke",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "oauth2",
+                    "revoke"
+                  ]
+                },
+                "description": "Use this endpoint to invalidate an access or refresh token. The token will no longer be valid for use."
+              },
+              "response": [
+                {
+                  "id": "b7210684-e9e4-42aa-b0ad-24b07e7a9076",
+                  "name": "Token successfully revoked.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/x-www-form-urlencoded"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "urlencoded",
+                      "urlencoded": [
+                        {
+                          "description": "(Required) The token to be revoked.",
+                          "key": "token",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The `client_id` of your application.",
+                          "key": "client_id",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The `client_secret` of your application. Required for backend apps only.",
+                          "key": "client_secret",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The type of token to be revoked.",
+                          "key": "token_type_hint",
+                          "value": "access_token"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/oauth2/revoke",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "oauth2",
+                        "revoke"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-b7210684-e9e4-42aa-b0ad-24b07e7a9076"
+                },
+                {
+                  "id": "6da18b43-31cd-439d-bcb3-d7d062fb3048",
+                  "name": "Invalid request.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/x-www-form-urlencoded"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "urlencoded",
+                      "urlencoded": [
+                        {
+                          "description": "(Required) The token to be revoked.",
+                          "key": "token",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The `client_id` of your application.",
+                          "key": "client_id",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The `client_secret` of your application. Required for backend apps only.",
+                          "key": "client_secret",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The type of token to be revoked.",
+                          "key": "token_type_hint",
+                          "value": "access_token"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/oauth2/revoke",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "oauth2",
+                        "revoke"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-6da18b43-31cd-439d-bcb3-d7d062fb3048"
+                },
+                {
+                  "id": "a69d208d-1788-43dc-b52e-54e2e7ab8c79",
+                  "name": "Bad request.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/x-www-form-urlencoded"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "urlencoded",
+                      "urlencoded": [
+                        {
+                          "description": "(Required) The token to be revoked.",
+                          "key": "token",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The `client_id` of your application.",
+                          "key": "client_id",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The `client_secret` of your application. Required for backend apps only.",
+                          "key": "client_secret",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The type of token to be revoked.",
+                          "key": "token_type_hint",
+                          "value": "access_token"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/oauth2/revoke",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "oauth2",
+                        "revoke"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": \"<string>\",\n  \"error_description\": \"<string>\"\n}",
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-a69d208d-1788-43dc-b52e-54e2e7ab8c79"
+                },
+                {
+                  "id": "70b259d4-ecc1-48da-9031-cc54f05c57e4",
+                  "name": "Unauthorized - invalid credentials.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/x-www-form-urlencoded"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "urlencoded",
+                      "urlencoded": [
+                        {
+                          "description": "(Required) The token to be revoked.",
+                          "key": "token",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The `client_id` of your application.",
+                          "key": "client_id",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The `client_secret` of your application. Required for backend apps only.",
+                          "key": "client_secret",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The type of token to be revoked.",
+                          "key": "token_type_hint",
+                          "value": "access_token"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/oauth2/revoke",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "oauth2",
+                        "revoke"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-70b259d4-ecc1-48da-9031-cc54f05c57e4"
+                },
+                {
+                  "id": "4002241b-950b-45b6-9e72-244906b2a567",
+                  "name": "Too many requests. Request was throttled.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/x-www-form-urlencoded"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "urlencoded",
+                      "urlencoded": [
+                        {
+                          "description": "(Required) The token to be revoked.",
+                          "key": "token",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) The `client_id` of your application.",
+                          "key": "client_id",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The `client_secret` of your application. Required for backend apps only.",
+                          "key": "client_secret",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "The type of token to be revoked.",
+                          "key": "token_type_hint",
+                          "value": "access_token"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/oauth2/revoke",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "oauth2",
+                        "revoke"
+                      ]
+                    }
+                  },
+                  "status": "Too Many Requests",
+                  "code": 429,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"errors\": [\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\"\n    },\n    {\n      \"code\": \"<string>\",\n      \"message\": \"<string>\"\n    }\n  ]\n}",
+                  "createdAt": "2026-06-05T15:10:16.000Z",
+                  "updatedAt": "2026-06-05T15:10:16.000Z",
+                  "uid": "35240-4002241b-950b-45b6-9e72-244906b2a567"
+                }
+              ],
+              "createdAt": "2026-06-05T15:10:16.000Z",
+              "updatedAt": "2026-06-05T15:10:16.000Z",
+              "uid": "35240-4aa8ca74-9d7e-42d0-8651-c7e0ea62798d"
+            }
+          ],
+          "id": "510a5310-de91-4f74-87a5-22493651b8b1",
+          "createdAt": "2026-06-05T15:10:16.000Z",
+          "updatedAt": "2026-06-05T15:10:16.000Z",
+          "uid": "35240-510a5310-de91-4f74-87a5-22493651b8b1"
+        }
+      ],
+      "id": "e674796a-cb44-4bf5-88ba-521687e08d2a",
+      "createdAt": "2026-06-05T15:10:16.000Z",
+      "updatedAt": "2026-06-05T15:10:16.000Z",
+      "uid": "35240-e674796a-cb44-4bf5-88ba-521687e08d2a"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "/"
+    }
+  ]
+}
