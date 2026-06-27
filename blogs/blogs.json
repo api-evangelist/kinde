@@ -2,11 +2,11 @@
   "repo": "kinde",
   "feeds": [
     {
-      "source": "https://kinde.com/blog/",
+      "source": "https://kinde.com/blog/rss.xml",
       "feed_url": "https://kinde.com/blog/rss.xml",
       "title": "",
       "saved": 0,
-      "method": "discovered"
+      "method": "feed"
     },
     {
       "source": "https://kinde.com/pricing/",
@@ -17,5 +17,5 @@
     }
   ],
   "post_count": 0,
-  "fetched": "2026-06-14T20:42:17Z"
+  "fetched": "2026-06-27T12:03:07Z"
 }

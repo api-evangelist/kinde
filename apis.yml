@@ -142,41 +142,38 @@ apis:
 common:
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/kinde/overview
-  - type: ArazzoWorkflows
-    url: arazzo/
-    workflows:
-      - url: arazzo/kinde-assign-org-user-role-workflow.yml
-        name: Kinde Assign Organization User Role
-        summary: Find an existing user by email and grant them a role within an organization.
-      - url: arazzo/kinde-create-organization-with-users-workflow.yml
-        name: Kinde Create Organization with Users
-        summary: Stand up a new organization and seed it with existing users and roles.
-      - url: arazzo/kinde-create-role-with-permission-workflow.yml
-        name: Kinde Create Role with Permission
-        summary: Create a permission, create a role, and attach the permission to the role.
-      - url: arazzo/kinde-end-user-self-serve-portal-workflow.yml
-        name: Kinde End User Self-Serve Portal
-        summary: Read the signed-in user's profile, roles, and entitlements, then mint a self-serve portal link.
-      - url: arazzo/kinde-invite-user-to-organization-workflow.yml
-        name: Kinde Invite User to Organization
-        summary: Validate roles, create an organization invitation, and poll until it is sent.
-      - url: arazzo/kinde-migrate-user-with-password-workflow.yml
-        name: Kinde Migrate User with Password
-        summary: Create a user with an email identity and import their existing hashed password.
-      - url: arazzo/kinde-provision-user-workflow.yml
-        name: Kinde Provision User into Organization
-        summary: Create a user, add them to an organization, and grant a role in one pass.
-      - url: arazzo/kinde-register-application-with-connection-workflow.yml
-        name: Kinde Register Application with Connection
-        summary: Create an application, set its callback URLs, create a social connection, and enable it.
-      - url: arazzo/kinde-rollout-feature-flag-workflow.yml
-        name: Kinde Roll Out Feature Flag to Organization
-        summary: Create an org-overridable feature flag and set its value for one organization.
+  - type: Arazzo
+    url: arazzo/kinde-assign-org-user-role-workflow.yml
+    name: Kinde Assign Organization User Role
+  - type: Arazzo
+    url: arazzo/kinde-create-organization-with-users-workflow.yml
+    name: Kinde Create Organization with Users
+  - type: Arazzo
+    url: arazzo/kinde-create-role-with-permission-workflow.yml
+    name: Kinde Create Role with Permission
+  - type: Arazzo
+    url: arazzo/kinde-end-user-self-serve-portal-workflow.yml
+    name: Kinde End User Self-Serve Portal
+  - type: Arazzo
+    url: arazzo/kinde-invite-user-to-organization-workflow.yml
+    name: Kinde Invite User to Organization
+  - type: Arazzo
+    url: arazzo/kinde-migrate-user-with-password-workflow.yml
+    name: Kinde Migrate User with Password
+  - type: Arazzo
+    url: arazzo/kinde-provision-user-workflow.yml
+    name: Kinde Provision User into Organization
+  - type: Arazzo
+    url: arazzo/kinde-register-application-with-connection-workflow.yml
+    name: Kinde Register Application with Connection
+  - type: Arazzo
+    url: arazzo/kinde-rollout-feature-flag-workflow.yml
+    name: Kinde Roll Out Feature Flag to Organization
   - type: Portal
     url: https://docs.kinde.com
-  - type: SignIn
+  - type: Login
     url: https://app.kinde.com/admin
-  - type: SignUp
+  - type: Signup
     url: https://app.kinde.com/register
   - type: Pricing
     url: https://kinde.com/pricing/
@@ -188,9 +185,9 @@ common:
     url: https://status.kinde.com/history.rss
   - type: StatusPageAtom
     url: https://status.kinde.com/history.atom
-  - type: Changelog
+  - type: ChangeLog
     url: https://updates.kinde.com
-  - type: Roadmap
+  - type: RoadMap
     url: https://updates.kinde.com/board
   - type: GitHub
     url: https://github.com/kinde-oss
@@ -212,96 +209,96 @@ common:
     url: vocabulary/kinde-vocabulary.yml
   - type: JSONLD
     url: json-ld/kinde-context.jsonld
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-typescript-sdk
     x-language: TypeScript
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-auth-nextjs
     x-language: TypeScript
     x-framework: Next.js
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-auth-react
     x-language: TypeScript
     x-framework: React
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-auth-pkce-js
     x-language: JavaScript
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-nodejs-sdk
     x-language: JavaScript
     x-framework: Node.js
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-node-express
     x-language: TypeScript
     x-framework: Express
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-node-express-api
     x-language: JavaScript
     x-framework: Express
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-remix-sdk
     x-language: TypeScript
     x-framework: Remix
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-auth-remix-sdk
     x-language: JavaScript
     x-framework: Remix
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-sveltekit-sdk
     x-language: TypeScript
     x-framework: SvelteKit
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/nuxt-kinde
     x-language: TypeScript
     x-framework: Nuxt
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-tsr
     x-language: TypeScript
     x-framework: TanStack Start
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-python-sdk
     x-language: Python
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-go
     x-language: Go
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-java-sdk
     x-language: Java
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-dotnet-sdk
     x-language: C#
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-php-sdk
     x-language: PHP
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-ruby-sdk
     x-language: Ruby
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-elixir-sdk
     x-language: Elixir
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-auth-wordpress
     x-language: PHP
     x-framework: WordPress
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-flutter-sdk
     x-language: Dart
     x-framework: Flutter
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-sdk-ios
     x-language: Swift
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-sdk-android
     x-language: Kotlin
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/expo
     x-language: TypeScript
     x-framework: Expo
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/kinde-react-native-sdk-0-7x
     x-language: TypeScript
     x-framework: React Native
-  - type: SDK
+  - type: SDKs
     url: https://github.com/kinde-oss/management-api-js
     x-language: TypeScript
     x-description: Generated JavaScript client for the Kinde Management API
@@ -347,7 +344,7 @@ common:
   - type: Documentation
     url: https://github.com/kinde-oss/documentation
     x-description: Source of the public Kinde documentation site (Astro/MDX)
-  - type: LLMsTxt
+  - type: LlmsText
     url: https://docs.kinde.com/llms.txt
 maintainers:
   - FN: Kin Lane
