@@ -140,6 +140,14 @@ apis:
       - type: Documentation
         url: https://docs.kinde.com/mcp-server/about-mcp-server/
 common:
+  - type: TrustCenter
+    url: security/kinde-trust-center.yml
+  - type: VulnerabilityDisclosure
+    url: security/kinde-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/kinde-domain-security.yml
+  - type: Authentication
+    url: authentication/kinde-authentication.yml
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/kinde/overview
   - type: Arazzo

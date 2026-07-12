@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/kinde-frontend-api-openapi.yml, openapi/kinde-management-api-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: kindeBearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: To access these endpoints, you will need to use a user token. This can be obtained
+    when your users sign in via the methods you've setup in Kinde (e.g. Google, passwordless,
+    etc). Find this using the getToken command in the relevant SDK.
+  sources:
+  - openapi/kinde-frontend-api-openapi.yml
+  - openapi/kinde-management-api-openapi.yml
