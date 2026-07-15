@@ -140,6 +140,8 @@ apis:
       - type: Documentation
         url: https://docs.kinde.com/mcp-server/about-mcp-server/
 common:
+  - type: AgenticAccess
+    url: agentic-access/kinde-agentic-access.yml
   - type: TrustCenter
     url: security/kinde-trust-center.yml
   - type: VulnerabilityDisclosure
