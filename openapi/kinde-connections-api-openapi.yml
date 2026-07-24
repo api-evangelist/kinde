@@ -1,0 +1,1021 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Kinde Account API Keys Connections API
+  description: '
+
+    Provides endpoints to operate on an authenticated user.
+
+
+    ## Intro
+
+
+    ## How to use
+
+
+    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+
+
+    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+
+    '
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  contact:
+    name: Kinde Support Team
+    email: support@kinde.com
+    url: https://docs.kinde.com
+tags:
+- name: Connections
+  x-displayName: Connections
+paths:
+  /api/v1/connections:
+    servers: []
+    get:
+      tags:
+      - Connections
+      operationId: GetConnections
+      x-scope: read:connections
+      description: "Returns a list of authentication connections. Optionally you can filter this by a home realm domain.\n\n<div>\n  <code>read:connections</code>\n</div>\n"
+      summary: Get connections
+      parameters:
+      - name: page_size
+        in: query
+        description: Number of results per page. Defaults to 10 if parameter not sent.
+        schema:
+          type: integer
+          nullable: true
+      - name: home_realm_domain
+        in: query
+        description: Filter the results by the home realm domain.
+        schema:
+          example: myapp.com
+          type: string
+          nullable: true
+      - name: starting_after
+        in: query
+        description: The ID of the connection to start after.
+        schema:
+          type: string
+          nullable: true
+      - name: ending_before
+        in: query
+        description: The ID of the connection to end before.
+        schema:
+          type: string
+          nullable: true
+      responses:
+        '200':
+          description: Connections successfully retrieved.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_connections_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_connections_response'
+        '400':
+          description: Invalid request.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+    post:
+      tags:
+      - Connections
+      operationId: CreateConnection
+      x-scope: create:connections
+      description: "Create Connection.\n\n<div>\n  <code>create:connections</code>\n</div>\n"
+      summary: Create Connection
+      requestBody:
+        description: Connection details.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: The internal name of the connection.
+                  type: string
+                  nullable: false
+                display_name:
+                  description: The public facing name of the connection.
+                  type: string
+                  nullable: false
+                strategy:
+                  description: The identity provider identifier for the connection.
+                  type: string
+                  enum:
+                  - oauth2:apple
+                  - oauth2:azure_ad
+                  - oauth2:bitbucket
+                  - oauth2:discord
+                  - oauth2:facebook
+                  - oauth2:github
+                  - oauth2:gitlab
+                  - oauth2:google
+                  - oauth2:linkedin
+                  - oauth2:microsoft
+                  - oauth2:patreon
+                  - oauth2:slack
+                  - oauth2:stripe
+                  - oauth2:twitch
+                  - oauth2:twitter
+                  - oauth2:xero
+                  - saml:custom
+                  - saml:cloudflare
+                  - saml:okta
+                  - saml:microsoft
+                  - saml:google
+                  - wsfed:azure_ad
+                  nullable: false
+                enabled_applications:
+                  description: Client IDs of applications in which this connection is to be enabled.
+                  type: array
+                  items:
+                    type: string
+                organization_code:
+                  description: Enterprise connections only - the code for organization that manages this connection.
+                  type: string
+                  nullable: true
+                  example: org_80581732fbe
+                options:
+                  oneOf:
+                  - type: object
+                    description: Social connection options (e.g., Google SSO).
+                    properties:
+                      client_id:
+                        type: string
+                        description: OAuth client ID.
+                        example: hji7db2146af332akfldfded22
+                      client_secret:
+                        type: string
+                        description: OAuth client secret.
+                        example: 19fkjdalg521l23fassf3039d4ae18b
+                      is_use_custom_domain:
+                        type: boolean
+                        description: Use custom domain callback URL.
+                        example: true
+                      is_trusted:
+                        type: boolean
+                        description: Trust this connection for account merging.
+                        example: true
+                  - type: object
+                    description: Azure AD connection options.
+                    properties:
+                      client_id:
+                        type: string
+                        description: Client ID.
+                        example: hji7db2146af332akfldfded22
+                      client_secret:
+                        type: string
+                        description: Client secret.
+                        example: 19fkjdalg521l23fassf3039d4ae18b
+                      home_realm_domains:
+                        type: array
+                        items:
+                          type: string
+                        description: List of domains to limit authentication.
+                        example:
+                        - '@kinde.com'
+                        - '@kinde.io'
+                      entra_id_domain:
+                        type: string
+                        description: Domain for Entra ID.
+                        example: kinde.com
+                      is_use_common_endpoint:
+                        type: boolean
+                        description: Use https://login.windows.net/common instead of a default endpoint.
+                        example: true
+                      is_sync_user_profile_on_login:
+                        type: boolean
+                        description: Sync user profile data with IDP.
+                        example: true
+                      is_retrieve_provider_user_groups:
+                        type: boolean
+                        description: Include user group info from MS Entra ID.
+                        example: true
+                      is_extended_attributes_required:
+                        type: boolean
+                        description: Include additional user profile information.
+                        example: true
+                      is_auto_join_organization_enabled:
+                        type: boolean
+                        description: Users automatically join organization when using this connection.
+                        example: true
+                      is_create_missing_user:
+                        type: boolean
+                        description: Create a user record in Kinde if the user signing in does not exist.
+                        example: true
+                      is_force_show_sso_button:
+                        type: boolean
+                        description: Force showing the SSO button for this connection.
+                        example: false
+                      upstream_params:
+                        type: object
+                        description: Additional upstream parameters to pass to the identity provider.
+                        additionalProperties: true
+                        example:
+                          prompt:
+                            value: select_account
+                      is_use_custom_domain:
+                        type: boolean
+                        description: Use custom domain callback URL.
+                        example: true
+                      is_trusted:
+                        type: boolean
+                        description: Trust this connection for account merging.
+                        example: true
+                  - type: object
+                    description: SAML connection options (e.g., Cloudflare SAML).
+                    properties:
+                      home_realm_domains:
+                        type: array
+                        items:
+                          type: string
+                        description: List of domains to restrict authentication.
+                        example:
+                        - '@kinde.com'
+                        - '@kinde.io'
+                      saml_entity_id:
+                        type: string
+                        description: SAML Entity ID.
+                        example: https://kinde.com
+                      saml_idp_metadata_url:
+                        type: string
+                        description: URL for the IdP metadata.
+                        example: https://kinde.com/saml/metadata
+                      saml_sign_in_url:
+                        type: string
+                        description: Override the default SSO endpoint with a URL your IdP recognizes.
+                        example: https://kinde.com/saml/signin
+                      sign_request_algorithm:
+                        type: string
+                        description: Algorithm used to sign SAML requests.
+                        enum:
+                        - RSA-SHA256
+                        - RSA-SHA1
+                        example: RSA-SHA256
+                      protocol_binding:
+                        type: string
+                        description: Protocol binding used to send SAML requests.
+                        enum:
+                        - HTTP-REDIRECT
+                        - HTTP-POST
+                        example: HTTP-REDIRECT
+                      name_id_format:
+                        type: string
+                        description: Format for the Name ID used to identify users in SAML responses.
+                        enum:
+                        - Persistent
+                        - Transient
+                        - Email address
+                        - Unspecified
+                        example: Persistent
+                      saml_email_key_attr:
+                        type: string
+                        description: Attribute key for the user's email.
+                        example: email
+                      saml_user_id_key_attr:
+                        type: string
+                        description: Attribute key for the user's ID.
+                        example: user_id
+                      saml_first_name_key_attr:
+                        type: string
+                        description: Attribute key for the user's first name.
+                        example: given_name
+                      saml_last_name_key_attr:
+                        type: string
+                        description: Attribute key for the user's last name.
+                        example: family_name
+                      is_create_missing_user:
+                        type: boolean
+                        description: Create user if they don't exist.
+                        example: true
+                      is_force_show_sso_button:
+                        type: boolean
+                        description: Force showing the SSO button for this connection.
+                        example: false
+                      upstream_params:
+                        type: object
+                        description: Additional upstream parameters to pass to the identity provider.
+                        additionalProperties: true
+                        example:
+                          prompt:
+                            value: select_account
+                      saml_signing_certificate:
+                        type: string
+                        description: Certificate for signing SAML requests.
+                        example: '-----BEGIN CERTIFICATE-----
+
+                          MIIDdTCCAl2gAwIBAgIEUjZoyDANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExEjAQBgNVBAcMCVNhbiBGcmFuYzEXMBUGA1UECgwOQ2xv
+
+                          -----END CERTIFICATE-----'
+                      saml_signing_private_key:
+                        type: string
+                        description: Private key associated with the signing certificate.
+                        example: '-----BEGIN PRIVATE KEY-----
+
+                          MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCy5+KLjTzF6tvl
+
+                          -----END PRIVATE KEY-----'
+                      is_auto_join_organization_enabled:
+                        type: boolean
+                        description: Users automatically join organization when using this connection.
+                        example: true
+                      is_use_custom_domain:
+                        type: boolean
+                        description: Use custom domain callback URL.
+                        example: true
+                      is_trusted:
+                        type: boolean
+                        description: Trust this connection for account merging.
+                        example: true
+      responses:
+        '201':
+          description: Connection successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_connection_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/connections/{connection_id}:
+    servers: []
+    get:
+      tags:
+      - Connections
+      operationId: GetConnection
+      description: "Get Connection.\n\n<div>\n  <code>read:connections</code>\n</div>\n"
+      summary: Get Connection
+      parameters:
+      - name: connection_id
+        in: path
+        description: The unique identifier for the connection.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Connection successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connection'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    patch:
+      tags:
+      - Connections
+      operationId: UpdateConnection
+      description: "Update Connection.\n\n<div>\n  <code>update:connections</code>\n</div>\n"
+      summary: Update Connection
+      parameters:
+      - name: connection_id
+        in: path
+        description: The unique identifier for the connection.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: The fields of the connection to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: The internal name of the connection.
+                  type: string
+                  nullable: false
+                  example: ConnectionA
+                display_name:
+                  description: The public facing name of the connection.
+                  type: string
+                  nullable: false
+                  example: Connection
+                enabled_applications:
+                  description: Client IDs of applications in which this connection is to be enabled.
+                  type: array
+                  example:
+                  - c647dbe20f5944e28af97c9184fded22
+                  - 20bbffaa4c5e492a962273039d4ae18b
+                  items:
+                    type: string
+                options:
+                  oneOf:
+                  - type: object
+                    description: Social connection options (e.g., Google SSO).
+                    properties:
+                      client_id:
+                        type: string
+                        description: OAuth client ID.
+                        example: hji7db2146af332akfldfded22
+                      client_secret:
+                        type: string
+                        description: OAuth client secret.
+                        example: 19fkjdalg521l23fassf3039d4ae18b
+                      is_use_custom_domain:
+                        type: boolean
+                        description: Use custom domain callback URL.
+                        example: true
+                      is_trusted:
+                        type: boolean
+                        description: Trust this connection for account merging.
+                        example: true
+                  - type: object
+                    description: Azure AD connection options.
+                    properties:
+                      client_id:
+                        type: string
+                        description: Client ID.
+                        example: hji7db2146af332akfldfded22
+                      client_secret:
+                        type: string
+                        description: Client secret.
+                        example: 19fkjdalg521l23fassf3039d4ae18b
+                      home_realm_domains:
+                        type: array
+                        items:
+                          type: string
+                        description: List of domains to limit authentication.
+                        example:
+                        - '@kinde.com'
+                        - '@kinde.io'
+                      entra_id_domain:
+                        type: string
+                        description: Domain for Entra ID.
+                        example: kinde.com
+                      is_use_common_endpoint:
+                        type: boolean
+                        description: Use https://login.windows.net/common instead of a default endpoint.
+                        example: true
+                      is_sync_user_profile_on_login:
+                        type: boolean
+                        description: Sync user profile data with IDP.
+                        example: true
+                      is_retrieve_provider_user_groups:
+                        type: boolean
+                        description: Include user group info from MS Entra ID.
+                        example: true
+                      is_extended_attributes_required:
+                        type: boolean
+                        description: Include additional user profile information.
+                        example: true
+                      is_create_missing_user:
+                        type: boolean
+                        description: Create users if they don't exist in the system.
+                        example: true
+                      is_force_show_sso_button:
+                        type: boolean
+                        description: Force showing the SSO button for this connection.
+                        example: false
+                      upstream_params:
+                        type: object
+                        description: Additional upstream parameters to pass to the identity provider.
+                        additionalProperties: true
+                        example:
+                          prompt:
+                            value: select_account
+                      is_use_custom_domain:
+                        type: boolean
+                        description: Use custom domain callback URL.
+                        example: true
+                      is_trusted:
+                        type: boolean
+                        description: Trust this connection for account merging.
+                        example: true
+                  - type: object
+                    description: SAML connection options (e.g., Cloudflare SAML).
+                    properties:
+                      home_realm_domains:
+                        type: array
+                        items:
+                          type: string
+                        description: List of domains to restrict authentication.
+                        example:
+                        - '@kinde.com'
+                        - '@kinde.io'
+                      saml_entity_id:
+                        type: string
+                        description: SAML Entity ID.
+                        example: https://kinde.com
+                      saml_idp_metadata_url:
+                        type: string
+                        description: URL for the IdP metadata.
+                        example: https://kinde.com/saml/metadata
+                      saml_sign_in_url:
+                        type: string
+                        description: Override the default SSO endpoint with a URL your IdP recognizes.
+                        example: https://kinde.com/saml/signin
+                      sign_request_algorithm:
+                        type: string
+                        description: Algorithm used to sign SAML requests.
+                        enum:
+                        - RSA-SHA256
+                        - RSA-SHA1
+                        example: RSA-SHA256
+                      protocol_binding:
+                        type: string
+                        description: Protocol binding used to send SAML requests.
+                        enum:
+                        - HTTP-REDIRECT
+                        - HTTP-POST
+                        example: HTTP-REDIRECT
+                      name_id_format:
+                        type: string
+                        description: Format for the Name ID used to identify users in SAML responses.
+                        enum:
+                        - Persistent
+                        - Transient
+                        - Email address
+                        - Unspecified
+                        example: Persistent
+                      saml_email_key_attr:
+                        type: string
+                        description: Attribute key for the user's email.
+                        example: email
+                      saml_user_id_key_attr:
+                        type: string
+                        description: Attribute key for the user's ID.
+                        example: user_id
+                      saml_first_name_key_attr:
+                        type: string
+                        description: Attribute key for the user's first name.
+                        example: given_name
+                      saml_last_name_key_attr:
+                        type: string
+                        description: Attribute key for the user's last name.
+                        example: family_name
+                      is_create_missing_user:
+                        type: boolean
+                        description: Create user if they don't exist.
+                        example: true
+                      is_force_show_sso_button:
+                        type: boolean
+                        description: Force showing the SSO button for this connection.
+                        example: false
+                      upstream_params:
+                        type: object
+                        description: Additional upstream parameters to pass to the identity provider.
+                        additionalProperties: true
+                        example:
+                          prompt:
+                            value: select_account
+                      saml_signing_certificate:
+                        type: string
+                        description: Certificate for signing SAML requests.
+                        example: '-----BEGIN CERTIFICATE-----
+
+                          MIIDdTCCAl2gAwIBAgIEUjZoyDANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExEjAQBgNVBAcMCVNhbiBGcmFuYzEXMBUGA1UECgwOQ2xv
+
+                          -----END CERTIFICATE-----'
+                      saml_signing_private_key:
+                        type: string
+                        description: Private key associated with the signing certificate.
+                        example: '-----BEGIN PRIVATE KEY-----
+
+                          MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCy5+KLjTzF6tvl
+
+                          -----END PRIVATE KEY-----'
+                      is_use_custom_domain:
+                        type: boolean
+                        description: Use custom domain callback URL.
+                        example: true
+                      is_trusted:
+                        type: boolean
+                        description: Trust this connection for account merging.
+                        example: true
+      responses:
+        '200':
+          description: Connection successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    put:
+      tags:
+      - Connections
+      operationId: ReplaceConnection
+      description: "Replace Connection Config.\n\n<div>\n  <code>update:connections</code>\n</div>\n"
+      summary: Replace Connection
+      parameters:
+      - name: connection_id
+        in: path
+        description: The unique identifier for the connection.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: The complete connection configuration to replace the existing one.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: The internal name of the connection.
+                  type: string
+                  example: ConnectionA
+                  nullable: false
+                display_name:
+                  description: The public-facing name of the connection.
+                  type: string
+                  example: Connection
+                  nullable: false
+                enabled_applications:
+                  description: Client IDs of applications in which this connection is to be enabled.
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - c647dbe20f5944e28af97c9184fded22
+                  - 20bbffaa4c5e492a962273039d4ae18b
+                options:
+                  oneOf:
+                  - type: object
+                    description: Social connection options (e.g., Google SSO).
+                    properties:
+                      client_id:
+                        type: string
+                        description: OAuth client ID.
+                        example: hji7db2146af332akfldfded22
+                      client_secret:
+                        type: string
+                        description: OAuth client secret.
+                        example: 19fkjdalg521l23fassf3039d4ae18b
+                      is_use_custom_domain:
+                        type: boolean
+                        description: Use custom domain callback URL.
+                        example: true
+                      is_trusted:
+                        type: boolean
+                        description: Trust this connection for account merging.
+                        example: true
+                  - type: object
+                    description: Azure AD connection options.
+                    properties:
+                      client_id:
+                        type: string
+                        description: Client ID.
+                        example: hji7db2146af332akfldfded22
+                      client_secret:
+                        type: string
+                        description: Client secret.
+                        example: 19fkjdalg521l23fassf3039d4ae18b
+                      home_realm_domains:
+                        type: array
+                        items:
+                          type: string
+                        description: List of domains to limit authentication.
+                        example:
+                        - '@kinde.com'
+                        - '@kinde.io'
+                      entra_id_domain:
+                        type: string
+                        description: Domain for Entra ID.
+                        example: kinde.com
+                      is_use_common_endpoint:
+                        type: boolean
+                        description: Use https://login.windows.net/common instead of a default endpoint.
+                        example: true
+                      is_sync_user_profile_on_login:
+                        type: boolean
+                        description: Sync user profile data with IDP.
+                        example: true
+                      is_retrieve_provider_user_groups:
+                        type: boolean
+                        description: Include user group info from MS Entra ID.
+                        example: true
+                      is_extended_attributes_required:
+                        type: boolean
+                        description: Include additional user profile information.
+                        example: true
+                      is_create_missing_user:
+                        type: boolean
+                        description: Create a user record in Kinde if the user signing in does not exist.
+                        example: true
+                      is_force_show_sso_button:
+                        type: boolean
+                        description: Force showing the SSO button for this connection.
+                        example: false
+                      upstream_params:
+                        type: object
+                        description: Additional upstream parameters to pass to the identity provider.
+                        additionalProperties: true
+                        example:
+                          prompt:
+                            value: select_account
+                      is_use_custom_domain:
+                        type: boolean
+                        description: Use custom domain callback URL.
+                        example: true
+                      is_trusted:
+                        type: boolean
+                        description: Trust this connection for account merging.
+                        example: true
+                  - type: object
+                    description: SAML connection options (e.g., Cloudflare SAML).
+                    properties:
+                      home_realm_domains:
+                        type: array
+                        items:
+                          type: string
+                        description: List of domains to restrict authentication.
+                        example:
+                        - '@kinde.com'
+                        - '@kinde.io'
+                      saml_entity_id:
+                        type: string
+                        description: SAML Entity ID.
+                        example: https://kinde.com
+                      saml_idp_metadata_url:
+                        type: string
+                        description: URL for the IdP metadata.
+                        example: https://kinde.com/saml/metadata
+                      sign_request_algorithm:
+                        type: string
+                        description: Algorithm used to sign SAML requests.
+                        enum:
+                        - RSA-SHA256
+                        - RSA-SHA1
+                        example: RSA-SHA256
+                      protocol_binding:
+                        type: string
+                        description: Protocol binding used to send SAML requests.
+                        enum:
+                        - HTTP-REDIRECT
+                        - HTTP-POST
+                        example: HTTP-REDIRECT
+                      name_id_format:
+                        type: string
+                        description: Format for the Name ID used to identify users in SAML responses.
+                        enum:
+                        - Persistent
+                        - Transient
+                        - Email address
+                        - Unspecified
+                        example: Persistent
+                      saml_email_key_attr:
+                        type: string
+                        description: Attribute key for the user's email.
+                        example: email
+                      saml_user_id_key_attr:
+                        type: string
+                        description: Attribute key for the user's ID.
+                        example: user_id
+                      saml_first_name_key_attr:
+                        type: string
+                        description: Attribute key for the user's first name.
+                        example: given_name
+                      saml_last_name_key_attr:
+                        type: string
+                        description: Attribute key for the user's last name.
+                        example: family_name
+                      is_create_missing_user:
+                        type: boolean
+                        description: Create user if they don't exist.
+                        example: true
+                      is_force_show_sso_button:
+                        type: boolean
+                        description: Force showing the SSO button for this connection.
+                        example: false
+                      upstream_params:
+                        type: object
+                        description: Additional upstream parameters to pass to the identity provider.
+                        additionalProperties: true
+                        example:
+                          prompt:
+                            value: select_account
+                      saml_signing_certificate:
+                        type: string
+                        description: Certificate for signing SAML requests.
+                        example: '-----BEGIN CERTIFICATE-----
+
+                          MIIDdTCCAl2gAwIBAgIEUjZoyDANBgkqhkiG9w0BAQsFADBzMQswCQYDVQQGEwJVUzELMAkGA1UECAwCQ0ExEjAQBgNVBAcMCVNhbiBGcmFuYzEXMBUGA1UECgwOQ2xv
+
+                          -----END CERTIFICATE-----'
+                      saml_signing_private_key:
+                        type: string
+                        description: Private key associated with the signing certificate.
+                        example: '-----BEGIN PRIVATE KEY-----
+
+                          MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCy5+KLjTzF6tvl
+
+                          -----END PRIVATE KEY-----'
+                      is_use_custom_domain:
+                        type: boolean
+                        description: Use custom domain callback URL.
+                        example: true
+                      is_trusted:
+                        type: boolean
+                        description: Trust this connection for account merging.
+                        example: true
+      responses:
+        '200':
+          description: Connection successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    delete:
+      tags:
+      - Connections
+      operationId: deleteConnection
+      description: "Delete connection.\n\n<div>\n  <code>delete:connections</code>\n</div>\n"
+      summary: Delete Connection
+      parameters:
+      - name: connection_id
+        in: path
+        description: The identifier for the connection.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Connection successfully deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '404':
+          $ref: '#/components/responses/not_found'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+components:
+  responses:
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    not_found:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/not_found_response'
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+  schemas:
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    not_found_response:
+      type: object
+      properties:
+        errors:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ROUTE_NOT_FOUND
+            message:
+              type: string
+              example: The requested API route does not exist
+    create_connection_response:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        connection:
+          type: object
+          properties:
+            id:
+              description: The connection's ID.
+              type: string
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    get_connections_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/connection'
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+    connection:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        connection:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            display_name:
+              type: string
+            strategy:
+              type: string
+  securitySchemes:
+    kindeBearerAuth:
+      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+
+        '
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

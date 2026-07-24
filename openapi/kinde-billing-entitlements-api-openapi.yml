@@ -1,0 +1,203 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Kinde Account API Keys Billing Entitlements API
+  description: '
+
+    Provides endpoints to operate on an authenticated user.
+
+
+    ## Intro
+
+
+    ## How to use
+
+
+    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+
+
+    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+
+    '
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  contact:
+    name: Kinde Support Team
+    email: support@kinde.com
+    url: https://docs.kinde.com
+tags:
+- name: Billing Entitlements
+  x-displayName: Billing Entitlements
+paths:
+  /api/v1/billing/entitlements:
+    servers: []
+    get:
+      tags:
+      - Billing Entitlements
+      operationId: getBillingEntitlements
+      x-scope: read:billing_entitlements
+      description: "Returns all the entitlements a billing customer currently has access to\n\n<div>\n  <code>read:billing_entitlements</code>\n</div>\n"
+      summary: Get billing entitlements
+      parameters:
+      - name: page_size
+        in: query
+        required: false
+        description: Number of results per page. Defaults to 10 if parameter not sent.
+        schema:
+          type: integer
+          nullable: true
+      - name: starting_after
+        in: query
+        required: false
+        description: The ID of the billing entitlement to start after.
+        schema:
+          type: string
+          nullable: true
+      - name: ending_before
+        in: query
+        required: false
+        description: The ID of the billing entitlement to end before.
+        schema:
+          type: string
+          nullable: true
+      - name: customer_id
+        in: query
+        description: The ID of the billing customer to retrieve entitlements for
+        required: true
+        schema:
+          type: string
+          nullable: false
+      - name: max_value
+        in: query
+        description: When the maximum limit of an entitlement is null, this value is returned as the maximum limit
+        schema:
+          type: string
+          nullable: true
+      - name: expand
+        in: query
+        description: 'Additional plan data to include in the response. Allowed value: "plans".'
+        required: false
+        schema:
+          type: string
+          nullable: true
+          enum:
+          - plans
+      responses:
+        '200':
+          description: Billing entitlements successfully retrieved.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_billing_entitlements_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_billing_entitlements_response'
+        '400':
+          description: Invalid request.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+components:
+  schemas:
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    get_billing_entitlements_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+        entitlements:
+          type: array
+          description: A list of entitlements
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: The friendly id of an entitlement
+                example: entitlement_0195ac80a14e8d71f42b98e75d3c61ad
+              fixed_charge:
+                type: integer
+                description: The price charged if this is an entitlement for a fixed charged
+                example: 35
+              price_name:
+                type: string
+                description: The name of the price associated with the entitlement
+                example: Pro gym
+              unit_amount:
+                type: integer
+                description: The price charged for this entitlement in cents
+              feature_code:
+                type: string
+                description: The feature code of the feature corresponding to this entitlement
+                example: CcdkvEXpbg6UY
+              feature_name:
+                type: string
+                description: The feature name of the feature corresponding to this entitlement
+                example: Pro Gym
+              entitlement_limit_max:
+                type: integer
+                description: The maximum number of units of the feature the customer is entitled to
+              entitlement_limit_min:
+                type: integer
+                description: The minimum number of units of the feature the customer is entitled to
+        plans:
+          type: array
+          description: A list of plans.
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                description: The plan code the billing customer is subscribed to
+              subscribed_on:
+                type: string
+                format: date-time
+                example: '2024-11-18T13:32:03+11'
+  securitySchemes:
+    kindeBearerAuth:
+      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+
+        '
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

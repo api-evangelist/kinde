@@ -1,0 +1,707 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Kinde Account API Keys Applications API
+  description: '
+
+    Provides endpoints to operate on an authenticated user.
+
+
+    ## Intro
+
+
+    ## How to use
+
+
+    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+
+
+    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+
+    '
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  contact:
+    name: Kinde Support Team
+    email: support@kinde.com
+    url: https://docs.kinde.com
+tags:
+- name: Applications
+  x-displayName: Applications
+paths:
+  /api/v1/applications:
+    servers: []
+    get:
+      tags:
+      - Applications
+      operationId: getApplications
+      x-scope: read:applications
+      summary: Get applications
+      description: "Get a list of applications / clients.\n\n<div>\n  <code>read:applications</code>\n</div>\n"
+      parameters:
+      - name: sort
+        in: query
+        description: Field and order to sort the result by.
+        schema:
+          type: string
+          nullable: true
+          enum:
+          - name_asc
+          - name_desc
+      - name: page_size
+        in: query
+        description: Number of results per page. Defaults to 10 if parameter not sent.
+        schema:
+          type: integer
+          nullable: true
+      - name: next_token
+        in: query
+        description: A string to get the next page of results if there are more results.
+        schema:
+          type: string
+          nullable: true
+      responses:
+        '200':
+          description: A successful response with a list of applications or an empty list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_applications_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    post:
+      tags:
+      - Applications
+      operationId: createApplication
+      x-scope: create:applications
+      summary: Create application
+      description: "Create a new client.\n\n<div>\n  <code>create:applications</code>\n</div>\n"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: The application's name.
+                  type: string
+                  example: React Native app
+                type:
+                  description: The application's type. Use `reg` for regular server rendered applications, `spa` for single-page applications, `m2m` for machine-to-machine applications, and `device` for devices and IoT.
+                  type: string
+                  enum:
+                  - reg
+                  - spa
+                  - m2m
+                  - device
+                org_code:
+                  description: Scope an M2M application to an org (Plus plan required).
+                  type: string
+                  example: org_1234567890abcdef
+                  nullable: true
+              required:
+              - name
+              - type
+      responses:
+        '201':
+          description: Application successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_application_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/applications/{application_id}:
+    servers: []
+    get:
+      tags:
+      - Applications
+      operationId: getApplication
+      summary: Get application
+      description: "Gets an application given the application's ID.\n\n<div>\n  <code>read:applications</code>\n</div>\n"
+      parameters:
+      - name: application_id
+        in: path
+        description: The identifier for the application.
+        required: true
+        schema:
+          type: string
+          nullable: false
+          example: 20bbffaa4c5e492a962273039d4ae18b
+      responses:
+        '200':
+          description: Application successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_application_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    patch:
+      tags:
+      - Applications
+      operationId: updateApplication
+      summary: Update Application
+      description: "Updates a client's settings. For more information, read [Applications in Kinde](https://docs.kinde.com/build/applications/about-applications)\n\n<div>\n  <code>update:applications</code>\n</div>\n"
+      parameters:
+      - name: application_id
+        in: path
+        description: The identifier for the application.
+        required: true
+        schema:
+          type: string
+          example: 20bbffaa4c5e492a962273039d4ae18b
+      requestBody:
+        description: Application details.
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: The application's name.
+                  type: string
+                language_key:
+                  description: The application's language key.
+                  type: string
+                logout_uris:
+                  description: The application's logout uris.
+                  type: array
+                  items:
+                    type: string
+                redirect_uris:
+                  description: The application's redirect uris.
+                  type: array
+                  items:
+                    type: string
+                login_uri:
+                  description: The default login route for resolving session issues.
+                  type: string
+                homepage_uri:
+                  description: The homepage link to your application.
+                  type: string
+      responses:
+        '200':
+          description: Application successfully updated.
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    delete:
+      tags:
+      - Applications
+      operationId: deleteApplication
+      summary: Delete application
+      description: "Delete a client / application.\n\n<div>\n  <code>delete:applications</code>\n</div>\n"
+      parameters:
+      - name: application_id
+        in: path
+        description: The identifier for the application.
+        required: true
+        schema:
+          type: string
+          example: 20bbffaa4c5e492a962273039d4ae18b
+      responses:
+        '200':
+          description: Application successfully deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/applications/{application_id}/connections:
+    servers: []
+    get:
+      tags:
+      - Applications
+      operationId: GetApplicationConnections
+      description: "Gets all connections for an application.\n\n<div>\n  <code>read:application_connections</code>\n</div>\n"
+      summary: Get connections
+      parameters:
+      - name: application_id
+        in: path
+        description: The identifier/client ID for the application.
+        required: true
+        schema:
+          type: string
+          nullable: false
+          example: 20bbffaa4c5e492a962273039d4ae18b
+      responses:
+        '200':
+          description: Application connections successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_connections_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/applications/{application_id}/connections/{connection_id}:
+    servers: []
+    post:
+      tags:
+      - Applications
+      operationId: EnableConnection
+      summary: Enable connection
+      description: "Enable an auth connection for an application.\n\n<div>\n  <code>create:application_connections</code>\n</div>\n"
+      parameters:
+      - name: application_id
+        in: path
+        description: The identifier/client ID for the application.
+        required: true
+        schema:
+          type: string
+          example: 20bbffaa4c5e492a962273039d4ae18b
+      - name: connection_id
+        in: path
+        description: The identifier for the connection.
+        required: true
+        schema:
+          type: string
+          example: conn_0192c16abb53b44277e597d31877ba5b
+      responses:
+        '200':
+          description: Connection successfully enabled.
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    delete:
+      tags:
+      - Applications
+      operationId: RemoveConnection
+      summary: Remove connection
+      description: "Turn off an auth connection for an application\n\n<div>\n  <code>delete:application_connections</code>\n</div>\n"
+      parameters:
+      - name: application_id
+        in: path
+        description: The identifier/client ID for the application.
+        required: true
+        schema:
+          type: string
+          example: 20bbffaa4c5e492a962273039d4ae18b
+      - name: connection_id
+        in: path
+        description: The identifier for the connection.
+        required: true
+        schema:
+          type: string
+          example: conn_0192c16abb53b44277e597d31877ba5b
+      responses:
+        '200':
+          description: Connection successfully removed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/applications/{application_id}/properties:
+    servers: []
+    parameters:
+    - $ref: '#/components/parameters/application_id'
+    get:
+      tags:
+      - Applications
+      operationId: getApplicationPropertyValues
+      summary: Get property values
+      description: "Gets properties for an application by client ID.\n\n<div>\n  <code>read:application_properties</code>\n</div>\n"
+      responses:
+        '200':
+          description: Properties successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_property_values_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/applications/{application_id}/properties/{property_key}:
+    servers: []
+    parameters:
+    - $ref: '#/components/parameters/application_id'
+    - $ref: '#/components/parameters/property_key'
+    put:
+      tags:
+      - Applications
+      operationId: updateApplicationsProperty
+      summary: Update property
+      description: "Update application property value.\n\n<div>\n  <code>update:application_properties</code>\n</div>\n"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  oneOf:
+                  - type: string
+                  - type: boolean
+                  description: The new value for the property
+                  example: Some new value
+              required:
+              - value
+      responses:
+        '200':
+          description: Property successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/applications/{application_id}/tokens:
+    servers: []
+    patch:
+      tags:
+      - Applications
+      operationId: updateApplicationTokens
+      summary: Update application tokens
+      description: "Configure tokens for an application.\n  <div>\n    <code>update:application_tokens</code>\n  </div>\n"
+      parameters:
+      - name: application_id
+        in: path
+        description: The identifier/client ID for the application.
+        required: true
+        schema:
+          type: string
+          example: 20bbffaa4c5e492a962273039d4ae18b
+      requestBody:
+        description: Application tokens.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                access_token_lifetime:
+                  description: The lifetime of an access token in seconds.
+                  type: integer
+                  example: 3600
+                refresh_token_lifetime:
+                  description: The lifetime of a refresh token in seconds.
+                  type: integer
+                  example: 86400
+                id_token_lifetime:
+                  description: The lifetime of an ID token in seconds.
+                  type: integer
+                  example: 3600
+                authenticated_session_lifetime:
+                  description: The lifetime of an authenticated session in seconds.
+                  type: integer
+                  example: 86400
+                is_hasura_mapping_enabled:
+                  description: Enable or disable Hasura mapping.
+                  type: boolean
+                  example: true
+      responses:
+        '200':
+          description: Application tokens successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+components:
+  responses:
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+  schemas:
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    get_application_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        application:
+          type: object
+          properties:
+            id:
+              description: The application's identifier.
+              type: string
+              example: 3b0b5c6c8fcc464fab397f4969b5f482
+            name:
+              description: The application's name.
+              type: string
+              example: My React app
+            type:
+              description: The application's type.
+              type: string
+              enum:
+              - m2m
+              - reg
+              - spa
+            client_id:
+              description: The application's client ID.
+              type: string
+              example: 3b0b5c6c8fcc464fab397f4969b5f482
+            client_secret:
+              description: The application's client secret.
+              type: string
+              example: sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC
+            login_uri:
+              description: The default login route for resolving session issues.
+              type: string
+              example: https://yourapp.com/api/auth/login
+            homepage_uri:
+              description: The homepage link to your application.
+              type: string
+              example: https://yourapp.com
+            has_cancel_button:
+              description: Whether the application has a cancel button to allow users to exit the auth flow [Beta].
+              type: boolean
+              example: false
+    get_applications_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        applications:
+          type: array
+          items:
+            $ref: '#/components/schemas/applications'
+        next_token:
+          description: Pagination token.
+          type: string
+    create_application_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        application:
+          type: object
+          properties:
+            id:
+              description: The application's identifier.
+              type: string
+              example: 3b0b5c6c8fcc464fab397f4969b5f482
+            client_id:
+              description: The application's client ID.
+              type: string
+              example: 3b0b5c6c8fcc464fab397f4969b5f482
+            client_secret:
+              description: The application's client secret.
+              type: string
+              example: sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC
+    property_value:
+      type: object
+      properties:
+        id:
+          type: string
+          example: prop_0192b7e8b4f8ca08110d2b22059662a8
+        name:
+          type: string
+          example: Town
+        description:
+          type: string
+          example: Where the entity is located
+          nullable: true
+        key:
+          type: string
+          example: kp_town
+        value:
+          type: string
+          example: West-side Staines massive
+          nullable: true
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    get_connections_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/connection'
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+    connection:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        connection:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            display_name:
+              type: string
+            strategy:
+              type: string
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+    applications:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+    get_property_values_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/property_value'
+        next_token:
+          description: Pagination token.
+          type: string
+  parameters:
+    application_id:
+      in: path
+      name: application_id
+      description: The application's ID / client ID.
+      required: true
+      schema:
+        type: string
+        example: 3b0b5c6c8fcc464fab397f4969b5f482
+    property_key:
+      in: path
+      name: property_key
+      description: The property's key.
+      required: true
+      schema:
+        type: string
+        example: kp_some_key
+  securitySchemes:
+    kindeBearerAuth:
+      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+
+        '
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,337 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Kinde Account API Keys Environment variables API
+  description: '
+
+    Provides endpoints to operate on an authenticated user.
+
+
+    ## Intro
+
+
+    ## How to use
+
+
+    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+
+
+    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+
+    '
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  contact:
+    name: Kinde Support Team
+    email: support@kinde.com
+    url: https://docs.kinde.com
+tags:
+- name: Environment variables
+  x-displayName: Environment variables
+paths:
+  /api/v1/environment_variables:
+    servers: []
+    get:
+      tags:
+      - Environment variables
+      operationId: getEnvironmentVariables
+      x-scope: read:environment_variables
+      summary: Get environment variables
+      description: "Get environment variables. This feature is in beta and admin UI is not yet available.\n\n<div>\n  <code>read:environment_variables</code>\n</div>\n"
+      responses:
+        '200':
+          description: A successful response with a list of environment variables or an empty list.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_environment_variables_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    post:
+      tags:
+      - Environment variables
+      operationId: createEnvironmentVariable
+      x-scope: create:environment_variables
+      summary: Create environment variable
+      description: "Create a new environment variable. This feature is in beta and admin UI is not yet available.\n\n<div>\n  <code>create:environment_variables</code>\n</div>\n"
+      requestBody:
+        description: The environment variable details.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                  description: The name of the environment variable (max 128 characters).
+                  example: MY_API_KEY
+                value:
+                  type: string
+                  description: The value of the new environment variable (max 2048 characters).
+                  example: some-secret-value
+                is_secret:
+                  type: boolean
+                  description: Whether the environment variable is sensitive. Secrets are not-readable by you or your team after creation.
+                  example: false
+              required:
+              - key
+              - value
+      responses:
+        '201':
+          description: Environment variable successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_environment_variable_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/environment_variables/{variable_id}:
+    servers: []
+    parameters:
+    - $ref: '#/components/parameters/variable_id'
+    get:
+      tags:
+      - Environment variables
+      operationId: getEnvironmentVariable
+      x-scope: read:environment_variables
+      summary: Get environment variable
+      description: "Retrieve environment variable details by ID. This feature is in beta and admin UI is not yet available.\n\n<div>\n  <code>read:environment_variables</code>\n</div>\n"
+      responses:
+        '200':
+          description: Environment variable successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_environment_variable_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    patch:
+      tags:
+      - Environment variables
+      operationId: updateEnvironmentVariable
+      x-scope: update:environment_variables
+      summary: Update environment variable
+      description: "Update an environment variable you previously created. This feature is in beta and admin UI is not yet available.\n\n<div>\n  <code>update:environment_variables</code>\n</div>\n"
+      requestBody:
+        description: The new details for the environment variable
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                  description: The key to update.
+                  example: MY_API_KEY
+                value:
+                  type: string
+                  description: The new value for the environment variable.
+                  example: new-secret-value
+                is_secret:
+                  type: boolean
+                  description: Whether the environment variable is sensitive. Secret variables are not-readable by you or your team after creation.
+      responses:
+        '200':
+          description: Environment variable successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/update_environment_variable_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    delete:
+      tags:
+      - Environment variables
+      operationId: deleteEnvironmentVariable
+      x-scope: delete:environment_variables
+      summary: Delete environment variable
+      description: "Delete an environment variable you previously created. This feature is in beta and admin UI is not yet available.\n\n<div>\n  <code>delete:environment_variables</code>\n</div>\n"
+      responses:
+        '200':
+          description: Environment variable successfully deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/delete_environment_variable_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+components:
+  schemas:
+    create_environment_variable_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A Kinde generated message.
+          example: Environment variable created
+        code:
+          type: string
+          description: A Kinde generated status code.
+          example: VARIABLE_CREATED
+        environment_variable:
+          type: object
+          properties:
+            id:
+              description: The unique ID for the environment variable.
+              type: string
+              example: env_var_0192b194f6156fb7452fe38cfb144958
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    delete_environment_variable_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A Kinde generated message.
+          example: Environment variable deleted
+        code:
+          type: string
+          description: A Kinde generated status code.
+          example: ENVIRONMENT_VARIABLE_DELETED
+    get_environment_variable_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        environment_variable:
+          $ref: '#/components/schemas/environment_variable'
+    update_environment_variable_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A Kinde generated message.
+          example: Environment variable updated
+        code:
+          type: string
+          description: A Kinde generated status code.
+          example: ENVIRONMENT_VARIABLE_UPDATED
+    environment_variable:
+      type: object
+      properties:
+        id:
+          description: The unique ID for the environment variable.
+          type: string
+          example: env_var_0192b1941f125645fa15bf28a662a0b3
+        key:
+          type: string
+          description: The name of the environment variable.
+          example: MY_API_KEY
+        value:
+          type: string
+          description: The value of the environment variable.
+          example: some-secret
+          nullable: true
+        is_secret:
+          type: boolean
+          description: Whether the environment variable is sensitive.
+          example: false
+        created_on:
+          type: string
+          description: The date the environment variable was created.
+          example: '2021-01-01T00:00:00Z'
+    get_environment_variables_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+        environment_variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/environment_variable'
+  responses:
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+  parameters:
+    variable_id:
+      in: path
+      name: variable_id
+      description: The environment variable's ID.
+      required: true
+      schema:
+        type: string
+        example: env_var_0192b1941f125645fa15bf28a662a0b3
+  securitySchemes:
+    kindeBearerAuth:
+      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+
+        '
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

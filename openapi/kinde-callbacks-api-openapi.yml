@@ -1,0 +1,456 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Kinde Account API Keys Callbacks API
+  description: '
+
+    Provides endpoints to operate on an authenticated user.
+
+
+    ## Intro
+
+
+    ## How to use
+
+
+    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+
+
+    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+
+    '
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  contact:
+    name: Kinde Support Team
+    email: support@kinde.com
+    url: https://docs.kinde.com
+tags:
+- name: Callbacks
+  x-displayName: Callbacks
+paths:
+  /api/v1/applications/{app_id}/auth_redirect_urls:
+    servers: []
+    get:
+      tags:
+      - Callbacks
+      operationId: getCallbackURLs
+      x-scope: read:applications_redirect_uris
+      description: "Returns an application's redirect callback URLs.\n\n<div>\n  <code>read:applications_redirect_uris</code>\n</div>\n"
+      summary: List Callback URLs
+      parameters:
+      - name: app_id
+        in: path
+        description: The identifier for the application.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Callback URLs successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/redirect_callback_urls'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/redirect_callback_urls'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+    post:
+      tags:
+      - Callbacks
+      operationId: addRedirectCallbackURLs
+      x-scope: create:applications_redirect_uris
+      description: "Add additional redirect callback URLs.\n\n<div>\n  <code>create:applications_redirect_uris</code>\n</div>\n"
+      summary: Add Redirect Callback URLs
+      parameters:
+      - name: app_id
+        in: path
+        description: The identifier for the application.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Callback details.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                urls:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of callback urls.
+      responses:
+        '200':
+          description: Callbacks successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+    put:
+      tags:
+      - Callbacks
+      operationId: replaceRedirectCallbackURLs
+      description: "Replace all redirect callback URLs.\n\n<div>\n  <code>update:applications_redirect_uris</code>\n</div>\n"
+      summary: Replace Redirect Callback URLs
+      parameters:
+      - name: app_id
+        in: path
+        description: The identifier for the application.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Callback details.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                urls:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of callback urls.
+      responses:
+        '200':
+          description: Callbacks successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+    delete:
+      tags:
+      - Callbacks
+      operationId: deleteCallbackURLs
+      description: "Delete callback URLs.\n\n<div>\n  <code>delete:applications_redirect_uris</code>\n</div>\n"
+      summary: Delete Callback URLs
+      parameters:
+      - name: app_id
+        in: path
+        description: The identifier for the application.
+        required: true
+        schema:
+          type: string
+      - name: urls
+        in: query
+        description: Urls to delete, comma separated and url encoded.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Callback URLs successfully deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+  /api/v1/applications/{app_id}/auth_logout_urls:
+    servers: []
+    get:
+      tags:
+      - Callbacks
+      operationId: getLogoutURLs
+      description: "Returns an application's logout redirect URLs.\n\n<div>\n  <code>read:application_logout_uris</code>\n</div>\n"
+      summary: List logout URLs
+      parameters:
+      - name: app_id
+        in: path
+        description: The identifier for the application.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Logout URLs successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/logout_redirect_urls'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    post:
+      tags:
+      - Callbacks
+      operationId: addLogoutRedirectURLs
+      description: "Add additional logout redirect URLs.\n\n<div>\n  <code>create:application_logout_uris</code>\n</div>\n"
+      summary: Add logout redirect URLs
+      parameters:
+      - name: app_id
+        in: path
+        description: The identifier for the application.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Callback details.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                urls:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of logout urls.
+      responses:
+        '200':
+          description: Logout URLs successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    put:
+      tags:
+      - Callbacks
+      operationId: replaceLogoutRedirectURLs
+      description: "Replace all logout redirect URLs.\n\n<div>\n  <code>update:application_logout_uris</code>\n</div>\n"
+      summary: Replace logout redirect URls
+      parameters:
+      - name: app_id
+        in: path
+        description: The identifier for the application.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Callback details.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                urls:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of logout urls.
+      responses:
+        '200':
+          description: Logout URLs successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    delete:
+      tags:
+      - Callbacks
+      operationId: deleteLogoutURLs
+      description: "Delete logout URLs.\n\n<div>\n  <code>delete:application_logout_uris</code>\n</div>\n"
+      summary: Delete Logout URLs
+      parameters:
+      - name: app_id
+        in: path
+        description: The identifier for the application.
+        required: true
+        schema:
+          type: string
+      - name: urls
+        in: query
+        description: Urls to delete, comma separated and url encoded.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Logout URLs successfully deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+components:
+  responses:
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+  schemas:
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    redirect_callback_urls:
+      type: object
+      properties:
+        redirect_urls:
+          type: array
+          description: An application's redirect URLs.
+          items:
+            type: string
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    logout_redirect_urls:
+      type: object
+      properties:
+        logout_urls:
+          type: array
+          description: An application's logout URLs.
+          items:
+            type: string
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+  securitySchemes:
+    kindeBearerAuth:
+      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+
+        '
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

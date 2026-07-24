@@ -1,0 +1,853 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Kinde Account API Keys Roles API
+  description: '
+
+    Provides endpoints to operate on an authenticated user.
+
+
+    ## Intro
+
+
+    ## How to use
+
+
+    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+
+
+    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+
+    '
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  contact:
+    name: Kinde Support Team
+    email: support@kinde.com
+    url: https://docs.kinde.com
+tags:
+- name: Roles
+  x-displayName: Roles
+paths:
+  /account_api/v1/roles:
+    servers: []
+    get:
+      tags:
+      - Roles
+      operationId: GetUserRoles
+      summary: Get roles
+      description: 'Returns all roles for the user
+
+        '
+      parameters:
+      - name: page_size
+        in: query
+        required: false
+        description: Number of results per page. Defaults to 10 if parameter not sent.
+        schema:
+          type: integer
+          nullable: true
+      - name: starting_after
+        in: query
+        required: false
+        description: The ID of the role to start after.
+        schema:
+          type: string
+          nullable: true
+          example: role_1234567890abcdef
+      responses:
+        '200':
+          description: Roles successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_user_roles_response'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+  /api/v1/roles:
+    servers: []
+    get:
+      tags:
+      - Roles
+      operationId: GetRoles
+      x-scope: read:roles
+      description: "The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.\n\n<div>\n  <code>read:roles</code>\n</div>\n"
+      summary: List roles
+      parameters:
+      - name: sort
+        in: query
+        description: Field and order to sort the result by.
+        schema:
+          type: string
+          nullable: true
+          enum:
+          - name_asc
+          - name_desc
+          - id_asc
+          - id_desc
+      - name: page_size
+        in: query
+        description: Number of results per page. Defaults to 10 if parameter not sent.
+        schema:
+          type: integer
+          nullable: true
+      - name: next_token
+        in: query
+        description: A string to get the next page of results if there are more results.
+        schema:
+          type: string
+          nullable: true
+      responses:
+        '200':
+          description: Roles successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_roles_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    post:
+      tags:
+      - Roles
+      operationId: CreateRole
+      x-scope: create:roles
+      description: "Create role.\n\n<div>\n  <code>create:roles</code>\n</div>\n"
+      summary: Create role
+      requestBody:
+        description: Role details.
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: The role's name.
+                  type: string
+                description:
+                  description: The role's description.
+                  type: string
+                key:
+                  description: The role identifier to use in code.
+                  type: string
+                is_default_role:
+                  description: Set role as default for new users.
+                  type: boolean
+                assignment_permission_id:
+                  description: The public ID of the permission required to assign this role to users. If null, no permission is required.
+                  type: string
+                  format: uuid
+                  nullable: true
+      responses:
+        '201':
+          description: Role successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_roles_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/roles/{role_id}:
+    servers: []
+    get:
+      tags:
+      - Roles
+      operationId: GetRole
+      x-scope: read:roles
+      description: "Get a role\n\n<div>\n  <code>read:roles</code>\n</div>\n"
+      summary: Get role
+      parameters:
+      - name: role_id
+        in: path
+        description: The identifier for the role.
+        schema:
+          type: string
+        required: true
+      responses:
+        '200':
+          description: Role successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_role_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    patch:
+      tags:
+      - Roles
+      operationId: UpdateRoles
+      x-scope: update:roles
+      description: "Update a role\n\n<div>\n  <code>update:roles</code>\n</div>\n"
+      summary: Update role
+      parameters:
+      - name: role_id
+        in: path
+        description: The identifier for the role.
+        schema:
+          type: string
+        required: true
+      requestBody:
+        description: Role details.
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: The role's name.
+                  type: string
+                description:
+                  description: The role's description.
+                  type: string
+                key:
+                  description: The role identifier to use in code.
+                  type: string
+                is_default_role:
+                  description: Set role as default for new users.
+                  type: boolean
+                assignment_permission_id:
+                  description: The public ID of the permission required to assign this role to users. If null, no change to the assignment permission is made. If set to 'NO_PERMISSION_REQUIRED', no permission is required.
+                  type: string
+                  format: uuid
+                  nullable: true
+              required:
+              - name
+              - key
+      responses:
+        '201':
+          description: Role successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    delete:
+      tags:
+      - Roles
+      operationId: DeleteRole
+      x-scope: delete:roles
+      description: "Delete role\n\n<div>\n  <code>delete:roles</code>\n</div>\n"
+      summary: Delete role
+      parameters:
+      - name: role_id
+        in: path
+        description: The identifier for the role.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Role successfully deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/roles/{role_id}/scopes:
+    servers: []
+    get:
+      tags:
+      - Roles
+      operationId: GetRoleScopes
+      x-scope: read:role_scopes
+      description: "Get scopes for a role.\n\n<div>\n  <code>read:role_scopes</code>\n</div>\n"
+      summary: Get role scopes
+      parameters:
+      - name: role_id
+        in: path
+        description: The role id.
+        required: true
+        schema:
+          type: string
+          nullable: false
+      responses:
+        '200':
+          description: A list of scopes for a role
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/role_scopes_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/role_scopes_response'
+        '400':
+          description: Error removing user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+    post:
+      tags:
+      - Roles
+      operationId: AddRoleScope
+      x-scope: create:role_scopes
+      description: "Add scope to role.\n\n<div>\n  <code>create:role_scopes</code>\n</div>\n"
+      summary: Add role scope
+      parameters:
+      - name: role_id
+        in: path
+        description: The role id.
+        required: true
+        schema:
+          type: string
+          nullable: false
+      requestBody:
+        description: Add scope to role.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                scope_id:
+                  description: The scope identifier.
+                  type: string
+              required:
+              - scope_id
+      responses:
+        '201':
+          description: Role scope successfully added.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/add_role_scope_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/roles/{role_id}/scopes/{scope_id}:
+    servers: []
+    delete:
+      tags:
+      - Roles
+      operationId: DeleteRoleScope
+      x-scope: delete:role_scopes
+      description: "Delete scope from role.\n\n<div>\n  <code>delete:role_scopes</code>\n</div>\n"
+      summary: Delete role scope
+      parameters:
+      - name: role_id
+        in: path
+        description: The role id.
+        required: true
+        schema:
+          type: string
+          nullable: false
+      - name: scope_id
+        in: path
+        description: The scope id.
+        required: true
+        schema:
+          type: string
+          nullable: false
+      responses:
+        '200':
+          description: Role scope successfully deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/delete_role_scope_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/roles/{role_id}/permissions:
+    servers: []
+    get:
+      tags:
+      - Roles
+      operationId: GetRolePermissions
+      x-scope: read:role_permissions
+      description: "Get permissions for a role.\n\n<div>\n  <code>read:role_permissions</code>\n</div>\n"
+      summary: Get role permissions
+      parameters:
+      - name: role_id
+        in: path
+        description: The role's public id.
+        required: true
+        schema:
+          type: string
+          nullable: false
+      - name: sort
+        in: query
+        description: Field and order to sort the result by.
+        schema:
+          type: string
+          nullable: true
+          enum:
+          - name_asc
+          - name_desc
+          - id_asc
+          - id_desc
+      - name: page_size
+        in: query
+        description: Number of results per page. Defaults to 10 if parameter not sent.
+        schema:
+          type: integer
+          nullable: true
+      - name: next_token
+        in: query
+        description: A string to get the next page of results if there are more results.
+        schema:
+          type: string
+          nullable: true
+      responses:
+        '200':
+          description: A list of permissions for a role
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/role_permissions_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/role_permissions_response'
+        '400':
+          description: Error removing user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+    patch:
+      tags:
+      - Roles
+      operationId: UpdateRolePermissions
+      x-scope: update:role_permissions
+      description: "Update role permissions.\n\n<div>\n  <code>update:role_permissions</code>\n</div>\n"
+      summary: Update role permissions
+      parameters:
+      - name: role_id
+        in: path
+        description: The identifier for the role.
+        required: true
+        schema:
+          type: string
+          nullable: false
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                permissions:
+                  description: Permissions to add or remove from the role.
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        description: The permission id.
+                        type: string
+                      operation:
+                        description: Optional operation, set to 'delete' to remove the permission from the role.
+                        type: string
+      responses:
+        '200':
+          description: Permissions successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/update_role_permissions_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/update_role_permissions_response'
+        '403':
+          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+  /api/v1/roles/{role_id}/permissions/{permission_id}:
+    servers: []
+    delete:
+      tags:
+      - Roles
+      operationId: RemoveRolePermission
+      x-scope: delete:role_permissions
+      description: "Remove a permission from a role.\n\n<div>\n  <code>delete:role_permissions</code>\n</div>\n"
+      summary: Remove role permission
+      parameters:
+      - name: role_id
+        in: path
+        description: The role's public id.
+        required: true
+        schema:
+          type: string
+          nullable: false
+      - name: permission_id
+        in: path
+        description: The permission's public id.
+        required: true
+        schema:
+          type: string
+          nullable: false
+      responses:
+        '200':
+          description: Permission successfully removed from role
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          description: Error removing user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+components:
+  schemas:
+    update_role_permissions_response:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        permissions_added:
+          type: array
+          items:
+            type: string
+        permissions_removed:
+          type: array
+          items:
+            type: string
+    roles:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The role's ID.
+        key:
+          type: string
+          description: The role identifier to use in code.
+        name:
+          type: string
+          description: The role's name.
+        description:
+          type: string
+          description: The role's description.
+          nullable: true
+        is_default_role:
+          type: boolean
+          description: Whether the role is the default role.
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    permissions:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The permission's ID.
+        key:
+          type: string
+          description: The permission identifier to use in code.
+        name:
+          type: string
+          description: The permission's name.
+        description:
+          type: string
+          description: The permission's description.
+    get_user_roles_response:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            org_code:
+              type: string
+              description: The organization code the roles are associated with.
+              example: org_0195ac80a14e
+            roles:
+              type: array
+              description: A list of roles
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The friendly ID of a role
+                    example: role_0195ac80a14e8d71f42b98e75d3c61ad
+                  name:
+                    type: string
+                    description: The name of the role
+                    example: Admin
+                  key:
+                    type: string
+                    description: The key of the role
+                    example: admin
+        metadata:
+          type: object
+          properties:
+            has_more:
+              type: boolean
+              description: Whether more records exist.
+              example: false
+            next_page_starting_after:
+              type: string
+              description: The ID of the last record on the current page.
+              example: role_0195ac80a14e8d71f42b98e75d3c61ad
+    scopes:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Scope ID.
+          example: api_scope_019541f3fa0c874fc47b3ae73585b21c
+        key:
+          type: string
+          description: Scope key.
+          example: create:users
+        description:
+          type: string
+          description: Description of scope.
+          example: Create users
+        api_id:
+          type: string
+          description: API ID.
+          example: 3635b4431f174de6b789c67481bd0c7a
+    get_roles_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/roles'
+        next_token:
+          description: Pagination token.
+          type: string
+    delete_role_scope_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: SCOPE_DELETED
+        message:
+          type: string
+          description: Response message.
+          example: Scope deleted from role
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    get_role_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        role:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The role's ID.
+              example: 01929904-316d-bb2c-069f-99dfea4ac394
+            key:
+              type: string
+              description: The role identifier to use in code.
+              example: admin
+            name:
+              type: string
+              description: The role's name.
+              example: Administrator
+            description:
+              type: string
+              description: The role's description.
+              example: Full access to all resources.
+            is_default_role:
+              type: boolean
+              description: Whether the role is the default role.
+              example: false
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+    create_roles_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        role:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The role's ID.
+    role_scopes_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        scopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/scopes'
+    add_role_scope_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: ROLE_SCOPE_ADDED
+        message:
+          type: string
+          description: Response message.
+          example: Scope added to role
+    role_permissions_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/permissions'
+        next_token:
+          type: string
+          description: Pagination token.
+  responses:
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+  securitySchemes:
+    kindeBearerAuth:
+      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+
+        '
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

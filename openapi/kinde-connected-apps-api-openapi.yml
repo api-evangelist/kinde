@@ -1,0 +1,254 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Kinde Account API Keys Connected Apps API
+  description: '
+
+    Provides endpoints to operate on an authenticated user.
+
+
+    ## Intro
+
+
+    ## How to use
+
+
+    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+
+
+    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+
+    '
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  contact:
+    name: Kinde Support Team
+    email: support@kinde.com
+    url: https://docs.kinde.com
+tags:
+- name: Connected Apps
+  x-displayName: Connected Apps
+paths:
+  /api/v1/connected_apps/auth_url:
+    servers: []
+    get:
+      tags:
+      - Connected Apps
+      operationId: GetConnectedAppAuthUrl
+      x-scope: read:connected_apps
+      description: "Get a URL that authenticates and authorizes a user to a third-party connected app.\n\n<div>\n  <code>read:connected_apps</code>\n</div>\n"
+      summary: Get Connected App URL
+      parameters:
+      - name: key_code_ref
+        in: query
+        description: The unique key code reference of the connected app to authenticate against.
+        schema:
+          type: string
+          nullable: false
+        required: true
+      - name: user_id
+        in: query
+        description: The id of the user that needs to authenticate to the third-party connected app.
+        schema:
+          type: string
+          nullable: false
+        required: false
+      - name: org_code
+        in: query
+        description: The code of the Kinde organization that needs to authenticate to the third-party connected app.
+        schema:
+          type: string
+          nullable: false
+        required: false
+      - name: override_callback_url
+        in: query
+        description: A URL that overrides the default callback URL setup in your connected app configuration
+        schema:
+          type: string
+          nullable: false
+        required: false
+      responses:
+        '200':
+          description: A URL that can be used to authenticate and a session id to identify this authentication session.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connected_apps_auth_url'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/connected_apps_auth_url'
+        '400':
+          description: Error retrieving connected app auth url.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+        '404':
+          description: Error retrieving connected app auth url.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+  /api/v1/connected_apps/token:
+    servers: []
+    get:
+      tags:
+      - Connected Apps
+      operationId: GetConnectedAppToken
+      x-scope: read:connected_apps
+      description: "Get an access token that can be used to call the third-party provider linked to the connected app.\n\n<div>\n  <code>read:connected_apps</code>\n</div>\n"
+      summary: Get Connected App Token
+      parameters:
+      - name: session_id
+        in: query
+        description: The unique sesssion id representing the login session of a user.
+        schema:
+          type: string
+          nullable: false
+        required: true
+      responses:
+        '200':
+          description: An access token that can be used to query a third-party provider, as well as the token's expiry time.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/connected_apps_access_token'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/connected_apps_access_token'
+        '400':
+          description: The session id provided points to an invalid session.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+  /api/v1/connected_apps/revoke:
+    servers: []
+    post:
+      tags:
+      - Connected Apps
+      operationId: RevokeConnectedAppToken
+      description: "Revoke the tokens linked to the connected app session.\n\n<div>\n  <code>create:connected_apps</code>\n</div>\n"
+      summary: Revoke Connected App Token
+      parameters:
+      - name: session_id
+        in: query
+        description: The unique sesssion id representing the login session of a user.
+        schema:
+          type: string
+          nullable: false
+        required: true
+      responses:
+        '200':
+          description: An access token that can be used to query a third-party provider, as well as the token's expiry time.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '405':
+          description: Invalid HTTP method used.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+components:
+  schemas:
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    connected_apps_auth_url:
+      type: object
+      properties:
+        url:
+          type: string
+          description: A URL that is used to authenticate an end-user against a connected app.
+        session_id:
+          type: string
+          description: A unique identifier for the login session.
+    connected_apps_access_token:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: The access token to access a third-party provider.
+        access_token_expiry:
+          type: string
+          description: The date and time that the access token expires.
+  securitySchemes:
+    kindeBearerAuth:
+      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+
+        '
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

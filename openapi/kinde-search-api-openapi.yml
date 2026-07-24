@@ -1,0 +1,250 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Kinde Account API Keys Search API
+  description: '
+
+    Provides endpoints to operate on an authenticated user.
+
+
+    ## Intro
+
+
+    ## How to use
+
+
+    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+
+
+    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+
+    '
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  contact:
+    name: Kinde Support Team
+    email: support@kinde.com
+    url: https://docs.kinde.com
+tags:
+- name: Search
+  x-displayName: Search
+paths:
+  /api/v1/search/users:
+    servers: []
+    get:
+      tags:
+      - Search
+      operationId: searchUsers
+      x-scope: read:users
+      description: "Search for users based on the provided query string. Set query to '*' to filter by other parameters only.\nThe number of records to return at a time can be controlled using the `page_size` query string parameter.\n\n<div>\n  <code>read:users</code>\n</div>\n"
+      summary: Search users
+      parameters:
+      - name: page_size
+        in: query
+        description: Number of results per page. Defaults to 10 if parameter not sent.
+        schema:
+          type: integer
+          nullable: true
+      - name: query
+        in: query
+        description: Search the users by email or name. Use '*' to search all.
+        schema:
+          type: string
+          nullable: true
+      - name: api_scopes
+        in: query
+        description: Search the users by api scopes.
+        schema:
+          type: string
+          nullable: true
+      - name: properties
+        in: query
+        required: false
+        style: deepObject
+        explode: true
+        schema:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+      - name: starting_after
+        in: query
+        description: The ID of the user to start after.
+        schema:
+          type: string
+          nullable: true
+      - name: ending_before
+        in: query
+        description: The ID of the user to end before.
+        schema:
+          type: string
+          nullable: true
+      - name: expand
+        in: query
+        description: 'Additional data to include in the response. One or more of (comma-separated): "organizations", "identities", "properties".'
+        required: false
+        schema:
+          type: string
+          nullable: true
+      responses:
+        '200':
+          description: Users successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/search_users_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+components:
+  responses:
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+  schemas:
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    search_users_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Unique ID of the user in Kinde.
+                example: kp_0ba7c433e5d648cf992621ce99d42817
+              provided_id:
+                type: string
+                description: External ID for user.
+                nullable: true
+                example: U123456
+              email:
+                type: string
+                description: Default email address of the user in Kinde.
+                nullable: true
+                example: user@domain.com
+              username:
+                type: string
+                description: Primary username of the user in Kinde.
+                nullable: true
+                example: john.snow
+              last_name:
+                type: string
+                description: User's last name.
+                example: Snow
+              first_name:
+                type: string
+                description: User's first name.
+                example: John
+              is_suspended:
+                type: boolean
+                description: Whether the user is currently suspended or not.
+                example: true
+              picture:
+                type: string
+                description: User's profile picture URL.
+                example: https://example.com/john_snow.jpg
+                nullable: true
+              total_sign_ins:
+                type: integer
+                description: Total number of user sign ins.
+                nullable: true
+                example: 1
+              failed_sign_ins:
+                type: integer
+                description: Number of consecutive failed user sign ins.
+                nullable: true
+                example: 0
+              last_signed_in:
+                type: string
+                description: Last sign in date in ISO 8601 format.
+                nullable: true
+                example: '2025-02-12T18:02:23.614638+00:00'
+              created_on:
+                type: string
+                description: Date of user creation in ISO 8601 format.
+                nullable: true
+                example: '2025-02-12T18:02:23.614638+00:00'
+              organizations:
+                type: array
+                description: Array of organizations a user belongs to.
+                items:
+                  type: string
+              identities:
+                type: array
+                description: Array of identities belonging to the user.
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    identity:
+                      type: string
+              properties:
+                type: object
+                description: The user properties.
+                additionalProperties:
+                  type: string
+              api_scopes:
+                type: array
+                description: Array of api scopes belonging to the user.
+                items:
+                  type: object
+                  properties:
+                    org_code:
+                      type: string
+                    scope:
+                      type: string
+                    api_id:
+                      type: string
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+  securitySchemes:
+    kindeBearerAuth:
+      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+
+        '
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

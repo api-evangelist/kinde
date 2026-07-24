@@ -1,0 +1,251 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Kinde Account API Keys Business API
+  description: '
+
+    Provides endpoints to operate on an authenticated user.
+
+
+    ## Intro
+
+
+    ## How to use
+
+
+    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+
+
+    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+
+    '
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  contact:
+    name: Kinde Support Team
+    email: support@kinde.com
+    url: https://docs.kinde.com
+tags:
+- name: Business
+  x-displayName: Business
+paths:
+  /api/v1/business:
+    servers: []
+    get:
+      tags:
+      - Business
+      operationId: getBusiness
+      x-scope: read:businesses
+      summary: Get business
+      description: "Get your business details.\n\n<div>\n  <code>read:businesses</code>\n</div>\n"
+      responses:
+        '200':
+          description: Your business details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_business_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    patch:
+      tags:
+      - Business
+      operationId: updateBusiness
+      x-scope: update:businesses
+      summary: Update business
+      description: "Update your business details.\n\n<div>\n  <code>update:businesses</code>\n</div>\n"
+      requestBody:
+        description: The business details to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                business_name:
+                  type: string
+                  description: The name of the business.
+                  example: Tailsforce Ltd
+                  nullable: true
+                email:
+                  type: string
+                  description: The email address of the business.
+                  example: sally@example.com
+                  nullable: true
+                industry_key:
+                  type: string
+                  description: The key of the industry of your business. Can be retrieved from the /industries endpoint.
+                  example: construction
+                  nullable: true
+                is_click_wrap:
+                  description: Whether the business is using clickwrap agreements.
+                  type: boolean
+                  example: false
+                  nullable: true
+                is_show_kinde_branding:
+                  description: Whether the business is showing Kinde branding. Requires a paid plan.
+                  type: boolean
+                  example: true
+                  nullable: true
+                kinde_perk_code:
+                  description: The Kinde perk code for the business.
+                  type: string
+                  nullable: true
+                phone:
+                  description: The phone number of the business.
+                  type: string
+                  example: 123-456-7890
+                  nullable: true
+                privacy_url:
+                  description: The URL to the business's privacy policy.
+                  type: string
+                  example: https://example.com/privacy
+                  nullable: true
+                terms_url:
+                  description: The URL to the business's terms of service.
+                  type: string
+                  example: https://example.com/terms
+                  nullable: true
+                timezone_key:
+                  description: The key of the timezone of your business. Can be retrieved from the /timezones endpoint.
+                  type: string
+                  example: los_angeles_pacific_standard_time
+                  nullable: true
+      responses:
+        '200':
+          description: Business successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+components:
+  responses:
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+  schemas:
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    get_business_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        business:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The unique ID for the business.
+              example: bus_c69fb73b091
+            name:
+              type: string
+              description: Your business's name.
+              example: Tailsforce Ltd
+            phone:
+              type: string
+              description: Phone number associated with business.
+              example: 555-555-5555
+              nullable: true
+            email:
+              type: string
+              description: Email address associated with business.
+              example: sally@example.com
+              nullable: true
+            industry:
+              type: string
+              description: The industry your business is in.
+              example: Healthcare & Medical
+              nullable: true
+            timezone:
+              type: string
+              description: The timezone your business is in.
+              example: Los Angeles (Pacific Standard Time)
+              nullable: true
+            privacy_url:
+              type: string
+              description: Your Privacy policy URL.
+              example: https://example.com/privacy
+              nullable: true
+            terms_url:
+              type: string
+              description: Your Terms and Conditions URL.
+              example: https://example.com/terms
+              nullable: true
+            has_clickwrap:
+              type: boolean
+              description: Whether your business uses clickwrap agreements.
+              example: false
+            has_kinde_branding:
+              type: boolean
+              description: Whether your business shows Kinde branding.
+              example: true
+            created_on:
+              type: string
+              description: Date of business creation in ISO 8601 format.
+              example: '2021-01-01T00:00:00Z'
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+  securitySchemes:
+    kindeBearerAuth:
+      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+
+        '
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

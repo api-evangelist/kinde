@@ -1,0 +1,277 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Kinde Account API Keys Property Categories API
+  description: '
+
+    Provides endpoints to operate on an authenticated user.
+
+
+    ## Intro
+
+
+    ## How to use
+
+
+    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+
+
+    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+
+    '
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  contact:
+    name: Kinde Support Team
+    email: support@kinde.com
+    url: https://docs.kinde.com
+tags:
+- name: Property Categories
+  x-displayName: Property Categories
+paths:
+  /api/v1/property_categories:
+    servers: []
+    get:
+      tags:
+      - Property Categories
+      operationId: GetCategories
+      x-scope: read:property_categories
+      description: "Returns a list of categories.\n\n<div>\n  <code>read:property_categories</code>\n</div>\n"
+      summary: List categories
+      parameters:
+      - name: page_size
+        in: query
+        description: Number of results per page. Defaults to 10 if parameter not sent.
+        schema:
+          type: integer
+          nullable: true
+      - name: starting_after
+        in: query
+        description: The ID of the category to start after.
+        schema:
+          type: string
+          nullable: true
+      - name: ending_before
+        in: query
+        description: The ID of the category to end before.
+        schema:
+          type: string
+          nullable: true
+      - name: context
+        in: query
+        description: Filter the results by User or Organization context
+        schema:
+          type: string
+          nullable: true
+          enum:
+          - usr
+          - org
+      responses:
+        '200':
+          description: Categories successfully retrieved.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_categories_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_categories_response'
+        '400':
+          description: Invalid request.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+          content:
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+    post:
+      tags:
+      - Property Categories
+      operationId: CreateCategory
+      x-scope: create:property_categories
+      description: "Create category.\n\n<div>\n  <code>create:property_categories</code>\n</div>\n"
+      summary: Create Category
+      requestBody:
+        description: Category details.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: The name of the category.
+                  type: string
+                  nullable: false
+                context:
+                  description: The context that the category applies to.
+                  type: string
+                  enum:
+                  - org
+                  - usr
+                  - app
+                  nullable: false
+              required:
+              - name
+              - context
+      responses:
+        '201':
+          description: Category successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_category_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/create_category_response'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+  /api/v1/property_categories/{category_id}:
+    servers: []
+    put:
+      tags:
+      - Property Categories
+      operationId: UpdateCategory
+      description: "Update category.\n\n<div>\n  <code>update:property_categories</code>\n</div>\n"
+      summary: Update Category
+      parameters:
+      - name: category_id
+        in: path
+        description: The unique identifier for the category.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: The fields of the category to update.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: The name of the category.
+                  type: string
+                  nullable: false
+      responses:
+        '200':
+          description: category successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+components:
+  schemas:
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    category:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    get_categories_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/category'
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    create_category_response:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        category:
+          type: object
+          properties:
+            id:
+              description: The category's ID.
+              type: string
+  securitySchemes:
+    kindeBearerAuth:
+      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+
+        '
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

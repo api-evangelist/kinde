@@ -1,0 +1,141 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Kinde Account API Keys MFA API
+  description: '
+
+    Provides endpoints to operate on an authenticated user.
+
+
+    ## Intro
+
+
+    ## How to use
+
+
+    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+
+
+    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+
+    '
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  contact:
+    name: Kinde Support Team
+    email: support@kinde.com
+    url: https://docs.kinde.com
+tags:
+- name: MFA
+  x-displayName: MFA
+paths:
+  /api/v1/mfa:
+    servers: []
+    put:
+      tags:
+      - MFA
+      operationId: ReplaceMFA
+      x-scope: update:mfa
+      description: "Replace MFA Configuration.\n\n<div>\n  <code>update:mfa</code>\n</div>\n"
+      summary: Replace MFA Configuration
+      requestBody:
+        description: MFA details.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                policy:
+                  description: Specifies whether MFA is required, optional, or not enforced.
+                  type: string
+                  enum:
+                  - required
+                  - 'off'
+                  - optional
+                  nullable: false
+                enabled_factors:
+                  description: The MFA methods to enable.
+                  type: array
+                  nullable: false
+                  items:
+                    type: string
+                    enum:
+                    - mfa:email
+                    - mfa:sms
+                    - mfa:authenticator_app
+                is_recovery_codes_enabled:
+                  description: Determines whether recovery codes are shown to users during MFA setup for the environment.
+                  type: boolean
+                  default: true
+              required:
+              - policy
+              - enabled_factors
+      responses:
+        '200':
+          description: MFA Configuration updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+components:
+  responses:
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+  schemas:
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+  securitySchemes:
+    kindeBearerAuth:
+      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+
+        '
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,633 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Kinde Account API Keys Environments API
+  description: '
+
+    Provides endpoints to operate on an authenticated user.
+
+
+    ## Intro
+
+
+    ## How to use
+
+
+    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+
+
+    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+
+    '
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  contact:
+    name: Kinde Support Team
+    email: support@kinde.com
+    url: https://docs.kinde.com
+tags:
+- name: Environments
+  x-displayName: Environments
+paths:
+  /api/v1/environment:
+    servers: []
+    get:
+      tags:
+      - Environments
+      operationId: getEnvironment
+      x-scope: read:environments
+      summary: Get environment
+      description: "Gets the current environment.\n\n<div>\n  <code>read:environments</code>\n</div>\n"
+      responses:
+        '200':
+          description: Environment successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_environment_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/environment/feature_flags:
+    servers: []
+    delete:
+      tags:
+      - Environments
+      operationId: DeleteEnvironementFeatureFlagOverrides
+      x-scope: delete:environment_feature_flags
+      description: "Delete all environment feature flag overrides.\n\n<div>\n  <code>delete:environment_feature_flags</code>\n</div>\n"
+      summary: Delete Environment Feature Flag Overrides
+      responses:
+        '200':
+          description: Feature flag overrides deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+    get:
+      tags:
+      - Environments
+      operationId: GetEnvironementFeatureFlags
+      x-scope: read:environment_feature_flags
+      description: "Get environment feature flags.\n\n<div>\n  <code>read:environment_feature_flags</code>\n</div>\n"
+      summary: List Environment Feature Flags
+      responses:
+        '200':
+          description: Feature flags retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_environment_feature_flags_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/get_environment_feature_flags_response'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+  /api/v1/environment/feature_flags/{feature_flag_key}:
+    servers: []
+    delete:
+      tags:
+      - Environments
+      operationId: DeleteEnvironementFeatureFlagOverride
+      description: "Delete environment feature flag override.\n\n<div>\n  <code>delete:environment_feature_flags</code>\n</div>\n"
+      summary: Delete Environment Feature Flag Override
+      parameters:
+      - name: feature_flag_key
+        in: path
+        description: The identifier for the feature flag.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Feature flag deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+    patch:
+      tags:
+      - Environments
+      operationId: UpdateEnvironementFeatureFlagOverride
+      description: "Update environment feature flag override.\n\n<div>\n  <code>update:environment_feature_flags</code>\n</div>\n"
+      summary: Update Environment Feature Flag Override
+      parameters:
+      - name: feature_flag_key
+        in: path
+        description: The identifier for the feature flag.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Flag details.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  description: The flag override value.
+                  type: string
+                  nullable: false
+              required:
+              - value
+      responses:
+        '200':
+          description: Feature flag override successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+  /api/v1/environment/logos:
+    servers: []
+    get:
+      tags:
+      - Environments
+      operationId: ReadLogo
+      description: "Read environment logo details\n\n<div>\n  <code>read:environments</code>\n</div>\n"
+      summary: Read logo details
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/read_env_logo_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/environment/logos/{type}:
+    servers: []
+    put:
+      tags:
+      - Environments
+      operationId: AddLogo
+      description: "Add environment logo\n\n<div>\n  <code>update:environments</code>\n</div>\n"
+      summary: Add logo
+      parameters:
+      - name: type
+        in: path
+        description: The type of logo to add.
+        required: true
+        schema:
+          type: string
+          example: dark
+          enum:
+          - dark
+          - light
+      requestBody:
+        description: Logo details.
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - logo
+              properties:
+                logo:
+                  type: string
+                  format: binary
+                  description: The logo file to upload.
+      responses:
+        '200':
+          description: Logo successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    delete:
+      tags:
+      - Environments
+      operationId: DeleteLogo
+      description: "Delete environment logo\n\n<div>\n  <code>update:environments</code>\n</div>\n"
+      summary: Delete logo
+      parameters:
+      - name: type
+        in: path
+        description: The type of logo to delete.
+        required: true
+        schema:
+          type: string
+          example: dark
+          enum:
+          - dark
+          - light
+      responses:
+        '200':
+          description: Logo successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '204':
+          description: No logo found to delete
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+components:
+  responses:
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+  schemas:
+    get_environment_feature_flags_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        feature_flags:
+          type: object
+          description: The environment's feature flag settings.
+          additionalProperties:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                - str
+                - int
+                - bool
+              value:
+                type: string
+        next_token:
+          type: string
+          description: Pagination token.
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    read_env_logo_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        logos:
+          type: array
+          description: A list of logos.
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: The type of logo (light or dark).
+                example: light
+              file_name:
+                type: string
+                description: The name of the logo file.
+                example: kinde_light.jpeg
+        message:
+          type: string
+          description: Response message.
+          example: Success
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    get_environment_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: success_response
+        environment:
+          type: object
+          properties:
+            code:
+              type: string
+              description: The unique identifier for the environment.
+              example: production
+            name:
+              type: string
+              description: The environment's name.
+              example: Production
+            hotjar_site_id:
+              type: string
+              description: Your HotJar site ID.
+              example: 404009
+              nullable: true
+            google_analytics_tag:
+              type: string
+              description: Your Google Analytics tag.
+              example: G-1234567
+              nullable: true
+            contentsquare_tag_id:
+              type: string
+              description: Your Contentsquare Tag ID.
+              example: 769238b6e1309
+              nullable: true
+            is_default:
+              type: boolean
+              description: Whether the environment is the default. Typically this is your production environment.
+              example: true
+            is_live:
+              type: boolean
+              description: Whether the environment is live.
+              example: true
+            kinde_domain:
+              type: string
+              description: Your domain on Kinde
+              example: example.kinde.com
+            custom_domain:
+              type: string
+              description: Your custom domain for the environment
+              nullable: true
+              example: app.example.com
+            logo:
+              type: string
+              nullable: true
+              description: The organization's logo URL.
+              example: https://yoursubdomain.kinde.com/logo?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+            logo_dark:
+              type: string
+              nullable: true
+              description: The organization's logo URL to be used for dark themes.
+              example: https://yoursubdomain.kinde.com/logo_dark?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+            favicon_svg:
+              type: string
+              nullable: true
+              description: The organization's SVG favicon URL. Optimal format for most browsers
+              example: https://yoursubdomain.kinde.com/favicon_svg?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+            favicon_fallback:
+              type: string
+              nullable: true
+              description: The favicon URL to be used as a fallback in browsers that don't support SVG, add a PNG
+              example: https://yoursubdomain.kinde.com/favicon_fallback?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+            link_color:
+              type: object
+              nullable: true
+              properties:
+                raw:
+                  type: string
+                  example: '#0056F1'
+                hex:
+                  type: string
+                  example: '#0056F1'
+                hsl:
+                  type: string
+                  example: hsl(220, 100%, 50%)
+            background_color:
+              nullable: true
+              type: object
+              properties:
+                raw:
+                  type: string
+                  example: '#ffffff'
+                hex:
+                  type: string
+                  example: '#ffffff'
+                hsl:
+                  type: string
+                  example: hsl(0, 0%, 100%)
+            button_color:
+              nullable: true
+              type: object
+              properties:
+                raw:
+                  type: string
+                  example: '#0056F1'
+                hex:
+                  type: string
+                  example: '#0056F1'
+                hsl:
+                  type: string
+                  example: hsl(220, 100%, 50%)
+            button_text_color:
+              nullable: true
+              type: object
+              properties:
+                raw:
+                  type: string
+                  example: '#ffffff'
+                hex:
+                  type: string
+                  example: '#ffffff'
+                hsl:
+                  type: string
+                  example: hsl(0, 0%, 100%)
+            link_color_dark:
+              type: object
+              nullable: true
+              properties:
+                raw:
+                  type: string
+                  example: '#0056F1'
+                hex:
+                  type: string
+                  example: '#0056F1'
+                hsl:
+                  type: string
+                  example: hsl(220, 100%, 50%)
+            background_color_dark:
+              type: object
+              nullable: true
+              properties:
+                raw:
+                  type: string
+                  example: '#0056F1'
+                hex:
+                  type: string
+                  example: '#0056F1'
+                hsl:
+                  type: string
+                  example: hsl(220, 100%, 50%)
+            button_text_color_dark:
+              type: object
+              nullable: true
+              properties:
+                raw:
+                  type: string
+                  example: '#0056F1'
+                hex:
+                  type: string
+                  example: '#0056F1'
+                hsl:
+                  type: string
+                  example: hsl(220, 100%, 50%)
+            button_color_dark:
+              type: object
+              nullable: true
+              properties:
+                raw:
+                  type: string
+                  example: '#0056F1'
+                hex:
+                  type: string
+                  example: '#0056F1'
+                hsl:
+                  type: string
+                  example: hsl(220, 100%, 50%)
+            button_border_radius:
+              type: integer
+              nullable: true
+              description: The border radius for buttons. Value is px, Kinde transforms to rem for rendering
+              example: 8
+            card_border_radius:
+              type: integer
+              nullable: true
+              description: The border radius for cards. Value is px, Kinde transforms to rem for rendering
+              example: 16
+            input_border_radius:
+              type: integer
+              nullable: true
+              description: The border radius for inputs. Value is px, Kinde transforms to rem for rendering
+              example: 4
+            theme_code:
+              type: string
+              description: Whether the environment is forced into light mode, dark mode or user preference
+              enum:
+              - light
+              - dark
+              - user_preference
+            color_scheme:
+              type: string
+              description: The color scheme for the environment used for meta tags based on the theme code
+              enum:
+              - light
+              - dark
+              - light dark
+            created_on:
+              type: string
+              description: Date of environment creation in ISO 8601 format.
+              example: '2021-01-01T00:00:00Z'
+  securitySchemes:
+    kindeBearerAuth:
+      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+
+        '
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

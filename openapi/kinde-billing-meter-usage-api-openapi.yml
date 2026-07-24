@@ -1,0 +1,144 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Kinde Account API Keys Billing Meter Usage API
+  description: '
+
+    Provides endpoints to operate on an authenticated user.
+
+
+    ## Intro
+
+
+    ## How to use
+
+
+    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+
+
+    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+
+    '
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  contact:
+    name: Kinde Support Team
+    email: support@kinde.com
+    url: https://docs.kinde.com
+tags:
+- name: Billing Meter Usage
+  x-displayName: Billing Meter Usage
+paths:
+  /api/v1/billing/meter_usage:
+    servers: []
+    post:
+      tags:
+      - Billing Meter Usage
+      operationId: createMeterUsageRecord
+      summary: Create meter usage record
+      description: "Create a new meter usage record\n\n<div>\n  <code>create:meter_usage</code>\n</div>\n"
+      requestBody:
+        description: Meter usage record
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - customer_agreement_id
+              - billing_feature_code
+              - meter_value
+              properties:
+                customer_agreement_id:
+                  description: The billing agreement against which to record usage
+                  type: string
+                  example: agreement_0195ac80a14c2ca2cec97d026d864de0
+                billing_feature_code:
+                  description: The code of the feature within the agreement against which to record usage
+                  type: string
+                  example: pro_gym
+                meter_value:
+                  description: The value of usage to record
+                  type: string
+                  example: pro_gym
+                meter_usage_timestamp:
+                  type: string
+                  format: date-time
+                  description: The date and time the usage needs to be recorded for (defaults to current date/time)
+                  example: '2024-11-18T13:32:03+11'
+                meter_type_code:
+                  type: string
+                  enum:
+                  - absolute
+                  - delta
+                  description: Absolutes overrides the current usage
+      responses:
+        '200':
+          description: Meter usage record successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_meter_usage_record_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+components:
+  responses:
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+  schemas:
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    create_meter_usage_record_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        code:
+          type: string
+          description: Response code.
+          example: OK
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+  securitySchemes:
+    kindeBearerAuth:
+      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+
+        '
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

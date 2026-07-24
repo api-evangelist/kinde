@@ -1,0 +1,341 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Kinde Account API Keys Feature flags API
+  description: '
+
+    Provides endpoints to operate on an authenticated user.
+
+
+    ## Intro
+
+
+    ## How to use
+
+
+    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+
+
+    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+
+    '
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  contact:
+    name: Kinde Support Team
+    email: support@kinde.com
+    url: https://docs.kinde.com
+tags:
+- name: Feature flags
+  x-displayName: Feature flags
+paths:
+  /account_api/v1/feature_flags:
+    servers: []
+    get:
+      tags:
+      - Feature flags
+      operationId: GetFeatureFlags
+      summary: Get feature flags
+      description: 'Returns all the feature flags that affect the user
+
+        '
+      parameters:
+      - name: page_size
+        in: query
+        required: false
+        description: Number of results per page. Defaults to 10 if parameter not sent.
+        schema:
+          type: integer
+          nullable: true
+      - name: starting_after
+        in: query
+        required: false
+        description: The ID of the flag to start after.
+        schema:
+          type: string
+          nullable: true
+          example: flag_1234567890abcdef
+      responses:
+        '200':
+          description: Feature flags successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_feature_flags_response'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+  /api/v1/feature_flags:
+    servers: []
+    post:
+      tags:
+      - Feature flags
+      operationId: CreateFeatureFlag
+      x-scope: create:feature_flags
+      description: "Create feature flag.\n\n<div>\n  <code>create:feature_flags</code>\n</div>\n"
+      summary: Create Feature Flag
+      requestBody:
+        description: Flag details.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  description: The name of the flag.
+                  type: string
+                  nullable: false
+                description:
+                  description: Description of the flag purpose.
+                  type: string
+                  nullable: false
+                key:
+                  description: The flag identifier to use in code.
+                  type: string
+                  nullable: false
+                type:
+                  description: The variable type.
+                  type: string
+                  enum:
+                  - str
+                  - int
+                  - bool
+                  nullable: false
+                allow_override_level:
+                  description: Allow the flag to be overridden at a different level.
+                  type: string
+                  enum:
+                  - env
+                  - org
+                  - usr
+                  nullable: false
+                default_value:
+                  description: Default value for the flag used by environments and organizations.
+                  type: string
+                  nullable: false
+              required:
+              - name
+              - key
+              - type
+              - default_value
+      responses:
+        '201':
+          description: Feature flag successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+  /api/v1/feature_flags/{feature_flag_key}:
+    servers: []
+    delete:
+      tags:
+      - Feature flags
+      operationId: DeleteFeatureFlag
+      x-scope: delete:feature_flags
+      description: "Delete feature flag\n\n<div>\n  <code>delete:feature_flags</code>\n</div>\n"
+      summary: Delete Feature Flag
+      parameters:
+      - name: feature_flag_key
+        in: path
+        description: The identifier for the feature flag.
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Feature flag successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+    put:
+      tags:
+      - Feature flags
+      operationId: UpdateFeatureFlag
+      x-scope: update:feature_flags
+      description: "Update feature flag.\n\n<div>\n  <code>update:feature_flags</code>\n</div>\n"
+      summary: Replace Feature Flag
+      parameters:
+      - name: feature_flag_key
+        in: path
+        description: The key identifier for the feature flag.
+        required: true
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: The name of the flag.
+        schema:
+          type: string
+          nullable: false
+        required: true
+      - name: description
+        in: query
+        description: Description of the flag purpose.
+        schema:
+          type: string
+          nullable: false
+        required: true
+      - name: type
+        in: query
+        description: The variable type
+        schema:
+          type: string
+          enum:
+          - str
+          - int
+          - bool
+          nullable: false
+        required: true
+      - name: allow_override_level
+        in: query
+        description: Allow the flag to be overridden at a different level.
+        schema:
+          type: string
+          enum:
+          - env
+          - org
+          nullable: false
+        required: true
+      - name: default_value
+        in: query
+        description: Default value for the flag used by environments and organizations.
+        schema:
+          type: string
+          nullable: false
+        required: true
+      responses:
+        '200':
+          description: Feature flag successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/success_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/success_response'
+        '400':
+          description: Invalid request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error_response'
+            application/json; charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/error_response'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+components:
+  schemas:
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    get_feature_flags_response:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            feature_flags:
+              type: array
+              description: A list of feature flags
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The friendly ID of an flag
+                    example: flag_0195ac80a14e8d71f42b98e75d3c61ad
+                  name:
+                    type: string
+                    description: The name of the flag
+                    example: new_feature
+                  key:
+                    type: string
+                    description: The key of the flag
+                    example: new_feature_key
+                  type:
+                    type: string
+                    description: The type of the flag
+                    example: boolean
+                  value:
+                    oneOf:
+                    - type: string
+                    - type: boolean
+                    - type: integer
+                    - type: object
+                    description: The value of the flag
+                    example: true
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+  securitySchemes:
+    kindeBearerAuth:
+      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+
+        '
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

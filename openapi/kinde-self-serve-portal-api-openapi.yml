@@ -1,0 +1,91 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Kinde Account API Keys Self-serve portal API
+  description: '
+
+    Provides endpoints to operate on an authenticated user.
+
+
+    ## Intro
+
+
+    ## How to use
+
+
+    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+
+
+    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+
+    '
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  contact:
+    name: Kinde Support Team
+    email: support@kinde.com
+    url: https://docs.kinde.com
+tags:
+- name: Self-serve portal
+  x-displayName: Self-serve portal
+paths:
+  /account_api/v1/portal_link:
+    servers: []
+    get:
+      tags:
+      - Self-serve portal
+      operationId: GetPortalLink
+      summary: Get self-serve portal link
+      description: 'Returns a link to the self-serve portal for the authenticated user. The user can use this link to manage their account, update their profile, and view their entitlements.
+
+        '
+      parameters:
+      - name: subnav
+        in: query
+        description: The area of the portal you want the user to land on
+        schema:
+          type: string
+          nullable: true
+          enum:
+          - profile
+          - organization_details
+          - organization_payment_details
+          - organization_plan_selection
+          - payment_details
+          - plan_details
+          - plan_selection
+      - name: return_url
+        in: query
+        description: The URL to redirect the user to after they have completed their actions in the portal.
+        schema:
+          type: string
+          nullable: true
+      responses:
+        '200':
+          description: Successfully generated the portal link
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/portal_link'
+        '403':
+          description: Invalid credentials.
+        '429':
+          description: Request was throttled.
+      security:
+      - kindeBearerAuth: []
+components:
+  schemas:
+    portal_link:
+      type: object
+      properties:
+        url:
+          type: string
+          description: Unique URL to redirect the user to.
+          example: https://<your_kinde_subdomain>.kinde.com/portal_redirect?key=c30d0407030209af82...
+  securitySchemes:
+    kindeBearerAuth:
+      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+
+        '
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,779 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Kinde Account API Keys APIs API
+  description: '
+
+    Provides endpoints to operate on an authenticated user.
+
+
+    ## Intro
+
+
+    ## How to use
+
+
+    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+
+
+    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+
+    '
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  contact:
+    name: Kinde Support Team
+    email: support@kinde.com
+    url: https://docs.kinde.com
+tags:
+- name: APIs
+  x-displayName: APIs
+paths:
+  /api/v1/apis:
+    servers: []
+    get:
+      tags:
+      - APIs
+      operationId: getAPIs
+      x-scope: read:apis
+      summary: Get APIs
+      description: "Returns a list of your APIs. The APIs are returned sorted by name.\n\n<div>\n  <code>read:apis</code>\n</div>\n"
+      parameters:
+      - name: expand
+        in: query
+        description: 'Additional data to include in the response. Allowed value: "scopes".'
+        required: false
+        schema:
+          type: string
+          nullable: true
+          enum:
+          - scopes
+      responses:
+        '200':
+          description: A list of APIs.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_apis_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    post:
+      tags:
+      - APIs
+      operationId: addAPIs
+      x-scope: create:apis
+      summary: Create API
+      description: "Register a new API. For more information read [Register and manage APIs](https://docs.kinde.com/developer-tools/your-apis/register-manage-apis/).\n\n<div>\n  <code>create:apis</code>\n</div>\n"
+      externalDocs:
+        url: https://docs.kinde.com/developer-tools/your-apis/register-manage-apis
+        description: Register and manage APIs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the API. (1-64 characters).
+                  example: Example API
+                audience:
+                  type: string
+                  description: A unique identifier for the API - commonly the URL. This value will be used as the `audience` parameter in authorization claims. (1-64 characters)
+                  example: https://api.example.com
+              required:
+              - name
+              - audience
+      responses:
+        '200':
+          description: APIs successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_apis_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/apis/{api_id}:
+    servers: []
+    parameters:
+    - $ref: '#/components/parameters/api_id'
+    get:
+      tags:
+      - APIs
+      operationId: getAPI
+      x-scope: read:apis
+      summary: Get API
+      description: "Retrieve API details by ID.\n\n<div>\n  <code>read:apis</code>\n</div>\n"
+      responses:
+        '200':
+          description: API successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_api_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    delete:
+      tags:
+      - APIs
+      operationId: deleteAPI
+      x-scope: delete:apis
+      summary: Delete API
+      description: "Delete an API you previously created.\n\n<div>\n  <code>delete:apis</code>\n</div>\n"
+      responses:
+        '200':
+          description: API successfully deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/delete_api_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/apis/{api_id}/scopes:
+    servers: []
+    get:
+      tags:
+      - APIs
+      operationId: getAPIScopes
+      x-scope: read:api_scopes
+      summary: Get API scopes
+      parameters:
+      - name: api_id
+        in: path
+        description: API ID
+        required: true
+        schema:
+          type: string
+          nullable: false
+          example: 838f208d006a482dbd8cdb79a9889f68
+      description: "Retrieve API scopes by API ID.\n\n<div>\n  <code>read:api_scopes</code>\n</div>\n"
+      responses:
+        '200':
+          description: API scopes successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_api_scopes_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    post:
+      tags:
+      - APIs
+      operationId: addAPIScope
+      x-scope: create:api_scopes
+      summary: Create API scope
+      parameters:
+      - name: api_id
+        in: path
+        description: API ID
+        required: true
+        schema:
+          type: string
+          nullable: false
+          example: 838f208d006a482dbd8cdb79a9889f68
+      description: "Create a new API scope.\n\n<div>\n  <code>create:api_scopes</code>\n</div>\n"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                  description: The key reference for the scope (1-64 characters, no white space).
+                  example: read:logs
+                description:
+                  type: string
+                  description: Description of the api scope purpose.
+                  example: Scope for reading logs.
+              required:
+              - key
+      responses:
+        '200':
+          description: API scopes successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/create_api_scopes_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/apis/{api_id}/scopes/{scope_id}:
+    servers: []
+    get:
+      tags:
+      - APIs
+      operationId: getAPIScope
+      summary: Get API scope
+      parameters:
+      - name: api_id
+        in: path
+        description: API ID
+        required: true
+        schema:
+          type: string
+          nullable: false
+          example: 838f208d006a482dbd8cdb79a9889f68
+      - name: scope_id
+        in: path
+        description: Scope ID
+        required: true
+        schema:
+          type: string
+          nullable: false
+          example: api_scope_019391daf58d87d8a7213419c016ac95
+      description: "Retrieve API scope by API ID.\n\n<div>\n  <code>read:api_scopes</code>\n</div>\n"
+      responses:
+        '200':
+          description: API scope successfully retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/get_api_scope_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    patch:
+      tags:
+      - APIs
+      operationId: updateAPIScope
+      summary: Update API scope
+      parameters:
+      - name: api_id
+        in: path
+        description: API ID
+        required: true
+        schema:
+          type: string
+          nullable: false
+          example: 838f208d006a482dbd8cdb79a9889f68
+      - name: scope_id
+        in: path
+        description: Scope ID
+        required: true
+        schema:
+          type: string
+          nullable: false
+          example: api_scope_019391daf58d87d8a7213419c016ac95
+      description: "Update an API scope.\n\n<div>\n  <code>update:api_scopes</code>\n</div>\n"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                description:
+                  type: string
+                  description: Description of the api scope purpose.
+                  example: Scope for reading logs.
+      responses:
+        '200':
+          description: API scope successfully updated
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    delete:
+      tags:
+      - APIs
+      operationId: deleteAPIScope
+      summary: Delete API scope
+      parameters:
+      - name: api_id
+        in: path
+        description: API ID
+        required: true
+        schema:
+          type: string
+          nullable: false
+          example: 838f208d006a482dbd8cdb79a9889f68
+      - name: scope_id
+        in: path
+        description: Scope ID
+        required: true
+        schema:
+          type: string
+          nullable: false
+          example: api_scope_019391daf58d87d8a7213419c016ac95
+      description: "Delete an API scope you previously created.\n\n<div>\n  <code>delete:apis_scopes</code>\n</div>\n"
+      responses:
+        '200':
+          description: API scope successfully deleted.
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/apis/{api_id}/applications:
+    servers: []
+    parameters:
+    - $ref: '#/components/parameters/api_id'
+    patch:
+      tags:
+      - APIs
+      operationId: updateAPIApplications
+      summary: Authorize API applications
+      description: "Authorize applications to be allowed to request access tokens for an API\n\n<div>\n  <code>update:apis</code>\n</div>\n"
+      requestBody:
+        description: The applications you want to authorize.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - applications
+              properties:
+                applications:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                    - id
+                    properties:
+                      id:
+                        description: The application's Client ID.
+                        type: string
+                        example: d2db282d6214242b3b145c123f0c123
+                      operation:
+                        description: Optional operation, set to 'delete' to revoke authorization for the application. If not set, the application will be authorized.
+                        type: string
+                        example: delete
+      responses:
+        '200':
+          description: Authorized applications updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/authorize_app_api_response'
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+  /api/v1/apis/{api_id}/applications/{application_id}/scopes/{scope_id}:
+    servers: []
+    post:
+      tags:
+      - APIs
+      operationId: addAPIApplicationScope
+      summary: Add scope to API application
+      parameters:
+      - name: api_id
+        in: path
+        description: API ID
+        required: true
+        schema:
+          type: string
+          nullable: false
+          example: 838f208d006a482dbd8cdb79a9889f68
+      - name: application_id
+        in: path
+        description: Application ID
+        required: true
+        schema:
+          type: string
+          nullable: false
+          example: 7643b487c97545aab79257fd13a1085a
+      - name: scope_id
+        in: path
+        description: Scope ID
+        required: true
+        schema:
+          type: string
+          nullable: false
+          example: api_scope_019391daf58d87d8a7213419c016ac95
+      description: "Add a scope to an API application.\n\n<div>\n  <code>create:api_application_scopes</code>\n</div>\n"
+      responses:
+        '200':
+          description: API scope successfully added to API application
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+    delete:
+      tags:
+      - APIs
+      operationId: deleteAPIApplicationScope
+      summary: Delete API application scope
+      parameters:
+      - name: api_id
+        in: path
+        description: API ID
+        required: true
+        schema:
+          type: string
+          nullable: false
+          example: 838f208d006a482dbd8cdb79a9889f68
+      - name: application_id
+        in: path
+        description: Application ID
+        required: true
+        schema:
+          type: string
+          nullable: false
+          example: 7643b487c97545aab79257fd13a1085a
+      - name: scope_id
+        in: path
+        description: Scope ID
+        required: true
+        schema:
+          type: string
+          nullable: false
+          example: api_scope_019391daf58d87d8a7213419c016ac95
+      description: "Delete an API application scope you previously created.\n\n<div>\n  <code>delete:apis_application_scopes</code>\n</div>\n"
+      responses:
+        '200':
+          description: API scope successfully deleted.
+        '400':
+          $ref: '#/components/responses/bad_request'
+        '403':
+          $ref: '#/components/responses/forbidden'
+        '429':
+          $ref: '#/components/responses/too_many_requests'
+      security:
+      - kindeBearerAuth: []
+components:
+  responses:
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+  schemas:
+    create_apis_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A Kinde generated message.
+          example: Success
+        code:
+          type: string
+          description: A Kinde generated status code.
+          example: OK
+        api:
+          type: object
+          properties:
+            id:
+              description: The unique ID for the API.
+              type: string
+              example: 7ccd126599aa422a771abcb341596881
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    authorize_app_api_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: API applications updated
+        code:
+          type: string
+          example: API_APPLICATIONS_UPDATED
+        applications_disconnected:
+          type: array
+          items:
+            type: string
+        applications_connected:
+          type: array
+          items:
+            type: string
+            example: d2db282d6214242b3b145c123f0c123
+    get_api_scopes_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: success_response
+        scopes:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Unique ID of the API scope.
+                example: api_scope_01939128c3d7193ae87c4755213c07c6
+              key:
+                type: string
+                description: The scope's reference key.
+                example: read:logs
+              description:
+                type: string
+                description: Explanation of the scope purpose.
+                example: Read logs scope
+    get_api_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: success_response
+        api:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Unique ID of the API.
+              example: 7ccd126599aa422a771abcb341596881
+            name:
+              type: string
+              description: The API's name.
+              example: Example API
+            audience:
+              type: string
+              description: A unique identifier for the API - commonly the URL. This value will be used as the `audience` parameter in authorization claims.
+              example: https://api.example.com
+            is_management_api:
+              type: boolean
+              description: Whether or not it is the Kinde management API.
+              example: false
+            scopes:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The ID of the scope.
+                    example: api_scope_01939222ef24200668b9f5829af001ce
+                  key:
+                    type: string
+                    description: The reference key for the scope.
+                    example: read:logs
+            applications:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: The Client ID of the application.
+                    example: 3b0b5c6c8fcc464fab397f4969b5f482
+                  name:
+                    type: string
+                    description: The application's name.
+                    example: My M2M app
+                  type:
+                    type: string
+                    description: The application's type.
+                    enum:
+                    - Machine to machine (M2M)
+                    - Back-end web
+                    - Front-end and mobile
+                    - Device and IoT
+                    example: Machine to machine (M2M)
+                  is_active:
+                    type: boolean
+                    description: Whether or not the application is authorized to access the API
+                    example: true
+                    nullable: true
+    get_api_scope_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: success_response
+        scope:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Unique ID of the API scope.
+              example: api_scope_01939128c3d7193ae87c4755213c07c6
+            key:
+              type: string
+              description: The scope's reference key.
+              example: read:logs
+            description:
+              type: string
+              description: Explanation of the scope purpose.
+              example: Read logs scope
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    create_api_scopes_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A Kinde generated message.
+          example: Success
+        code:
+          type: string
+          description: A Kinde generated status code.
+          example: OK
+        scope:
+          type: object
+          properties:
+            id:
+              description: The unique ID for the API scope.
+              type: string
+              example: api_scope_0193ab57965aef77b2b687d0ef673713
+    get_apis_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        next_token:
+          type: string
+          description: Pagination token.
+          example: Njo5Om1hvWVfYXNj
+        apis:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                description: The unique ID for the API.
+                type: string
+                example: 7ccd126599aa422a771abcb341596881
+              name:
+                type: string
+                description: The API's name.
+                example: Example API
+              audience:
+                type: string
+                description: A unique identifier for the API - commonly the URL. This value will be used as the `audience` parameter in authorization claims.
+                example: https://api.example.com
+              is_management_api:
+                type: boolean
+                description: Whether or not it is the Kinde management API.
+                example: false
+              scopes:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: api_scope_01939128c3d7193ae87c4755213c07c6
+                    key:
+                      type: string
+                      example: create:apis
+    delete_api_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: API successfully deleted
+        code:
+          type: string
+          example: API_DELETED
+  parameters:
+    api_id:
+      in: path
+      name: api_id
+      description: The API's ID.
+      required: true
+      schema:
+        type: string
+        example: 7ccd126599aa422a771abcb341596881
+  securitySchemes:
+    kindeBearerAuth:
+      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+
+        '
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
