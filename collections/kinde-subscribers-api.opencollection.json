@@ -1,0 +1,111 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kinde Account API Keys Subscribers API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Subscribers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Subscribers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/subscribers",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field and order to sort the result by."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "next_token",
+                "value": "",
+                "type": "query",
+                "description": "A string to get the next page of results if there are more results."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "The returned list can be sorted by full name or email address\nin ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query\nstring parameter.\n\n<div>\n  <code>read:subscribers</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create Subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/subscribers",
+            "params": [
+              {
+                "name": "first_name",
+                "value": "",
+                "type": "query",
+                "description": "Subscriber's first name."
+              },
+              {
+                "name": "last_name",
+                "value": "",
+                "type": "query",
+                "description": "Subscriber's last name."
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "The email address of the subscriber."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create subscriber.\n\n<div>\n  <code>create:subscribers</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get Subscriber",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/subscribers/:subscriber_id",
+            "params": [
+              {
+                "name": "subscriber_id",
+                "value": "",
+                "type": "path",
+                "description": "The subscriber's id."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve a subscriber record.\n\n<div>\n  <code>read:subscribers</code>\n</div>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

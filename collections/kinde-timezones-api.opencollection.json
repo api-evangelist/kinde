@@ -1,0 +1,33 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kinde Account API Keys Timezones API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Timezones",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get timezones",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/timezones",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a list of timezones and associated timezone keys.\n\n<div>\n  <code>read:timezones</code>\n</div>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

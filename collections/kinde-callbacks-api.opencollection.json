@@ -1,0 +1,230 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kinde Account API Keys Callbacks API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Callbacks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Callback URLs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/applications/:app_id/auth_redirect_urls",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns an application's redirect callback URLs.\n\n<div>\n  <code>read:applications_redirect_uris</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add Redirect Callback URLs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/applications/:app_id/auth_redirect_urls",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add additional redirect callback URLs.\n\n<div>\n  <code>create:applications_redirect_uris</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Replace Redirect Callback URLs",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/applications/:app_id/auth_redirect_urls",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replace all redirect callback URLs.\n\n<div>\n  <code>update:applications_redirect_uris</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Callback URLs",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/applications/:app_id/auth_redirect_urls",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              },
+              {
+                "name": "urls",
+                "value": "",
+                "type": "query",
+                "description": "Urls to delete, comma separated and url encoded."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete callback URLs.\n\n<div>\n  <code>delete:applications_redirect_uris</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "List logout URLs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/applications/:app_id/auth_logout_urls",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns an application's logout redirect URLs.\n\n<div>\n  <code>read:application_logout_uris</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add logout redirect URLs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/applications/:app_id/auth_logout_urls",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add additional logout redirect URLs.\n\n<div>\n  <code>create:application_logout_uris</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Replace logout redirect URls",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/applications/:app_id/auth_logout_urls",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replace all logout redirect URLs.\n\n<div>\n  <code>update:application_logout_uris</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Logout URLs",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/applications/:app_id/auth_logout_urls",
+            "params": [
+              {
+                "name": "app_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the application."
+              },
+              {
+                "name": "urls",
+                "value": "",
+                "type": "query",
+                "description": "Urls to delete, comma separated and url encoded."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete logout URLs.\n\n<div>\n  <code>delete:application_logout_uris</code>\n</div>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

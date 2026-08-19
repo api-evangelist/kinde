@@ -1,0 +1,76 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kinde Account API Keys Search API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/search/users",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search the users by email or name. Use '*' to search all."
+              },
+              {
+                "name": "api_scopes",
+                "value": "",
+                "type": "query",
+                "description": "Search the users by api scopes."
+              },
+              {
+                "name": "properties",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the user to start after."
+              },
+              {
+                "name": "ending_before",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the user to end before."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Additional data to include in the response. One or more of (comma-separated): \"organizations\", \"identities\", \"properties\"."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Search for users based on the provided query string. Set query to '*' to filter by other parameters only.\nThe number of records to return at a time can be controlled using the `page_size` query string parameter.\n\n<div>\n  <code>read:users</code>\n</div>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

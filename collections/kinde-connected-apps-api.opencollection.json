@@ -1,0 +1,105 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kinde Account API Keys Connected Apps API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Connected Apps",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Connected App URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/connected_apps/auth_url",
+            "params": [
+              {
+                "name": "key_code_ref",
+                "value": "",
+                "type": "query",
+                "description": "The unique key code reference of the connected app to authenticate against."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "The id of the user that needs to authenticate to the third-party connected app."
+              },
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "query",
+                "description": "The code of the Kinde organization that needs to authenticate to the third-party connected app."
+              },
+              {
+                "name": "override_callback_url",
+                "value": "",
+                "type": "query",
+                "description": "A URL that overrides the default callback URL setup in your connected app configuration"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a URL that authenticates and authorizes a user to a third-party connected app.\n\n<div>\n  <code>read:connected_apps</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get Connected App Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/connected_apps/token",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "query",
+                "description": "The unique sesssion id representing the login session of a user."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an access token that can be used to call the third-party provider linked to the connected app.\n\n<div>\n  <code>read:connected_apps</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Revoke Connected App Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/connected_apps/revoke",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "query",
+                "description": "The unique sesssion id representing the login session of a user."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Revoke the tokens linked to the connected app session.\n\n<div>\n  <code>create:connected_apps</code>\n</div>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,125 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kinde Account API Keys Environment variables API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Environment variables",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get environment variables",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/environment_variables",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get environment variables. This feature is in beta and admin UI is not yet available.\n\n<div>\n  <code>read:environment_variables</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create environment variable",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/environment_variables",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new environment variable. This feature is in beta and admin UI is not yet available.\n\n<div>\n  <code>create:environment_variables</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get environment variable",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/environment_variables/:variable_id",
+            "params": [
+              {
+                "name": "variable_id",
+                "value": "",
+                "type": "path",
+                "description": "The environment variable's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve environment variable details by ID. This feature is in beta and admin UI is not yet available.\n\n<div>\n  <code>read:environment_variables</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update environment variable",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/environment_variables/:variable_id",
+            "params": [
+              {
+                "name": "variable_id",
+                "value": "",
+                "type": "path",
+                "description": "The environment variable's ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an environment variable you previously created. This feature is in beta and admin UI is not yet available.\n\n<div>\n  <code>update:environment_variables</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete environment variable",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/environment_variables/:variable_id",
+            "params": [
+              {
+                "name": "variable_id",
+                "value": "",
+                "type": "path",
+                "description": "The environment variable's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an environment variable you previously created. This feature is in beta and admin UI is not yet available.\n\n<div>\n  <code>delete:environment_variables</code>\n</div>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

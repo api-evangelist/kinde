@@ -1,0 +1,344 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kinde Account API Keys APIs API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "APIs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get APIs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/apis",
+            "params": [
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Additional data to include in the response. Allowed value: \"scopes\"."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of your APIs. The APIs are returned sorted by name.\n\n<div>\n  <code>read:apis</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create API",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/apis",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Register a new API. For more information read [Register and manage APIs](https://docs.kinde.com/developer-tools/your-apis/register-manage-apis/).\n\n<div>\n  <code>create:apis</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get API",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/apis/:api_id",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "The API's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve API details by ID.\n\n<div>\n  <code>read:apis</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete API",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/apis/:api_id",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "The API's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an API you previously created.\n\n<div>\n  <code>delete:apis</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get API scopes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/apis/:api_id/scopes",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve API scopes by API ID.\n\n<div>\n  <code>read:api_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create API scope",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/apis/:api_id/scopes",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new API scope.\n\n<div>\n  <code>create:api_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get API scope",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/apis/:api_id/scopes/:scope_id",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              },
+              {
+                "name": "scope_id",
+                "value": "",
+                "type": "path",
+                "description": "Scope ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve API scope by API ID.\n\n<div>\n  <code>read:api_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update API scope",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/apis/:api_id/scopes/:scope_id",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              },
+              {
+                "name": "scope_id",
+                "value": "",
+                "type": "path",
+                "description": "Scope ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an API scope.\n\n<div>\n  <code>update:api_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete API scope",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/apis/:api_id/scopes/:scope_id",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              },
+              {
+                "name": "scope_id",
+                "value": "",
+                "type": "path",
+                "description": "Scope ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an API scope you previously created.\n\n<div>\n  <code>delete:apis_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Authorize API applications",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/apis/:api_id/applications",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "The API's ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Authorize applications to be allowed to request access tokens for an API\n\n<div>\n  <code>update:apis</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add scope to API application",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/apis/:api_id/applications/:application_id/scopes/:scope_id",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              },
+              {
+                "name": "application_id",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              },
+              {
+                "name": "scope_id",
+                "value": "",
+                "type": "path",
+                "description": "Scope ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add a scope to an API application.\n\n<div>\n  <code>create:api_application_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete API application scope",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/apis/:api_id/applications/:application_id/scopes/:scope_id",
+            "params": [
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              },
+              {
+                "name": "application_id",
+                "value": "",
+                "type": "path",
+                "description": "Application ID"
+              },
+              {
+                "name": "scope_id",
+                "value": "",
+                "type": "path",
+                "description": "Scope ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an API application scope you previously created.\n\n<div>\n  <code>delete:apis_application_scopes</code>\n</div>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

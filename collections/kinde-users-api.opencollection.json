@@ -1,0 +1,546 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kinde Account API Keys Users API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/users",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter the results by User ID. The query string should be comma separated and url encoded."
+              },
+              {
+                "name": "next_token",
+                "value": "",
+                "type": "query",
+                "description": "A string to get the next page of results if there are more results."
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "query",
+                "description": "Filter the results by email address. The query string should be comma separated and url encoded."
+              },
+              {
+                "name": "username",
+                "value": "",
+                "type": "query",
+                "description": "Filter the results by username. The query string should be comma separated and url encoded."
+              },
+              {
+                "name": "phone",
+                "value": "",
+                "type": "query",
+                "description": "Filter the results by phone. The query string should be comma separated and url encoded."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Additional data to include in the response. One or more of (comma-separated): \"organizations\", \"identities\", \"billing\"."
+              },
+              {
+                "name": "has_organization",
+                "value": "",
+                "type": "query",
+                "description": "Filter the results by if the user has at least one organization assigned."
+              },
+              {
+                "name": "active_since",
+                "value": "",
+                "type": "query",
+                "description": "Filter the results to only include users who have been active since this date. Date should be in ISO 8601 format."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "The returned list can be sorted by full name or email address in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.\n\n<div>\n  <code>read:users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Refresh User Claims and Invalidate Cache",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/refresh_claims",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The id of the user whose claims needs to be updated."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Refreshes the user's claims and invalidates the current cache.\n\n<div>\n  <code>update:user_refresh_claims</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/user",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "The user's id."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Additional data to include in the response. One or more of (comma-separated): \"organizations\", \"identities\", \"billing\"."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve a user record.\n\n<div>\n  <code>read:users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/user",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a user record and optionally zero or more identities for the user. An example identity could be the email\naddress of the user.\n\n<div>\n  <code>create:users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update user",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/user",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "The user's id."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a user record.\n\n<div>\n  <code>update:users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/user",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "query",
+                "description": "The user's id."
+              },
+              {
+                "name": "is_delete_profile",
+                "value": "",
+                "type": "query",
+                "description": "Delete all data and remove the user's profile from all of Kinde, including the subscriber list"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a user record.\n\n<div>\n  <code>delete:users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update User Feature Flag Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/feature_flags/:feature_flag_key",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              },
+              {
+                "name": "feature_flag_key",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the feature flag"
+              },
+              {
+                "name": "value",
+                "value": "",
+                "type": "query",
+                "description": "Override value"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update user feature flag override.\n\n<div>\n  <code>update:user_feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Property value",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/properties/:property_key",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              },
+              {
+                "name": "property_key",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the property"
+              },
+              {
+                "name": "value",
+                "value": "",
+                "type": "query",
+                "description": "The new property value"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update property value.\n\n<div>\n  <code>update:user_properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get property values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/properties",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Gets properties for an user by ID.\n\n<div>\n  <code>read:user_properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Property values",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/properties",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update property values.\n\n<div>\n  <code>update:user_properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Set User password",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/password",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Set user password.\n\n<div>\n  <code>update:user_passwords</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get identities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/identities",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's ID."
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the identity to start after."
+              },
+              {
+                "name": "ending_before",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the identity to end before."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Gets a list of identities for an user by ID.\n\n<div>\n  <code>read:user_identities</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create identity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/identities",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates an identity for a user.\n\n<div>\n  <code>create:user_identities</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get user sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/sessions",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve the list of active sessions for a specific user.\n\n<div>\n  <code>read:user_sessions</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete user sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/sessions",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Invalidate user sessions.\n\n<div>\n  <code>delete:user_sessions</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get user's MFA configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/mfa",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a user’s MFA configuration.\n\n<div>\n  <code>read:user_mfa</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Reset all environment MFA for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/mfa",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Reset all environment MFA factors for a user.\n\n<div>\n  <code>delete:user_mfa</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Reset specific environment MFA for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/users/:user_id/mfa/:factor_id",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              },
+              {
+                "name": "factor_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the MFA factor"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Reset a specific environment MFA factor for a user.\n\n<div>\n  <code>delete:user_mfa</code>\n</div>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

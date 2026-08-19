@@ -1,0 +1,84 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kinde Account API Keys Billing Agreements API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Billing Agreements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get billing agreements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/billing/agreements",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the billing agreement to start after."
+              },
+              {
+                "name": "ending_before",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the billing agreement to end before."
+              },
+              {
+                "name": "customer_id",
+                "value": "customer_0195ac80a14c2ca2cec97d026d864de0",
+                "type": "query",
+                "description": "The ID of the billing customer to retrieve agreements for"
+              },
+              {
+                "name": "feature_code",
+                "value": "",
+                "type": "query",
+                "description": "The feature code to filter by agreements only containing that feature"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all the agreements a billing customer currently has access to\n\n<div>\n  <code>read:billing_agreements</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create billing agreement",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/billing/agreements",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Creates a new billing agreement based on the plan code passed, and cancels the customer's existing agreements\n\n<div>\n  <code>create:billing_agreements</code>\n</div>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,145 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kinde Account API Keys Directories API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Directories",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get SCIM directories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/directories",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 50 if parameter not sent."
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the directory to start after."
+              },
+              {
+                "name": "organization_code",
+                "value": "",
+                "type": "query",
+                "description": "Filter by organization code to get directories for a specific organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns a list of SCIM directories for your organization.\n\n<div>\n  <code>read:scim_directories</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create SCIM directory",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/directories",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new SCIM directory for user and group synchronization.\n\n<div>\n  <code>create:scim_directories</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get SCIM directory",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/directories/:directory_id",
+            "params": [
+              {
+                "name": "directory_id",
+                "value": "",
+                "type": "path",
+                "description": "The directory's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve SCIM directory details by ID.\n\n<div>\n  <code>read:scim_directories</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update SCIM directory",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/directories/:directory_id",
+            "params": [
+              {
+                "name": "directory_id",
+                "value": "",
+                "type": "path",
+                "description": "The directory's ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update SCIM directory configuration.\n"
+        },
+        {
+          "info": {
+            "name": "Delete SCIM directory",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/directories/:directory_id",
+            "params": [
+              {
+                "name": "directory_id",
+                "value": "",
+                "type": "path",
+                "description": "The directory's ID."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a SCIM directory and all associated data.\n\n<div>\n  <code>delete:scim_directories</code>\n</div>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

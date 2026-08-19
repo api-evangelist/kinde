@@ -1,0 +1,142 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kinde Account API Keys Feature flags API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Feature flags",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get feature flags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/account_api/v1/feature_flags",
+            "params": [
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query",
+                "description": "The ID of the flag to start after."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all the feature flags that affect the user\n"
+        },
+        {
+          "info": {
+            "name": "Create Feature Flag",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/feature_flags",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create feature flag.\n\n<div>\n  <code>create:feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Replace Feature Flag",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/feature_flags/:feature_flag_key",
+            "params": [
+              {
+                "name": "feature_flag_key",
+                "value": "",
+                "type": "path",
+                "description": "The key identifier for the feature flag."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "The name of the flag."
+              },
+              {
+                "name": "description",
+                "value": "",
+                "type": "query",
+                "description": "Description of the flag purpose."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "The variable type"
+              },
+              {
+                "name": "allow_override_level",
+                "value": "",
+                "type": "query",
+                "description": "Allow the flag to be overridden at a different level."
+              },
+              {
+                "name": "default_value",
+                "value": "",
+                "type": "query",
+                "description": "Default value for the flag used by environments and organizations."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update feature flag.\n\n<div>\n  <code>update:feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Feature Flag",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/feature_flags/:feature_flag_key",
+            "params": [
+              {
+                "name": "feature_flag_key",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the feature flag."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete feature flag\n\n<div>\n  <code>delete:feature_flags</code>\n</div>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

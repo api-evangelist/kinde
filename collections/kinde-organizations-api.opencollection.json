@@ -1,0 +1,1250 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Kinde Account API Keys Organizations API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get organization invites",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/organization/:org_code/invites",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field and order to sort the result by."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "next_token",
+                "value": "",
+                "type": "query",
+                "description": "A string to get the next page of results if there are more results."
+              },
+              {
+                "name": "include_revoked",
+                "value": "",
+                "type": "query",
+                "description": "Include revoked invitations in the results."
+              },
+              {
+                "name": "include_accepted",
+                "value": "",
+                "type": "query",
+                "description": "Include accepted invitations in the results."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a list of invitations for an organization. By default, only pending (non-revoked, non-accepted) invitations are returned.\n\n<div>\n  <code>read:organization_invites</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create organization invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/organization/:org_code/invites",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new invitation for an organization. An invitation email will be sent to the provided email address if `send_email` is set to `true`.\n\nInvitations cannot be created for organizations that are managed by directory sync; user and role changes for those organizations must be made in the upstream identity provider.\n\nRoles that require an explicit assignment permission cannot be granted to an invitee unless the caller (or the user the token represents) holds that permission. On Kinde-hosted p"
+        },
+        {
+          "info": {
+            "name": "Get organization invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/organization/:org_code/invites/:invite_code",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "invite_code",
+                "value": "",
+                "type": "path",
+                "description": "The invitation's code."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get details of a specific invitation by its code.\n\n<div>\n  <code>read:organization_invites</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete organization invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/organization/:org_code/invites/:invite_code",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "invite_code",
+                "value": "",
+                "type": "path",
+                "description": "The invitation's code."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Revoke (delete) an invitation. This will mark the invitation as revoked and prevent it from being accepted.\n\n<div>\n  <code>delete:organization_invites</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/organization",
+            "params": [
+              {
+                "name": "code",
+                "value": "",
+                "type": "query",
+                "description": "The organization's code."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Additional data to include in the response. Allowed value: \"billing\"."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve organization details by code.\n\n<div>\n  <code>read:organizations</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Create organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/organization",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Create a new organization. To learn more read about [multi tenancy using organizations](https://docs.kinde.com/build/organizations/multi-tenancy-using-organizations/)\n\n<div>\n  <code>create:organizations</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get organizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/organizations",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field and order to sort the result by."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "next_token",
+                "value": "",
+                "type": "query",
+                "description": "A string to get the next page of results if there are more results."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get a list of organizations.\n\n<div>\n  <code>read:organizations</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/organization/:org_code",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Additional data to include in the response. Allowed value: \"billing\"."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update an organization.\n\n<div>\n  <code>update:organizations</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/organization/:org_code",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete an organization.\n\n<div>\n  <code>delete:organizations</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get organization users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/users",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Field and order to sort the result by."
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page. Defaults to 10 if parameter not sent."
+              },
+              {
+                "name": "next_token",
+                "value": "",
+                "type": "query",
+                "description": "A string to get the next page of results if there are more results."
+              },
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "permissions",
+                "value": "",
+                "type": "query",
+                "description": "Filter by user permissions comma separated (where all match)"
+              },
+              {
+                "name": "roles",
+                "value": "",
+                "type": "query",
+                "description": "Filter by user roles comma separated (where all match)"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get user details for all members of an organization.\n\n<div>\n  <code>read:organization_users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add Organization Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/users",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add existing users to an organization.\n\n<div>\n  <code>create:organization_users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Organization Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/users",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update users that belong to an organization.\n\n<div>\n  <code>update:organization_users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "List Organization User Roles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/users/:user_id/roles",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's id."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get roles for an organization user.\n\n<div>\n  <code>read:organization_user_roles</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add Organization User Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/users/:user_id/roles",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's id."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add role to an organization user.\n\n<div>\n  <code>create:organization_user_roles</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Organization User Role",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/users/:user_id/roles/:role_id",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's id."
+              },
+              {
+                "name": "role_id",
+                "value": "",
+                "type": "path",
+                "description": "The role id."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete role for an organization user.\n\n<div>\n  <code>delete:organization_user_roles</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "List Organization User Permissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/users/:user_id/permissions",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's id."
+              },
+              {
+                "name": "expand",
+                "value": "",
+                "type": "query",
+                "description": "Additional data to include in the response. Allowed value: \"roles\"."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get permissions for an organization user.\n\n<div>\n  <code>read:organization_user_permissions</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add Organization User Permission",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/users/:user_id/permissions",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's id."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add permission to an organization user.\n\n<div>\n  <code>create:organization_user_permissions</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Organization User Permission",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/users/:user_id/permissions/:permission_id",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's id."
+              },
+              {
+                "name": "permission_id",
+                "value": "",
+                "type": "path",
+                "description": "The permission id."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete permission for an organization user.\n\n<div>\n  <code>delete:organization_user_permissions</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Remove Organization User",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/users/:user_id",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The user's id."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Remove user from an organization.\n\n<div>\n  <code>delete:organization_users</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add scope to organization user api",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/users/:user_id/apis/:api_id/scopes/:scope_id",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "User ID"
+              },
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              },
+              {
+                "name": "scope_id",
+                "value": "",
+                "type": "path",
+                "description": "Scope ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add a scope to an organization user api.\n\n<div>\n  <code>create:organization_user_api_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete scope from organization user API",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/users/:user_id/apis/:api_id/scopes/:scope_id",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "User ID"
+              },
+              {
+                "name": "api_id",
+                "value": "",
+                "type": "path",
+                "description": "API ID"
+              },
+              {
+                "name": "scope_id",
+                "value": "",
+                "type": "path",
+                "description": "Scope ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a scope from an organization user api you previously created.\n\n<div>\n  <code>delete:organization_user_api_scopes</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get an organization user's MFA configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/users/:user_id/mfa",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get an organization user’s MFA configuration.\n\n<div>\n  <code>read:organization_user_mfa</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Reset all organization MFA for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/users/:user_id/mfa",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Reset all organization MFA factors for a user.\n\n<div>\n  <code>delete:organization_user_mfa</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Reset specific organization MFA for a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/users/:user_id/mfa/:factor_id",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the user"
+              },
+              {
+                "name": "factor_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the MFA factor"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Reset a specific organization MFA factor for a user.\n\n<div>\n  <code>delete:organization_user_mfa</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "List Organization Feature Flags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/feature_flags",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get all organization feature flags.\n\n<div>\n  <code>read:organization_feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Organization Feature Flag Overrides",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/feature_flags",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete all organization feature flag overrides.\n\n<div>\n  <code>delete:organization_feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Organization Feature Flag Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/feature_flags/:feature_flag_key",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization"
+              },
+              {
+                "name": "feature_flag_key",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the feature flag"
+              },
+              {
+                "name": "value",
+                "value": "",
+                "type": "query",
+                "description": "Override value"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update organization feature flag override.\n\n<div>\n  <code>update:organization_feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete Organization Feature Flag Override",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/feature_flags/:feature_flag_key",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization."
+              },
+              {
+                "name": "feature_flag_key",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the feature flag."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete organization feature flag override.\n\n<div>\n  <code>delete:organization_feature_flags</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Organization Property value",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/properties/:property_key",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization"
+              },
+              {
+                "name": "property_key",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the property"
+              },
+              {
+                "name": "value",
+                "value": "",
+                "type": "query",
+                "description": "The new property value"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update organization property value.\n\n<div>\n  <code>update:organization_properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get Organization Property Values",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/properties",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Gets properties for an organization by org code.\n\n<div>\n  <code>read:organization_properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update Organization Property values",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/properties",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update organization property values.\n\n<div>\n  <code>update:organization_properties</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Replace Organization MFA Configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/mfa",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the organization"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Replace Organization MFA Configuration.\n\n<div>\n  <code>update:organization_mfa</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete organization handle",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/organization/:org_code/handle",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete organization handle\n\n<div>\n  <code>delete:organization_handles</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Read organization logo details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/logos",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Read organization logo details\n\n<div>\n  <code>read:organizations</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Add organization logo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/logos/:type",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The type of logo to add."
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "logo",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add organization logo\n\n<div>\n  <code>update:organizations</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Delete organization logo",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/logos/:type",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "path",
+                "description": "The type of logo to delete."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete organization logo\n\n<div>\n  <code>update:organizations</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Get connections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/v1/organizations/:organization_code/connections",
+            "params": [
+              {
+                "name": "organization_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization code."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Gets all connections for an organization.\n\n<div>\n  <code>read:organization_connections</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Enable connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/api/v1/organizations/:organization_code/connections/:connection_id",
+            "params": [
+              {
+                "name": "organization_code",
+                "value": "",
+                "type": "path",
+                "description": "The unique code for the organization."
+              },
+              {
+                "name": "connection_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the connection."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Enable an auth connection for an organization.\n\n<div>\n  <code>create:organization_connections</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Remove connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/api/v1/organizations/:organization_code/connections/:connection_id",
+            "params": [
+              {
+                "name": "organization_code",
+                "value": "",
+                "type": "path",
+                "description": "The unique code for the organization."
+              },
+              {
+                "name": "connection_id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier for the connection."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Turn off an auth connection for an organization\n\n<div>\n  <code>delete:organization_connections</code>\n</div>\n"
+        },
+        {
+          "info": {
+            "name": "Update organization session configuration",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/api/v1/organizations/:org_code/sessions",
+            "params": [
+              {
+                "name": "org_code",
+                "value": "",
+                "type": "path",
+                "description": "The organization's code."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update the organization's session configuration.\n\n<div>\n  <code>update:organizations</code>\n</div>\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
