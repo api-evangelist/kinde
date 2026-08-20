@@ -29,6 +29,20 @@ tags:
   - Authorization
   - Customer Identity
   - Identity Management
+  - OpenID Connect
+  - Single Sign-On
+  - Multi-Factor Authentication
+  - Role-Based Access Control
+  - Feature Flags
+  - Billing
+  - B2B
+  - Software-as-a-Service
+  - Developer Platform
+tags_raw:
+  - Authentication
+  - Authorization
+  - Customer Identity
+  - Identity Management
   - OAuth
   - OpenID Connect
   - Single Sign-On
@@ -55,6 +69,10 @@ apis:
   tags:
   - MCP
   - AI Agents
+  - Identity
+  tags_raw:
+  - MCP
+  - AI Agents
   - Model Context Protocol
   - Identity
   properties:
@@ -66,6 +84,8 @@ apis:
   humanURL: https://docs.kinde.com/kinde-apis/management/
   baseURL: https://{subdomain}.kinde.com/api/v1
   tags:
+  - APIKeys
+  tags_raw:
   - API Keys
   properties:
   - type: OpenAPI
@@ -119,7 +139,8 @@ apis:
   description: The APIs API from Kinde — 6 operation(s) for apis.
   humanURL: https://docs.kinde.com/kinde-apis/management/
   baseURL: https://{subdomain}.kinde.com/api/v1
-  tags:
+  tags: []
+  tags_raw:
   - APIs
   properties:
   - type: OpenAPI
@@ -174,6 +195,8 @@ apis:
   humanURL: https://docs.kinde.com/kinde-apis/management/
   baseURL: https://{subdomain}.kinde.com/api/v1
   tags:
+  - Application
+  tags_raw:
   - Applications
   properties:
   - type: OpenAPI
@@ -714,6 +737,8 @@ apis:
   humanURL: https://docs.kinde.com/kinde-apis/management/
   baseURL: https://{subdomain}.kinde.com/api/v1
   tags:
+  - Environment Variables
+  tags_raw:
   - Environment variables
   properties:
   - type: OpenAPI
@@ -822,6 +847,8 @@ apis:
   humanURL: https://docs.kinde.com/kinde-apis/management/
   baseURL: https://{subdomain}.kinde.com/api/v1
   tags:
+  - Feature Flags
+  tags_raw:
   - Feature flags
   properties:
   - type: OpenAPI
@@ -1038,6 +1065,8 @@ apis:
   humanURL: https://docs.kinde.com/kinde-apis/management/
   baseURL: https://{subdomain}.kinde.com/api/v1
   tags:
+  - Authentication
+  tags_raw:
   - OAuth
   properties:
   - type: OpenAPI
@@ -1092,6 +1121,8 @@ apis:
   humanURL: https://docs.kinde.com/kinde-apis/management/
   baseURL: https://{subdomain}.kinde.com/api/v1
   tags:
+  - Organization
+  tags_raw:
   - Organizations
   properties:
   - type: OpenAPI
@@ -1578,6 +1609,8 @@ apis:
   humanURL: https://docs.kinde.com/kinde-apis/management/
   baseURL: https://{subdomain}.kinde.com/api/v1
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -1632,6 +1665,8 @@ apis:
   humanURL: https://docs.kinde.com/kinde-apis/management/
   baseURL: https://{subdomain}.kinde.com/api/v1
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
