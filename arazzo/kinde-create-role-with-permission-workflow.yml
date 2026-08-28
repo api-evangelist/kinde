@@ -12,8 +12,11 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: kindeManagementApi
-  url: ../openapi/kinde-management-api-openapi.yml
+- name: permissionsApi
+  url: ../openapi/kinde-permissions-api-openapi.yml
+  type: openapi
+- name: rolesApi
+  url: ../openapi/kinde-roles-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: create-role-with-permission

@@ -12,8 +12,11 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: kindeManagementApi
-  url: ../openapi/kinde-management-api-openapi.yml
+- name: featureFlagsApi
+  url: ../openapi/kinde-feature-flags-api-openapi.yml
+  type: openapi
+- name: organizationsApi
+  url: ../openapi/kinde-organizations-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: rollout-feature-flag

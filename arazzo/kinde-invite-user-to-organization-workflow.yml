@@ -11,8 +11,11 @@ info:
     read and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: kindeManagementApi
-  url: ../openapi/kinde-management-api-openapi.yml
+- name: organizationsApi
+  url: ../openapi/kinde-organizations-api-openapi.yml
+  type: openapi
+- name: rolesApi
+  url: ../openapi/kinde-roles-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: invite-user-to-organization

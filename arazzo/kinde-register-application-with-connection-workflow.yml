@@ -10,8 +10,14 @@ info:
     read and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: kindeManagementApi
-  url: ../openapi/kinde-management-api-openapi.yml
+- name: applicationsApi
+  url: ../openapi/kinde-applications-api-openapi.yml
+  type: openapi
+- name: callbacksApi
+  url: ../openapi/kinde-callbacks-api-openapi.yml
+  type: openapi
+- name: connectionsApi
+  url: ../openapi/kinde-connections-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: register-application-with-connection

@@ -11,8 +11,17 @@ info:
     opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: kindeFrontendApi
-  url: ../openapi/kinde-frontend-api-openapi.yml
+- name: billingApi
+  url: ../openapi/kinde-billing-api-openapi.yml
+  type: openapi
+- name: oauthApi
+  url: ../openapi/kinde-oauth-api-openapi.yml
+  type: openapi
+- name: rolesApi
+  url: ../openapi/kinde-roles-api-openapi.yml
+  type: openapi
+- name: selfServePortalApi
+  url: ../openapi/kinde-self-serve-portal-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: end-user-self-serve-portal
