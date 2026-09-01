@@ -859,7 +859,7 @@ apis:
   humanURL: https://docs.kinde.com/kinde-apis/management/
   baseURL: https://{subdomain}.kinde.com/api/v1
   tags:
-  - Feature flags
+  - Feature Flags
   tags_raw:
   - Feature flags
   properties:
