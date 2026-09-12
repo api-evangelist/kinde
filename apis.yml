@@ -68,17 +68,23 @@ tags_raw:
   - Developer Platform
 url: https://raw.githubusercontent.com/api-evangelist/kinde/refs/heads/main/apis.yml
 created: '2026-05-22'
-modified: '2026-05-22'
+modified: '2026-09-12'
 specificationVersion: '0.23'
 apis:
 - aid: kinde:kinde-mcp-server
   name: Kinde MCP Server
   description: >
-    The Kinde MCP (Model Context Protocol) server acts as a bridge between AI assistants and a Kinde account.
-    It exposes a subset of the Kinde Management API as MCP tools (query organizations, check user existence
-    by email, retrieve user roles, list users in an organization, manage users and permissions), authenticated
-    via an environment-level API key whose scopes constrain which tools the AI client can call.
-  humanURL: https://docs.kinde.com/mcp-server/about-mcp-server/
+    The Kinde Management MCP server bridges AI agents and a Kinde account. It is TENANT-SCOPED — the
+    endpoint is https://{subdomain}.kinde.com/mcp, one per Kinde business — and is authenticated with an
+    Environment API key whose scopes constrain the available tools. It publishes 22 tools across users,
+    organizations, roles, permissions and configuration. Crucially the server is restricted to READ AND
+    CREATE scopes only: Kinde grants it no update: or delete: scopes at all, stating that AI clients can
+    misinterpret requests or hallucinate, so an agent can query and create but cannot modify or destroy
+    existing records. Separately, Kinde SELLS MCP server generation over a customer's own OpenAPI
+    ("Kinde Secure MCP", beta, launched July 2026), which makes Kinde a producer of MCP infrastructure
+    for other companies as well as a consumer-facing MCP publisher.
+  humanURL: https://docs.kinde.com/mcp-servers/
+  baseURL: https://{subdomain}.kinde.com/mcp
   tags:
   - MCP
   - AI Agents
@@ -89,8 +95,23 @@ apis:
   - Model Context Protocol
   - Identity
   properties:
+  - type: MCPServer
+    url: mcp/kinde-mcp.yml
+    x-description: 22 published tools with scopes; remote + stdio-bridge deployment, tenant-scoped endpoint
+  - type: ToolCrosswalk
+    url: mcp/kinde-tool-crosswalk.yml
+    x-description: All 22 tools bound one-to-one to Management API operationIds; 157 REST operations have no tool
   - type: Documentation
-    url: https://docs.kinde.com/mcp-server/about-mcp-server/
+    url: https://docs.kinde.com/mcp-servers/
+  - type: APIReference
+    url: https://docs.kinde.com/mcp-servers/operations-and-scopes/
+    x-description: Provider-published operation + scope table for the Management MCP server
+  - type: GettingStarted
+    url: https://docs.kinde.com/mcp-servers/manage-kinde-account-with-ai-agents/
+  - type: Authentication
+    url: authentication/kinde-authentication.yml
+  - type: OAuthScopes
+    url: scopes/kinde-scopes.yml
 - aid: kinde:kinde-api-keys-api
   name: Kinde API Keys API
   description: The API Keys API from Kinde — 3 operation(s) for api keys.
@@ -1729,8 +1750,8 @@ apis:
   - type: OpenAPICanonical
     url: https://api-spec.kinde.com/kinde-frontend-api-spec.yaml
 common:
-  - type: CapabilityMap
-    url: capabilities/kinde-capability-edges.yml
+  - type: Website
+    url: https://www.kinde.com/
     name: Kinde Business Capability Map
   - type: AgenticAccess
     url: agentic-access/kinde-agentic-access.yml
@@ -1799,8 +1820,6 @@ common:
     url: https://docs.kinde.com/trust-center/
   - type: Support
     url: mailto:support@kinde.com
-  - type: ContactSales
-    url: https://kinde.com/contact-us/
   - type: Plans
     url: plans/kinde-plans-pricing.yml
   - type: RateLimits
@@ -1948,6 +1967,91 @@ common:
     x-description: Source of the public Kinde documentation site (Astro/MDX)
   - type: LlmsText
     url: https://docs.kinde.com/llms.txt
+  - type: Packages
+    url: packages/kinde-packages.yml
+    x-description: 34 first-party packages across 11 registries, with version + published date per entry
+  - type: SDKs
+    url: packages/kinde-packages.yml
+    x-description: Official SDK estate — JS/TS shipping monthly, JVM artifacts on Maven Central static since 2024-12
+  - type: WellKnown
+    url: well-known/kinde-well-known.yml
+    x-description: 7 hosts probed; security.txt on the apex, OIDC + RFC 8414 metadata on app.kinde.com
+  - type: SecurityTxt
+    url: well-known/kinde-security.txt
+    x-description: RFC 9116, HTTP 200, Expires 2027-12-11, Policy points at the live disclosure page
+  - type: Security
+    url: security/kinde-vulnerability-disclosure.yml
+    x-description: Published vulnerability disclosure policy + security@kinde.com contact
+  - type: Compliance
+    url: conformance/kinde-conformance.yml
+    x-description: SOC 2 Type 2, ISO 27001, GDPR, HIPAA, PCI DSS, CAIQ v4, MVSP
+  - type: Conformance
+    url: conformance/kinde-conformance.yml
+    x-description: 23 standards assessed — OAuth 2.0, OIDC, RFC 8414, PKCE, RFC 7662/7009, SAML 2.0; SCIM not yet shipped
+  - type: Conventions
+    url: conventions/kinde-conventions.yml
+    x-description: Auth, pagination, error envelope, rate-limit signalling, reversibility and the idempotency verdict
+  - type: Idempotency
+    url: conventions/kinde-conventions.yml
+    x-description: 'Machine verdict: coverage none — no Idempotency-Key or replay protection on any write'
+  - type: ErrorCatalog
+    url: errors/kinde-problem-types.yml
+    x-description: HTTP status contract, RFC 6749 OAuth error values, and 19 published platform error codes
+  - type: Lifecycle
+    url: lifecycle/kinde-lifecycle.yml
+    x-description: Versioning, deprecation posture, status page, SLA and the six archived SDK repositories
+  - type: Deprecation
+    url: lifecycle/kinde-lifecycle.yml
+    x-description: No deprecation policy or Sunset header; retirement is signalled only by archiving a repository
+  - type: OAuthScopes
+    url: scopes/kinde-scopes.yml
+    x-description: 7 OIDC scopes, 53 Management API scopes, and the 17-scope read-and-create MCP subset
+  - type: DataModel
+    url: data-model/kinde-data-model.yml
+    x-description: 27 entities and 34 relationships derived from 117 schemas and the path-nesting graph
+  - type: Sandbox
+    url: sandbox/kinde-sandbox.yml
+    x-description: No test mode; isolation is per-environment tenants (2/2/6/11 by plan)
+  - type: ChangeLog
+    url: changelog/kinde-changelog.yml
+    x-description: Monthly themed releases from updates.kinde.com, with an RSS feed at /feed
+  - type: CLI
+    url: cli/kinde-cli.yml
+    x-description: Go binary, 21 manage subcommands, Homebrew/Scoop/signed APT repo at pkg.kinde.com
+  - type: Components
+    url: components/kinde-components.yml
+    x-description: Framework link components plus Kinde-hosted portal and pricing table; auth is never embeddable
+  - type: Webhooks
+    url: webhooks/kinde-webhooks.yml
+    x-description: Event catalog discoverable at runtime via GET /api/v1/event_types with JSON Schema 2020-12 per event
+  - type: AgentSkill
+    url: skills/_index.yml
+    x-description: 9 packaged Agent Skills mirroring the Arazzo workflows, grounded in verified operationIds
+  - type: LlmsText
+    url: llms/kinde-www-llms.txt
+    x-description: Canonical-format llms.txt served at https://kinde.com/llms.txt (distinct from the docs index)
+  - type: HelpCenter
+    url: https://kinde.com/support/
+    x-description: Live support page (replaces the dead /contact-us/ pointer removed 2026-09-12)
+  - type: APIReference
+    url: https://docs.kinde.com/kinde-apis/
+    x-description: Kinde APIs reference index
+  - type: PrivacyPolicy
+    url: https://docs.kinde.com/trust-center/privacy-and-compliance/privacy-policy/
+  - type: Compliance
+    url: https://docs.kinde.com/trust-center/privacy-and-compliance/compliance/
+    x-description: Kinde's published certification and compliance page
+  - type: Overlay
+    url: overlays/kinde-management-api-overlay.yaml
+    x-description: Records the 53-scope OAuth model and runtime semantics the published contract omits
+  - type: Overlay
+    url: overlays/kinde-account-api-overlay.yaml
+    x-description: Supplies the templated tenant server the Account API spec omits entirely
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com
+x-enrichment:
+  date: '2026-09-12'
+  status: enriched
+  artifacts_added: 30
+  pass: local-v3
