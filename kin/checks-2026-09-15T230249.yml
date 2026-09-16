@@ -1,23 +1,21 @@
 ---
 kin_checks:
   slug: kinde
-  schema_version: 0.21.0
-  scored_at: '2026-09-12'
-  run_ts: 2026-09-12T080032
+  schema_version: 0.22.0
+  scored_at: '2026-09-15'
+  run_ts: 2026-09-15T230249
   note: Actionable checks only (missed + partial). earned/na are every other check
-    in rubric/scoring-0.21.0.yml; counts below let you verify that.
+    in rubric/scoring-0.22.0.yml; counts below let you verify that.
   counts:
     total: 136
-    earned: 59
-    partial: 14
-    missed: 37
-    na: 26
+    earned: 71
+    partial: 18
+    missed: 22
+    na: 25
   checks:
   - id: maintainer_present
     status: missed
   - id: multiple_apis
-    status: missed
-  - id: base_url_per_api
     status: missed
   - id: well_known_published
     status: missed
@@ -32,49 +30,21 @@ kin_checks:
   - id: webhooks_or_callbacks
     status: missed
     detail: 0 of 30 openapi documents pass
+  - id: inbound_contract_published
+    status: missed
   - id: asyncapi_present
     status: missed
   - id: json_ld_property_depth
     status: missed
   - id: domain_standard_conformance
     status: missed
-  - id: conformance_declared
-    status: missed
   - id: overlay_published
-    status: missed
-  - id: deprecation_policy
-    status: missed
-  - id: security_disclosure
-    status: missed
-  - id: webhooks_advertised
-    status: missed
-  - id: api_reference_present
-    status: missed
-  - id: console_or_sandbox
-    status: missed
-  - id: agent_skill_present
-    status: missed
-  - id: privacy_policy
-    status: missed
-  - id: compliance_published
-    status: missed
-  - id: reg_oauth_scopes
-    status: missed
-  - id: reg_privacy_policy
     status: missed
   - id: upsert_named
     status: missed
   - id: upsert_declared_conflict
     status: missed
   - id: reversibility_documented
-    status: missed
-  - id: idempotency
-    status: missed
-  - id: event_surface_described
-    status: missed
-  - id: agent_skills
-    status: missed
-  - id: well_known_catalog
     status: missed
   - id: consent_identity
     status: missed
@@ -120,6 +90,9 @@ kin_checks:
   - id: postman_present
     status: partial
     earned: 0.5
+  - id: agent_skill_present
+    status: partial
+    earned: 0.75
   - id: sign_up_present
     status: partial
     earned: 2.5
@@ -128,10 +101,18 @@ kin_checks:
     status: partial
     earned: 2.5
     detail: 'authorship: derived'
+  - id: mcp_server
+    status: partial
+    earned: 7.2
+    detail: 'grade: templated'
   - id: auth_clarity
     status: partial
-    earned: 3.5
-    detail: 'grade: bearer'
+    earned: 9.0
+    detail: 'grade: served'
+  - id: idempotency
+    status: partial
+    earned: 4.5
+    detail: 'grade: documented'
   - id: openapi_examples
     status: partial
     earned: 3.5
@@ -140,3 +121,7 @@ kin_checks:
     status: partial
     earned: 3.5
     detail: 'grade: documented'
+  - id: agent_skills
+    status: partial
+    earned: 1.25
+    detail: 'authorship: derived'
