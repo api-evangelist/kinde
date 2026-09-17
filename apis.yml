@@ -74,15 +74,15 @@ apis:
 - aid: kinde:kinde-mcp-server
   name: Kinde MCP Server
   description: >
-    The Kinde Management MCP server bridges AI agents and a Kinde account. It is TENANT-SCOPED — the
-    endpoint is https://{subdomain}.kinde.com/mcp, one per Kinde business — and is authenticated with an
-    Environment API key whose scopes constrain the available tools. It publishes 22 tools across users,
-    organizations, roles, permissions and configuration. Crucially the server is restricted to READ AND
-    CREATE scopes only: Kinde grants it no update: or delete: scopes at all, stating that AI clients can
-    misinterpret requests or hallucinate, so an agent can query and create but cannot modify or destroy
-    existing records. Separately, Kinde SELLS MCP server generation over a customer's own OpenAPI
-    ("Kinde Secure MCP", beta, launched July 2026), which makes Kinde a producer of MCP infrastructure
-    for other companies as well as a consumer-facing MCP publisher.
+    The Kinde Management MCP server bridges AI agents and a Kinde account. It is TENANT-SCOPED — the endpoint
+    is https://{subdomain}.kinde.com/mcp, one per Kinde business — and is authenticated with an Environment
+    API key whose scopes constrain the available tools. It publishes 22 tools across users, organizations,
+    roles, permissions and configuration. Crucially the server is restricted to READ AND CREATE scopes
+    only: Kinde grants it no update: or delete: scopes at all, stating that AI clients can misinterpret
+    requests or hallucinate, so an agent can query and create but cannot modify or destroy existing records.
+    Separately, Kinde SELLS MCP server generation over a customer's own OpenAPI ("Kinde Secure MCP", beta,
+    launched July 2026), which makes Kinde a producer of MCP infrastructure for other companies as well
+    as a consumer-facing MCP publisher.
   humanURL: https://docs.kinde.com/mcp-servers/
   baseURL: https://{subdomain}.kinde.com/mcp
   tags:
@@ -100,7 +100,8 @@ apis:
     x-description: 22 published tools with scopes; remote + stdio-bridge deployment, tenant-scoped endpoint
   - type: ToolCrosswalk
     url: mcp/kinde-tool-crosswalk.yml
-    x-description: All 22 tools bound one-to-one to Management API operationIds; 157 REST operations have no tool
+    x-description: >-
+      All 22 tools bound one-to-one to Management API operationIds; 157 REST operations have no tool
   - type: Documentation
     url: https://docs.kinde.com/mcp-servers/
   - type: APIReference
@@ -124,61 +125,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/kinde-api-keys-api-openapi.yml
-  - type: Documentation
-    url: https://docs.kinde.com/kinde-apis/management/
-  - type: GettingStarted
-    url: https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/
-  - type: Authentication
-    url: https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/
-  - type: OpenAPICanonical
-    url: https://api-spec.kinde.com/kinde-management-api-spec.yaml
-  - type: SpectralRules
-    url: rules/kinde-rules.yml
-  - type: JSONSchema
-    url: json-schema/kinde-user-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-organization-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-application-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-role-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-permission-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-feature-flag-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-webhook-schema.json
-  - type: JSONStructure
-    url: json-structure/kinde-user-structure.json
-  - type: JSONStructure
-    url: json-structure/kinde-organization-structure.json
-  - type: Examples
-    url: examples/kinde-create-user-example.json
-  - type: Examples
-    url: examples/kinde-create-organization-example.json
-  - type: Examples
-    url: examples/kinde-create-application-example.json
-  - type: Examples
-    url: examples/kinde-create-role-example.json
-  - type: Examples
-    url: examples/kinde-create-feature-flag-example.json
-  - type: Examples
-    url: examples/kinde-create-webhook-example.json
-  - type: Documentation
-    url: https://docs.kinde.com/kinde-apis/frontend/
-  - type: OpenAPICanonical
-    url: https://api-spec.kinde.com/kinde-frontend-api-spec.yaml
-- aid: kinde:kinde-apis-api
-  name: Kinde APIs API
-  description: The APIs API from Kinde — 6 operation(s) for apis.
-  humanURL: https://docs.kinde.com/kinde-apis/management/
-  baseURL: https://{subdomain}.kinde.com/api/v1
-  tags: []
-  tags_raw:
-  - APIs
-  properties:
-  - type: OpenAPI
-    url: openapi/kinde-apis-api-openapi.yml
   - type: Documentation
     url: https://docs.kinde.com/kinde-apis/management/
   - type: GettingStarted
@@ -1093,62 +1039,6 @@ apis:
     url: https://docs.kinde.com/kinde-apis/frontend/
   - type: OpenAPICanonical
     url: https://api-spec.kinde.com/kinde-frontend-api-spec.yaml
-- aid: kinde:kinde-oauth-api
-  name: Kinde OAuth API
-  description: The OAuth API from Kinde — 3 operation(s) for oauth.
-  humanURL: https://docs.kinde.com/kinde-apis/management/
-  baseURL: https://{subdomain}.kinde.com/api/v1
-  tags:
-  - Authentication
-  tags_raw:
-  - OAuth
-  properties:
-  - type: OpenAPI
-    url: openapi/kinde-oauth-api-openapi.yml
-  - type: Documentation
-    url: https://docs.kinde.com/kinde-apis/management/
-  - type: GettingStarted
-    url: https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/
-  - type: Authentication
-    url: https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/
-  - type: OpenAPICanonical
-    url: https://api-spec.kinde.com/kinde-management-api-spec.yaml
-  - type: SpectralRules
-    url: rules/kinde-rules.yml
-  - type: JSONSchema
-    url: json-schema/kinde-user-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-organization-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-application-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-role-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-permission-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-feature-flag-schema.json
-  - type: JSONSchema
-    url: json-schema/kinde-webhook-schema.json
-  - type: JSONStructure
-    url: json-structure/kinde-user-structure.json
-  - type: JSONStructure
-    url: json-structure/kinde-organization-structure.json
-  - type: Examples
-    url: examples/kinde-create-user-example.json
-  - type: Examples
-    url: examples/kinde-create-organization-example.json
-  - type: Examples
-    url: examples/kinde-create-application-example.json
-  - type: Examples
-    url: examples/kinde-create-role-example.json
-  - type: Examples
-    url: examples/kinde-create-feature-flag-example.json
-  - type: Examples
-    url: examples/kinde-create-webhook-example.json
-  - type: Documentation
-    url: https://docs.kinde.com/kinde-apis/frontend/
-  - type: OpenAPICanonical
-    url: https://api-spec.kinde.com/kinde-frontend-api-spec.yaml
 - aid: kinde:kinde-organizations-api
   name: Kinde Organizations API
   description: The Organizations API from Kinde — 25 operation(s) for organizations.
@@ -1705,6 +1595,114 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/kinde-webhooks-api-openapi.yml
+  - type: Documentation
+    url: https://docs.kinde.com/kinde-apis/management/
+  - type: GettingStarted
+    url: https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/
+  - type: Authentication
+    url: https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/
+  - type: OpenAPICanonical
+    url: https://api-spec.kinde.com/kinde-management-api-spec.yaml
+  - type: SpectralRules
+    url: rules/kinde-rules.yml
+  - type: JSONSchema
+    url: json-schema/kinde-user-schema.json
+  - type: JSONSchema
+    url: json-schema/kinde-organization-schema.json
+  - type: JSONSchema
+    url: json-schema/kinde-application-schema.json
+  - type: JSONSchema
+    url: json-schema/kinde-role-schema.json
+  - type: JSONSchema
+    url: json-schema/kinde-permission-schema.json
+  - type: JSONSchema
+    url: json-schema/kinde-feature-flag-schema.json
+  - type: JSONSchema
+    url: json-schema/kinde-webhook-schema.json
+  - type: JSONStructure
+    url: json-structure/kinde-user-structure.json
+  - type: JSONStructure
+    url: json-structure/kinde-organization-structure.json
+  - type: Examples
+    url: examples/kinde-create-user-example.json
+  - type: Examples
+    url: examples/kinde-create-organization-example.json
+  - type: Examples
+    url: examples/kinde-create-application-example.json
+  - type: Examples
+    url: examples/kinde-create-role-example.json
+  - type: Examples
+    url: examples/kinde-create-feature-flag-example.json
+  - type: Examples
+    url: examples/kinde-create-webhook-example.json
+  - type: Documentation
+    url: https://docs.kinde.com/kinde-apis/frontend/
+  - type: OpenAPICanonical
+    url: https://api-spec.kinde.com/kinde-frontend-api-spec.yaml
+- aid: kinde:kinde-apis-api
+  name: Kinde AP Is API
+  description: The APIs API from Kinde — 6 operation(s) for apis.
+  humanURL: https://docs.kinde.com/mcp-servers/
+  baseURL: https://{subdomain}.kinde.com/mcp
+  tags:
+  - APIs
+  properties:
+  - type: OpenAPI
+    url: openapi/kinde-apis-api-openapi.yml
+  - type: Documentation
+    url: https://docs.kinde.com/kinde-apis/management/
+  - type: GettingStarted
+    url: https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/
+  - type: Authentication
+    url: https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/
+  - type: OpenAPICanonical
+    url: https://api-spec.kinde.com/kinde-management-api-spec.yaml
+  - type: SpectralRules
+    url: rules/kinde-rules.yml
+  - type: JSONSchema
+    url: json-schema/kinde-user-schema.json
+  - type: JSONSchema
+    url: json-schema/kinde-organization-schema.json
+  - type: JSONSchema
+    url: json-schema/kinde-application-schema.json
+  - type: JSONSchema
+    url: json-schema/kinde-role-schema.json
+  - type: JSONSchema
+    url: json-schema/kinde-permission-schema.json
+  - type: JSONSchema
+    url: json-schema/kinde-feature-flag-schema.json
+  - type: JSONSchema
+    url: json-schema/kinde-webhook-schema.json
+  - type: JSONStructure
+    url: json-structure/kinde-user-structure.json
+  - type: JSONStructure
+    url: json-structure/kinde-organization-structure.json
+  - type: Examples
+    url: examples/kinde-create-user-example.json
+  - type: Examples
+    url: examples/kinde-create-organization-example.json
+  - type: Examples
+    url: examples/kinde-create-application-example.json
+  - type: Examples
+    url: examples/kinde-create-role-example.json
+  - type: Examples
+    url: examples/kinde-create-feature-flag-example.json
+  - type: Examples
+    url: examples/kinde-create-webhook-example.json
+  - type: Documentation
+    url: https://docs.kinde.com/kinde-apis/frontend/
+  - type: OpenAPICanonical
+    url: https://api-spec.kinde.com/kinde-frontend-api-spec.yaml
+- aid: kinde:kinde-oauth-api
+  name: Kinde O Auth API
+  description: The OAuth API from Kinde — 3 operation(s) for oauth.
+  humanURL: https://docs.kinde.com/mcp-servers/
+  baseURL: https://{subdomain}.kinde.com/mcp
+  tags:
+  - OAuth
+  properties:
+  - type: OpenAPI
+    url: openapi/kinde-oauth-api-openapi.yml
   - type: Documentation
     url: https://docs.kinde.com/kinde-apis/management/
   - type: GettingStarted
