@@ -43,7 +43,7 @@ tags:
   - Customer Identity
   - Identity Management
   - OpenID Connect
-  - Single Sign-On
+  - SSO
   - Multi-Factor Authentication
   - Role-Based Access Control
   - Feature Flags
@@ -773,6 +773,8 @@ apis:
   humanURL: https://docs.kinde.com/kinde-apis/management/
   baseURL: https://{subdomain}.kinde.com/api/v1
   tags:
+  - Environment
+  tags_raw:
   - Environments
   properties:
   - type: OpenAPI
@@ -1479,6 +1481,8 @@ apis:
   humanURL: https://docs.kinde.com/kinde-apis/management/
   baseURL: https://{subdomain}.kinde.com/api/v1
   tags:
+  - Timezone
+  tags_raw:
   - Timezones
   properties:
   - type: OpenAPI
@@ -1644,7 +1648,8 @@ apis:
   description: The APIs API from Kinde — 6 operation(s) for apis.
   humanURL: https://docs.kinde.com/mcp-servers/
   baseURL: https://{subdomain}.kinde.com/mcp
-  tags:
+  tags: []
+  tags_raw:
   - APIs
   properties:
   - type: OpenAPI
@@ -1699,6 +1704,8 @@ apis:
   humanURL: https://docs.kinde.com/mcp-servers/
   baseURL: https://{subdomain}.kinde.com/mcp
   tags:
+  - Authentication
+  tags_raw:
   - OAuth
   properties:
   - type: OpenAPI
