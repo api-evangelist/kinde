@@ -1,0 +1,121 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  https://github.com/kinde-oss/kinde-cli (README, read 2026-09-12) and
+  https://api.github.com/repos/kinde-oss/kinde-cli/releases/latest.
+provider: Kinde
+providerId: kinde
+name: Kinde CLI
+binary: kinde
+language: Go
+official: true
+repository: https://github.com/kinde-oss/kinde-cli
+releases: https://github.com/kinde-oss/kinde-cli/releases
+version: v0.1.20
+published: '2025-09-08'
+maturity: work-in-progress
+maturity_note: >-
+  The README states plainly: "This is a work in progress. APIs may change without notice or be
+  missing." The latest release is v0.1.20 from 2025-09-08 — a year old at the time of this pass,
+  and the oldest-published component of Kinde's otherwise actively-shipping developer surface.
+description: >-
+  A single native Go binary that fronts the Kinde Management API. Its distribution story is
+  unusually thorough for a v0.x tool — Homebrew tap, Scoop bucket, a first-party signed APT
+  repository at pkg.kinde.com, .deb packages per architecture, pre-built release binaries across
+  Linux/macOS/Windows on x64/i386/ARM/Apple ARM, each with a checksum, plus go install. The command
+  surface mirrors the Management API resource-for-resource.
+security_posture:
+  credential_storage: OS-specific secrets store
+  default_deny: >-
+    "Secure by default. Kinde business cannot be managed via the CLI until a new M2M application is
+    created with the management API authorized and the select scopes granted."
+  checksums: Published per platform/architecture variant.
+install:
+  - method: homebrew
+    platform: macOS
+    commands:
+      - brew tap kinde-oss/kinde-cli
+      - brew install kinde-cli
+    upgrade: brew upgrade kinde-cli
+    tap_repo: https://github.com/kinde-oss/homebrew-kinde-cli
+  - method: scoop
+    platform: Windows
+    commands:
+      - scoop bucket add kinde https://github.com/kinde-oss/scoop-kinde-cli
+      - scoop install kinde-cli
+    upgrade: scoop update kinde-cli
+    bucket_repo: https://github.com/kinde-oss/scoop-kinde-cli
+  - method: apt
+    platform: Debian/Ubuntu
+    recommended: true
+    repository: https://pkg.kinde.com/apt/
+    gpg_key: https://pkg.kinde.com/apt/gpg.key
+    commands:
+      - curl -s https://pkg.kinde.com/apt/gpg.key | gpg --dearmor | sudo tee /usr/share/keyrings/kinde.gpg
+      - sudo apt update
+      - sudo apt install kinde-cli
+    note: >-
+      A first-party signed APT repository on a Kinde-controlled host (pkg.kinde.com). This is real
+      distribution infrastructure, not just a GitHub release page.
+  - method: deb
+    platform: Linux
+    architectures: [arm64, amd64]
+    source: https://github.com/kinde-oss/kinde-cli/releases/latest
+  - method: binary
+    platform: [Linux, macOS, Windows]
+    architectures: [x64, i386, ARM, Apple ARM]
+    source: https://github.com/kinde-oss/kinde-cli/releases
+  - method: go
+    command: go install github.com/kinde-oss/kinde-cli/cmd/kinde@latest
+shell_completion:
+  supported: [bash, zsh, fish, powershell]
+  command: kinde help completion <bash|fish|powershell|zsh>
+configuration:
+  path_unix: $HOME/.kinde/config.json
+  path_windows: <user profile>\.config\kinde\config.json
+  multi_tenant: true
+  note: >-
+    The config holds a `current` business plus a map of environments keyed by Kinde domain, each
+    with its own client_id/client_secret — so one CLI install manages several Kinde businesses.
+authentication:
+  - flow: client_credentials
+    command: kinde login --domain <business domain> --client_id <M2M app> --client_secret <secret>
+  - flow: device_authorization
+    command: kinde login --domain <business domain> [--client_id <id>]
+    note: Requires a default application configured for device flow, or an explicit client_id.
+commands:
+  top_level:
+    - {name: login, description: Authenticate with Kinde; multi-tenancy via --domain}
+    - {name: logout, description: Remove authentication credentials}
+    - {name: whoami, description: Show current authenticated token details}
+    - {name: version, description: Show current version and check GitHub for a newer release}
+    - {name: manage, description: Access the Management API}
+    - {name: help, description: Show help for commands}
+    - {name: completion, description: Emit shell completion scripts}
+  manage_subcommands:
+    - {name: api_keys, description: Manage API keys}
+    - {name: apis, description: Manage APIs}
+    - {name: applications, description: Manage applications}
+    - {name: billing, description: Manage billing}
+    - {name: business, description: Manage business settings}
+    - {name: categories, description: Manage categories}
+    - {name: connected_apps, description: Manage connected applications}
+    - {name: connections, description: Manage connections}
+    - {name: environment_variables, description: Manage environment variables}
+    - {name: environments, description: Manage environments}
+    - {name: events, description: Manage events}
+    - {name: feature_flags, description: Manage feature flags}
+    - {name: industries, description: Manage industries}
+    - {name: organizations, description: Manage organizations}
+    - {name: permissions, description: Manage permissions}
+    - {name: properties, description: Manage properties}
+    - {name: roles, description: Manage roles}
+    - {name: subscribers, description: Manage subscribers}
+    - {name: timezones, description: Manage timezones}
+    - {name: users, description: Manage users}
+    - {name: webhooks, description: Manage webhooks}
+  subcommand_count: 21
+  reference: https://github.com/kinde-oss/kinde-cli/blob/main/docs/manage-commands-reference.md
+known_gaps:
+  - Offline token verification is listed as TODO (online verification ships).
+  - Account API support is listed as TODO.

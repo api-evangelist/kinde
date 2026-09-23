@@ -1,0 +1,102 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  https://docs.kinde.com/integrate/webhooks/about-webhooks/,
+  https://docs.kinde.com/integrate/webhooks/add-manage-webhooks/, the webhook JSON Schema published
+  verbatim in the Kinde docs corpus, and the Webhooks tag of
+  openapi/_original/kinde-management-api-openapi.yml. Read 2026-09-12.
+provider: Kinde
+providerId: kinde
+surface: webhooks
+asyncapi_published: false
+asyncapi_note: >-
+  Kinde publishes NO AsyncAPI document. It does, however, publish a per-event JSON Schema 2020-12
+  document retrievable at runtime from GET /api/v1/event_types — which is a stronger machine
+  contract than most webhook catalogs offer, just not in an event-spec format. No AsyncAPI is
+  fabricated here.
+description: >-
+  Kinde's event surface is HTTP webhooks registered per environment against a set of event types.
+  The distinguishing feature is that the event catalog is DISCOVERABLE AT RUNTIME rather than only
+  documented: GET /api/v1/event_types returns each event type with its id, code, name, origin and a
+  full JSON Schema for the payload. An integrator (or an agent) can enumerate and validate the
+  entire event surface from the API itself.
+discovery:
+  runtime_endpoint: GET /api/v1/event_types
+  operation_tag: webhooks
+  returns:
+    - id
+    - code
+    - name
+    - origin
+    - schema (JSON Schema 2020-12)
+  dashboard: Settings > Webhooks
+  note: >-
+    Because the full catalog is only obtainable from an authenticated tenant call, the complete
+    event list is not transcribed here. The events below are those Kinde names explicitly in its
+    public documentation.
+envelope:
+  fields:
+    - name: type
+      description: The event code, e.g. user.updated. Declared as a JSON Schema constant per event type.
+    - name: data
+      description: Event-specific payload object.
+    - name: source
+      enum: [api, admin]
+      description: Whether the change originated from the API or the Kinde admin UI.
+    - name: event_id
+      pattern: 'event_[0-9a-f]{32}'
+      description: Unique delivery identifier — the only first-class trace id Kinde publishes.
+    - name: timestamp
+      format: date-time
+    - name: version
+      description: Integer payload version, e.g. 1.
+  schema_example_id: https://kinde.com/user.updated.schema.json
+  schema_dialect: https://json-schema.org/draft/2020-12/schema
+events:
+  - code: user.created
+    name: User created
+    description: A user is created in Kinde, either via the admin UI or by registering.
+  - code: user.updated
+    name: User updated
+    description: >-
+      A user is added to an organization, or their roles or permissions change. Payload carries the
+      user object plus is_password_reset_requested.
+    schema_id: https://kinde.com/user.updated.schema.json
+    schema_published: true
+  - code: user.deleted
+    name: User deleted
+    description: A user is deleted via the UI or via the API.
+  - category: billing
+    description: >-
+      Kinde documents billing/customer-activity webhooks for plan and usage updates (payment
+      failures, subscription lifecycle, plan changes). Specific event codes are enumerated only via
+      GET /api/v1/event_types and the dashboard, and are therefore not listed individually here.
+    docs: https://docs.kinde.com/billing/manage-subscribers/manage-customer-activity-webhooks/
+management:
+  operations:
+    - createWebHook
+    - getWebHooks
+    - updateWebHook
+    - DeleteWebHook
+    - getEventTypes
+  scopes: ['read:webhooks', 'create:webhooks', 'update:webhooks', 'delete:webhooks']
+  limits:
+    free_plan: 1 webhook per environment
+    pro_plan_and_above: unlimited
+  source: https://kinde.com/pricing/
+verification:
+  library: '@kinde/webhooks'
+  version: 1.3.2
+  published: '2026-08-18'
+  repository: https://github.com/kinde-oss/webhook
+  note: >-
+    Kinde ships a first-party npm package for webhook signature verification and event typing,
+    which is the practical signing story. The signing algorithm is documented through that SDK
+    rather than as a standalone spec page.
+delivery:
+  retries: not-published
+  ordering: not-guaranteed-not-stated
+  test_trigger: none-published
+  note: >-
+    No retry schedule, delivery-guarantee statement or "send test event" facility is documented.
+    Exercising a webhook means performing the real action in a development environment.

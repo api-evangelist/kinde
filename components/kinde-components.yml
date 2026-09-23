@@ -1,0 +1,102 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  https://docs.kinde.com/developer-tools/sdks/frontend/react-sdk/,
+  https://docs.kinde.com/developer-tools/sdks/backend/nextjs-sdk/,
+  https://docs.kinde.com/build/self-service-portal/self-serve-portal-for-users/,
+  https://docs.kinde.com/billing/billing-user-experience/plan-selection/,
+  https://docs.kinde.com/design/. Read 2026-09-12.
+provider: Kinde
+providerId: kinde
+description: >-
+  Kinde's client-side surface is deliberately NOT an embeddable auth widget. The docs state it
+  outright: "Kinde uses redirect-based OAuth 2.0 flows rather than inline embeddable
+  authentication... Embedding the auth flow in a modal or iframe is not supported." What Kinde
+  ships instead are two things — framework-native LINK components that route a user to a
+  Kinde-hosted page, and Kinde-hosted, brand-customizable pages themselves (sign-in/sign-up, the
+  self-serve portal, the pricing table). The hosted pages are the product; the components are thin
+  navigation primitives in front of them.
+embeddable_auth: false
+embeddable_auth_statement: >-
+  "Can I embed Kinde authentication inside a modal or iframe in my application? No. Kinde uses
+  redirect-based OAuth 2.0 flows rather than inline embeddable authentication. Users are redirected
+  to Kinde (or your custom domain) to sign in and then redirected back to your app."
+families:
+  - family: React link components
+    loader: '@kinde-oss/kinde-auth-react'
+    loader_version: 5.13.0
+    type: framework-component
+    import: 'import {LoginLink, RegisterLink, LogoutLink, PortalLink} from "@kinde-oss/kinde-auth-react"'
+    components:
+      - name: LoginLink
+        purpose: Navigate the user into the Kinde-hosted sign-in flow.
+      - name: RegisterLink
+        purpose: Navigate the user into the Kinde-hosted sign-up flow.
+      - name: LogoutLink
+        purpose: End the Kinde session and return to the app.
+      - name: PortalLink
+        purpose: >-
+          Generate a self-serve portal link and redirect in one step. Wraps
+          GET /account_api/v1/portal_link.
+        example: '<PortalLink>Account</PortalLink>'
+    subpath_exports:
+      - '@kinde-oss/kinde-auth-react/components'
+      - '@kinde-oss/kinde-auth-react/react-router'
+      - '@kinde-oss/kinde-auth-react/utils'
+  - family: Next.js link components
+    loader: '@kinde-oss/kinde-auth-nextjs'
+    loader_version: 2.13.1
+    type: framework-component
+    components:
+      - name: LoginLink
+      - name: RegisterLink
+      - name: LogoutLink
+    subpath_exports:
+      - '@kinde-oss/kinde-auth-nextjs/components'
+      - '@kinde-oss/kinde-auth-nextjs/server'
+      - '@kinde-oss/kinde-auth-nextjs/middleware'
+    note: >-
+      The former middleware.ts entry point is now a proxy.ts; the withAuth helper and matcher config
+      are unchanged.
+  - family: Hosted self-serve portal
+    type: hosted-page
+    description: >-
+      A Kinde-hosted account portal where end users (B2C) and organizations (B2B) manage their own
+      profile, authentication methods, and — when plan management is enabled — their subscription,
+      including cancelling it.
+    entry: GET /account_api/v1/portal_link
+    parameters:
+      - name: return_url
+        description: Where to redirect the user after they exit the portal.
+      - name: subnav
+        description: Which portal section to open on arrival.
+    no_sdk_usage: |
+      const response = await fetch("/account_api/v1/portal_link", {
+        headers: { Authorization: `Bearer ${userAccessToken}` }
+      });
+      const data = await response.json();
+      window.location = data.url;
+    customization: >-
+      Per-organization customization is supported. Full self-styling is not yet available — the
+      docs state "we are working on allowing you to style this yourself."
+    docs: https://docs.kinde.com/build/self-service-portal/self-serve-portal-for-users/
+  - family: Hosted pricing table
+    type: hosted-page
+    description: >-
+      A built-in, brand-customizable pricing table generated from the plans defined in the Kinde
+      dashboard. Plans and pricing tables are versioned in the dashboard and published to users.
+    capabilities:
+      - Built-in pricing table to launch faster.
+      - Customize the table to match your brand.
+      - Version plans and pricing tables in the dashboard.
+    docs: https://docs.kinde.com/billing/billing-user-experience/plan-selection/
+  - family: Custom Page Designer
+    type: hosted-page
+    description: >-
+      A design surface for the Kinde-hosted authentication and billing pages — branding, layout and
+      copy for sign-up, sign-in and the billing experience, changed without redeploying the app.
+    docs: https://docs.kinde.com/design/
+web_components: false
+web_components_note: >-
+  No custom elements, no <script> tag embed, and no CDN-distributed widget bundle. Everything is
+  either an npm framework package or a hosted page reached by redirect.

@@ -1,0 +1,131 @@
+generated: '2026-09-12'
+method: generated
+source: Generated from the nine Arazzo workflows in arazzo/. Every operationId referenced by every skill
+  was verified to exist in this repo's refined OpenAPIs (openapi/*.yml) by operationId lookup before the
+  skill was written; none were invented. Kinde publishes no AGENTS.md or skills of its own — https://docs.kinde.com/AGENTS.md,
+  https://kinde.com/AGENTS.md and https://docs.kinde.com/skills/ all returned 404 on 2026-09-12.
+provider: Kinde
+providerId: kinde
+description: 'Nine packaged Agent Skills covering Kinde''s marquee flows. Eight run against the Management
+  API as an M2M administrator; kinde-end-user-self-serve-portal runs against the Account API as the signed-in
+  end user. Each skill restates the three facts an agent most needs and that Kinde''s contract does not
+  encode: that there is no idempotency so creates must not be blind-retried, that 403 almost always means
+  a missing scope rather than a bad token, and that no delete has an undo.'
+count: 9
+skills:
+- name: kinde-assign-org-user-role
+  file: kinde-assign-org-user-role.md
+  description: Find an existing Kinde user and grant them a role inside a specific organization.
+  operations:
+  - searchUsers
+  - CreateOrganizationUserRole
+  - GetOrganizationUserRoles
+  scopes:
+  - read:users
+  - create:organization_user_roles
+  - read:organization_users
+  mirrors: arazzo/kinde-assign-org-user-role-workflow.yml
+- name: kinde-create-organization-with-users
+  file: kinde-create-organization-with-users.md
+  description: Create a Kinde organization and seed it with its initial members in one pass.
+  operations:
+  - createOrganization
+  - AddOrganizationUsers
+  - GetOrganizationUsers
+  scopes:
+  - create:organizations
+  - create:organization_users
+  - read:organization_users
+  mirrors: arazzo/kinde-create-organization-with-users-workflow.yml
+- name: kinde-create-role-with-permission
+  file: kinde-create-role-with-permission.md
+  description: Define a Kinde permission, create a role, and bind the permission to the role.
+  operations:
+  - CreatePermission
+  - GetPermissions
+  - CreateRole
+  - UpdateRolePermissions
+  scopes:
+  - create:permissions
+  - read:permissions
+  - create:roles
+  - update:roles
+  mirrors: arazzo/kinde-create-role-with-permission-workflow.yml
+- name: kinde-end-user-self-serve-portal
+  file: kinde-end-user-self-serve-portal.md
+  description: Read a signed-in user profile, roles and billing entitlements, then hand them a self-serve
+    portal link.
+  operations:
+  - getUserProfileV2
+  - GetUserRoles
+  - GetEntitlements
+  - GetPortalLink
+  scopes:
+  - openid
+  - profile
+  - email
+  mirrors: arazzo/kinde-end-user-self-serve-portal-workflow.yml
+- name: kinde-invite-user-to-organization
+  file: kinde-invite-user-to-organization.md
+  description: Invite a person to a Kinde organization with a pre-selected role and confirm the invitation.
+  operations:
+  - GetRoles
+  - createOrganizationInvite
+  - getOrganizationInvite
+  scopes:
+  - read:roles
+  - create:organization_users
+  - read:organization_users
+  mirrors: arazzo/kinde-invite-user-to-organization-workflow.yml
+- name: kinde-migrate-user-with-password
+  file: kinde-migrate-user-with-password.md
+  description: Migrate a user from another identity provider into Kinde, carrying their existing password
+    hash.
+  operations:
+  - createUser
+  - SetUserPassword
+  - getUserData
+  scopes:
+  - create:users
+  - update:users
+  - read:users
+  mirrors: arazzo/kinde-migrate-user-with-password-workflow.yml
+- name: kinde-provision-user
+  file: kinde-provision-user.md
+  description: Create a Kinde user and onboard them into an organization with roles, then verify the grant
+    took effect.
+  operations:
+  - createUser
+  - AddOrganizationUsers
+  - GetOrganizationUserRoles
+  scopes:
+  - create:users
+  - create:organization_users
+  - read:organization_users
+  mirrors: arazzo/kinde-provision-user-workflow.yml
+- name: kinde-register-application-with-connection
+  file: kinde-register-application-with-connection.md
+  description: Register a Kinde application, set its callback URLs, and attach an authentication connection.
+  operations:
+  - createApplication
+  - addRedirectCallbackURLs
+  - CreateConnection
+  - EnableConnection
+  scopes:
+  - create:applications
+  - update:applications
+  - create:connections
+  mirrors: arazzo/kinde-register-application-with-connection-workflow.yml
+- name: kinde-rollout-feature-flag
+  file: kinde-rollout-feature-flag.md
+  description: Create a Kinde feature flag and override its value for one organization, then verify the
+    override.
+  operations:
+  - CreateFeatureFlag
+  - UpdateOrganizationFeatureFlagOverride
+  - GetOrganizationFeatureFlags
+  scopes:
+  - create:feature_flags
+  - update:organizations
+  - read:feature_flags
+  mirrors: arazzo/kinde-rollout-feature-flag-workflow.yml

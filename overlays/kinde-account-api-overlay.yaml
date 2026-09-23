@@ -1,0 +1,60 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Kinde Account API
+  version: 1.0.0
+  x-generated: '2026-09-12'
+  x-method: generated
+  x-source: >-
+    Generated from artifacts in this repo plus the OIDC discovery document probed at
+    https://app.kinde.com/.well-known/openid-configuration (HTTP 200, 2026-09-12).
+  x-extends: openapi/_original/kinde-frontend-api-openapi.yml
+  x-rationale: >-
+    The published Account API spec (info.title "Kinde Account API") declares NO servers[] block at
+    all. Its paths are rooted at /account_api/v1/ and /oauth2/, and the host is the caller's own
+    Kinde tenant. This overlay records that host as a templated server rather than leaving the
+    contract with no base URL, and records the OIDC scopes the discovery document advertises.
+actions:
+  - target: $
+    description: >-
+      Supply the templated tenant server the spec omits. The host is documented throughout
+      Kinde's docs as https://{subdomain}.kinde.com and is the same issuer as the OAuth endpoints
+      this spec already contains.
+    update:
+      servers:
+        - url: https://{subdomain}.kinde.com
+          description: >-
+            The caller's own Kinde business subdomain. Templated because Kinde is
+            tenant-per-subdomain; there is no shared host.
+          variables:
+            subdomain:
+              default: your_kinde_subdomain
+              description: The subdomain generated for your business on Kinde.
+  - target: $.info
+    description: Record the end-user auth model and the OIDC scopes advertised in discovery.
+    update:
+      x-audience: end-user
+      x-auth-note: >-
+        Operations resolve relative to the SUBJECT of the bearer token. This API acts as the
+        signed-in user and cannot read another user, which is what makes it safe to call from a
+        user-facing surface. An M2M token is not valid here.
+      x-oidc-discovery:
+        url: https://app.kinde.com/.well-known/openid-configuration
+        probed: '2026-09-12'
+        http_status: 200
+        saved: well-known/kinde-app-openid-configuration.json
+        id_token_signing_alg_values_supported: [RS256]
+        code_challenge_methods_supported: [S256]
+        response_types_supported: [code]
+        scopes_supported: [address, email, event_hooks, offline, openid, phone, profile]
+      x-endpoints:
+        authorization: https://{subdomain}.kinde.com/oauth2/auth
+        token: https://{subdomain}.kinde.com/oauth2/token
+        userinfo: https://{subdomain}.kinde.com/oauth2/v2/user_profile
+        introspection: https://{subdomain}.kinde.com/oauth2/introspect
+        revocation: https://{subdomain}.kinde.com/oauth2/revoke
+        end_session: https://{subdomain}.kinde.com/logout
+        jwks: https://{subdomain}.kinde.com/.well-known/jwks
+      x-apievangelist-artifacts:
+        conventions: conventions/kinde-conventions.yml
+        components: components/kinde-components.yml
+        skills: skills/kinde-end-user-self-serve-portal.md

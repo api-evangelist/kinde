@@ -1,6 +1,10 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/kinde-frontend-api-openapi.yml, openapi/kinde-management-api-openapi.yml
+generated: '2026-09-12'
+method: searched
+source: UPGRADED from derived to searched on 2026-09-12. The securityScheme block below is derived from
+  the published OpenAPIs; everything added around it is read from Kinde's own documentation (https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/,
+  https://docs.kinde.com/developer-tools/kinde-api/api-scopes/, https://docs.kinde.com/build/tokens/verify-jwts/,
+  https://docs.kinde.com/manage-your-apis/about-api-keys/) and from https://app.kinde.com/.well-known/openid-configuration,
+  probed HTTP 200 on 2026-09-12.
 summary:
   types:
   - http
@@ -9,9 +13,141 @@ schemes:
   type: http
   scheme: bearer
   bearerFormat: JWT
-  description: To access these endpoints, you will need to use a user token. This can be obtained
-    when your users sign in via the methods you've setup in Kinde (e.g. Google, passwordless,
-    etc). Find this using the getToken command in the relevant SDK.
+  description: To access these endpoints, you will need to use a user token. This can be obtained when
+    your users sign in via the methods you've setup in Kinde (e.g. Google, passwordless, etc). Find this
+    using the getToken command in the relevant SDK.
   sources:
-  - openapi/kinde-frontend-api-openapi.yml
-  - openapi/kinde-management-api-openapi.yml
+  - openapi/kinde-api-keys-api-openapi.yml
+  - openapi/kinde-apis-api-openapi.yml
+  - openapi/kinde-applications-api-openapi.yml
+  - openapi/kinde-billing-agreements-api-openapi.yml
+  - openapi/kinde-billing-api-openapi.yml
+  - openapi/kinde-billing-entitlements-api-openapi.yml
+  - openapi/kinde-billing-meter-usage-api-openapi.yml
+  - openapi/kinde-business-api-openapi.yml
+  - openapi/kinde-callbacks-api-openapi.yml
+  - openapi/kinde-connected-apps-api-openapi.yml
+  - openapi/kinde-connections-api-openapi.yml
+  - openapi/kinde-directories-api-openapi.yml
+  - openapi/kinde-environment-variables-api-openapi.yml
+  - openapi/kinde-environments-api-openapi.yml
+  - openapi/kinde-feature-flags-api-openapi.yml
+  - openapi/kinde-identities-api-openapi.yml
+  - openapi/kinde-industries-api-openapi.yml
+  - openapi/kinde-mfa-api-openapi.yml
+  - openapi/kinde-oauth-api-openapi.yml
+  - openapi/kinde-organizations-api-openapi.yml
+  - openapi/kinde-permissions-api-openapi.yml
+  - openapi/kinde-properties-api-openapi.yml
+  - openapi/kinde-property-categories-api-openapi.yml
+  - openapi/kinde-roles-api-openapi.yml
+  - openapi/kinde-search-api-openapi.yml
+  - openapi/kinde-self-serve-portal-api-openapi.yml
+  - openapi/kinde-subscribers-api-openapi.yml
+  - openapi/kinde-timezones-api-openapi.yml
+  - openapi/kinde-users-api-openapi.yml
+  - openapi/kinde-webhooks-api-openapi.yml
+docs: https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/
+description: 'The published contract declares a single http/bearer scheme, which under-describes what
+  Kinde actually operates. In practice there are THREE distinct credential paths: an M2M client-credentials
+  flow for the Management API, an end-user access token for the Account API, and k_live_-prefixed API
+  keys for customer-registered APIs and the MCP server. The scheme description in the spec is also misleading
+  — it says to use "a user token" obtained when users sign in, which is true for the Account API but wrong
+  for the Management API, whose 169 operations require an M2M token with an audience parameter.'
+contract_gap:
+  oauth2_declared_in_spec: false
+  scopes_declared_in_spec: false
+  note: All 169 Management API operations declare a 403 but the contract never states which scope prevents
+    it. The scope model exists only in prose. See scopes/kinde-scopes.yml.
+credential_paths:
+- name: Management API (M2M)
+  grant: client_credentials
+  token_endpoint: https://{subdomain}.kinde.com/oauth2/token
+  audience_required: true
+  audience: https://{subdomain}.kinde.com/api
+  presentation: 'Authorization: Bearer <JWT>'
+  token_format: JWT signed RS256 (RSA 2048 + SHA-256)
+  scope_narrowing: Pass a space-delimited scope parameter in the token request body to issue a token carrying
+    fewer scopes than the M2M application holds.
+  docs: https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/
+- name: Account API (end user)
+  grant: authorization_code + PKCE (S256)
+  presentation: 'Authorization: Bearer <user access token>'
+  note: Resolves relative to the token subject; cannot read another user. Obtained via getToken in any
+    Kinde SDK.
+  docs: https://docs.kinde.com/developer-tools/account-api/about-account-api/
+- name: API keys
+  format: k_live_<random>
+  levels:
+  - environment-level
+  - organization-level
+  - user-level
+  used_for:
+  - Kinde MCP server
+  - customer-registered APIs protected by Kinde
+  lifecycle_operations:
+  - createApiKey
+  - getApiKey
+  - getApiKeys
+  - rotateApiKey
+  - deleteApiKey
+  - verifyApiKey
+  note: Shown once at creation. Rotation is a first-class operation; no overlap window is published.
+  docs: https://docs.kinde.com/manage-your-apis/about-api-keys/
+oidc:
+  discovery: https://app.kinde.com/.well-known/openid-configuration
+  probed: '2026-09-12'
+  http_status: 200
+  saved: well-known/kinde-app-openid-configuration.json
+  issuer: https://app.kinde.com
+  jwks_uri: https://app.kinde.com/.well-known/jwks
+  id_token_signing_alg_values_supported:
+  - RS256
+  code_challenge_methods_supported:
+  - S256
+  response_types_supported:
+  - code
+  token_endpoint_auth_methods_supported:
+  - client_secret_post
+  scopes_supported:
+  - address
+  - email
+  - event_hooks
+  - offline
+  - openid
+  - phone
+  - profile
+  note: The per-tenant issuer is https://{subdomain}.kinde.com, which serves the same document. app.kinde.com
+    is the console tenant and was used as the anonymously-reachable sample.
+token_verification:
+  algorithm: RS256
+  key_size: RSA 2048-bit
+  hash: SHA-256
+  jwks: https://{subdomain}.kinde.com/.well-known/jwks
+  public_endpoint: true
+  gotcha: The JWKS endpoint is public. Sending an Authorization header to it causes a 403 — a documented
+    and commonly-hit failure. Fetch it server-side to avoid CORS restrictions.
+  first_party_libraries:
+  - '@kinde/jwt-validator'
+  - '@kinde/jwt-decoder'
+  docs: https://docs.kinde.com/build/tokens/verify-jwts/
+additional_grants:
+- authorization_code
+- authorization_code + PKCE
+- client_credentials
+- refresh_token
+- device_authorization (RFC 8628)
+end_user_methods:
+- email
+- password
+- passwordless (email/SMS one-time code)
+- phone
+- WhatsApp
+- passkeys (WebAuthn/FIDO2)
+- social sign-in
+- custom OAuth 2.0
+- SAML 2.0 enterprise
+- WS-Federation (Microsoft Entra ID)
+embeddable: false
+embeddable_note: Redirect-based OAuth 2.0 only. Kinde explicitly does not support embedding the auth flow
+  in a modal or iframe.

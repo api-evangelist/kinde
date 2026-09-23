@@ -1,0 +1,223 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  https://app.kinde.com/.well-known/openid-configuration and
+  /.well-known/oauth-authorization-server (both probed 2026-09-12, HTTP 200),
+  https://kinde.com/.well-known/security.txt (probed 2026-09-12, HTTP 200),
+  https://docs.kinde.com/trust-center/privacy-and-compliance/compliance/,
+  https://docs.kinde.com/build/tokens/verify-jwts/, https://kinde.com/llms.txt (compliance claims),
+  and derivation from openapi/_original/kinde-management-api-openapi.yml.
+provider: Kinde
+providerId: kinde
+description: >-
+  Kinde's domain is identity, and the domain standards for identity are OAuth 2.0, OpenID Connect
+  and SAML 2.0. Kinde conforms to the first two at the contract level — the discovery document is
+  the evidence, not a marketing claim — and implements SAML 2.0 as a connection type. The one
+  identity standard it does NOT yet ship is SCIM, and that absence is material for exactly the
+  enterprise B2B buyer Kinde targets.
+conformance:
+  # ---- Domain standards for the identity market ----
+  - id: oauth2
+    name: OAuth 2.0 (RFC 6749)
+    conforms: true
+    domain_standard: true
+    evidence: >-
+      https://app.kinde.com/.well-known/oauth-authorization-server returns HTTP 200 with
+      authorization_endpoint, token_endpoint, revocation_endpoint and introspection_endpoint.
+      response_types_supported ["code"], grant support for authorization_code and
+      client_credentials documented at
+      https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/.
+  - id: oauth2-authorization-server-metadata
+    name: OAuth 2.0 Authorization Server Metadata (RFC 8414)
+    conforms: true
+    domain_standard: true
+    evidence: >-
+      https://app.kinde.com/.well-known/oauth-authorization-server, HTTP 200, 2026-09-12.
+      Body is byte-identical to the OIDC discovery document (same SHA-1).
+  - id: oidc
+    name: OpenID Connect Core 1.0
+    conforms: true
+    domain_standard: true
+    evidence: >-
+      https://app.kinde.com/.well-known/openid-configuration, HTTP 200, 2026-09-12.
+      issuer https://app.kinde.com, userinfo_endpoint /oauth2/v2/user_profile,
+      id_token_signing_alg_values_supported ["RS256"], subject_types_supported ["public"],
+      claims_supported [aud, exp, iat, iss, sub], scopes_supported includes openid.
+  - id: oidc-discovery
+    name: OpenID Connect Discovery 1.0
+    conforms: true
+    domain_standard: true
+    evidence: The discovery document is served at the canonical /.well-known/openid-configuration path.
+  - id: oauth2-pkce
+    name: Proof Key for Code Exchange (RFC 7636)
+    conforms: true
+    evidence: >-
+      code_challenge_methods_supported ["S256"] in the discovery document. Kinde's own engineering
+      blog states PKCE is the default flow for public clients
+      (https://kinde.com/blog/security/oauth-at-kinde/).
+  - id: oauth2-token-introspection
+    name: OAuth 2.0 Token Introspection (RFC 7662)
+    conforms: true
+    evidence: >-
+      introspection_endpoint https://app.kinde.com/oauth2/introspect in the discovery document;
+      the operation is also published in the Account API OpenAPI at /oauth2/introspect.
+  - id: oauth2-token-revocation
+    name: OAuth 2.0 Token Revocation (RFC 7009)
+    conforms: true
+    evidence: >-
+      revocation_endpoint https://app.kinde.com/oauth2/revoke in the discovery document; published
+      in the Account API OpenAPI at /oauth2/revoke.
+  - id: oauth2-device-authorization-grant
+    name: OAuth 2.0 Device Authorization Grant (RFC 8628)
+    conforms: true
+    evidence: >-
+      Kinde documents a device authorization flow for TV, CLI and IoT clients, including the
+      standard authorization_pending, slow_down and expired_token polling errors
+      (https://docs.kinde.com/authenticate/about-auth/authentication-methods/).
+    note: Not advertised in the discovery document's grant_types (that key is absent from the body).
+  - id: jwt
+    name: JSON Web Token (RFC 7519) / JWS RS256
+    conforms: true
+    evidence: >-
+      jwks_uri https://app.kinde.com/.well-known/jwks. Kinde documents RSA 2048-bit keys with
+      SHA-256 (RS256) at https://docs.kinde.com/build/tokens/verify-jwts/.
+  - id: saml2
+    name: SAML 2.0
+    conforms: true
+    domain_standard: true
+    evidence: >-
+      Kinde ships SAML 2.0 enterprise connections with ACS URL / Entity ID configuration, signed
+      certificate and private key handling, and named IdP integrations (Microsoft Entra ID,
+      Google Workspace, Okta, LastPass, Cloudflare). Documented across
+      https://docs.kinde.com/authenticate/enterprise-connections/custom-saml/.
+    note: >-
+      Kinde is a SAML Service Provider consuming customer IdP assertions. No SP metadata XML
+      endpoint was found published at a fixed URL; ACS URL and Entity ID are issued per connection
+      in the dashboard.
+  - id: scim
+    name: SCIM 2.0 (RFC 7643 / RFC 7644)
+    conforms: false
+    domain_standard: true
+    evidence: >-
+      "Automated provisioning with SCIM (coming soon). SCIM support is currently in development."
+      — https://docs.kinde.com/authenticate/enterprise-connections/ , pointing at
+      https://updates.kinde.com/board/integrate-scim-identity-management. No urn:ietf:params:scim
+      schema URN appears in either published OpenAPI.
+    note: >-
+      DISCREPANCY: the pricing page lists "SCIM support" as a Scale-tier ($250/mo) feature while
+      the documentation says it is not yet built. Recorded as observed; not resolved.
+  - id: ws-federation
+    name: WS-Federation
+    conforms: true
+    evidence: >-
+      Published as a Microsoft Entra ID enterprise connection type
+      (https://docs.kinde.com/authenticate/enterprise-connections/ — "Microsoft Entra ID
+      enterprise connection (OAuth 2.0, WS-Fed)").
+  # ---- Cross-cutting web / API standards ----
+  - id: rfc9116-security-txt
+    name: security.txt (RFC 9116)
+    conforms: true
+    evidence: >-
+      https://kinde.com/.well-known/security.txt, HTTP 200, 2026-09-12. Carries Contact, Expires
+      (2027-12-11), Preferred-Languages and Policy fields — a valid, unexpired document.
+      Saved verbatim at well-known/kinde-security.txt.
+  - id: openapi
+    name: OpenAPI Specification
+    conforms: true
+    version: 3.0.0
+    evidence: >-
+      Two first-party specs published at https://api-spec.kinde.com/kinde-management-api-spec.yaml
+      (169 operations) and https://api-spec.kinde.com/kinde-frontend-api-spec.yaml (10 operations),
+      both HTTP 200 on 2026-09-12.
+  - id: mcp
+    name: Model Context Protocol
+    conforms: true
+    evidence: >-
+      Kinde ships a first-party remote MCP server at https://{subdomain}.kinde.com/mcp with 22
+      published tools, and additionally SELLS MCP-server generation over customer OpenAPIs.
+      See mcp/kinde-mcp.yml.
+  - id: llmstxt
+    name: llms.txt
+    conforms: true
+    evidence: >-
+      https://kinde.com/llms.txt (HTTP 200) and https://docs.kinde.com/llms.txt (HTTP 200) plus a
+      2.86 MB https://docs.kinde.com/llms-full.txt. Both probed 2026-09-12.
+  - id: rfc9457
+    name: Problem Details for HTTP APIs (RFC 9457 / RFC 7807)
+    conforms: false
+    evidence: >-
+      Zero operations across 169 declare application/problem+json. Error bodies are a Kinde-native
+      {errors:[{code,message}]} envelope. See errors/kinde-problem-types.yml.
+  - id: rfc8594-sunset
+    name: Sunset HTTP Header (RFC 8594)
+    conforms: false
+    evidence: No Sunset or Deprecation header is documented or declared. See lifecycle/kinde-lifecycle.yml.
+  - id: idempotency-key
+    name: Idempotency-Key header (draft-ietf-httpapi-idempotency-key-header)
+    conforms: false
+    evidence: >-
+      No idempotency mechanism appears in the docs corpus or either OpenAPI. See
+      conventions/kinde-conventions.yml (idempotency.coverage = none).
+  - id: ratelimit-headers
+    name: RateLimit header fields for HTTP (RFC 9331 draft family)
+    conforms: partial
+    evidence: >-
+      Kinde returns RateLimit-Reset on 429 responses but not RateLimit-Limit or
+      RateLimit-Remaining. Documented at
+      https://docs.kinde.com/developer-tools/kinde-api/api-rate-limits/.
+  - id: pagination
+    name: Cursor pagination
+    conforms: true
+    evidence: page_size (max 500) plus opaque next_token continuation, documented and present in the spec.
+  - id: asyncapi
+    name: AsyncAPI
+    conforms: false
+    evidence: >-
+      No AsyncAPI document is published. Kinde has a real event surface (webhooks with JSON Schema
+      per event type) but describes it only through the Management API's /api/v1/event_types
+      endpoint and the dashboard. See webhooks/kinde-webhooks.yml.
+  - id: json-schema
+    name: JSON Schema 2020-12
+    conforms: true
+    evidence: >-
+      Webhook event payloads are published as JSON Schema documents carrying
+      "$schema": "https://json-schema.org/draft/2020-12/schema" and a
+      "$id": "https://kinde.com/user.updated.schema.json" — retrievable per event type from
+      GET /api/v1/event_types.
+compliance_programs:
+  source: >-
+    https://docs.kinde.com/trust-center/privacy-and-compliance/compliance/ and
+    https://kinde.com/llms.txt
+  certifications:
+    - name: SOC 2 Type 2
+      status: certified
+      since: '2024-09'
+      evidence: https://kinde.com/blog/security/kinde-is-soc-2-compliant/
+      availability: Attestation report available from the Pro tier upward.
+    - name: ISO 27001
+      status: certified
+      availability: Reports available on the Scale tier.
+    - name: GDPR
+      status: compliant
+      note: Data Processing Agreement (DPA) available.
+    - name: HIPAA
+      status: compliant
+    - name: PCI DSS
+      status: compliant
+      evidence: >-
+        Contractually asserted in the End User Licence Agreement: "We confirm that we are compliant
+        with the PCI DSS" with a commitment to provide a current attestation of compliance on
+        written request.
+    - name: CAIQ v4
+      status: published
+    - name: MVSP
+      status: published
+  trust_center: https://docs.kinde.com/trust-center/
+  vulnerability_disclosure: https://docs.kinde.com/trust-center/security/vulnerability-disclosure-policy/
+summary:
+  total: 23
+  conforms_true: 17
+  conforms_partial: 1
+  conforms_false: 5
+  domain_standards_met: 6
+  domain_standards_missed: 1

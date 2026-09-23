@@ -1,10 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
   version: '1'
-  title: Kinde Account API Keys Organizations API
-  description: '
-
-    Provides endpoints to operate on an authenticated user.
+  title: Kinde Management Organizations API
+  description: 'Provides endpoints to manage your Kinde Businesses.
 
 
     ## Intro
@@ -13,17 +11,24 @@ info:
     ## How to use
 
 
-    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
+    1. Set up and authorize a machine-to-machine (M2M) application.
 
 
-    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
+    2. Generate a test access token
 
-    '
+
+    3. Test request any endpoint using the test token'
   termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
   contact:
     name: Kinde Support Team
     email: support@kinde.com
     url: https://docs.kinde.com
+servers:
+- url: https://{subdomain}.kinde.com
+  variables:
+    subdomain:
+      default: your_kinde_subdomain
+      description: The subdomain generated for your business on Kinde.
 tags:
 - name: Organizations
   x-displayName: Organizations
@@ -36,7 +41,10 @@ paths:
       operationId: getOrganizationInvites
       x-scope: read:organization_invites
       summary: Get organization invites
-      description: "Get a list of invitations for an organization. By default, only pending (non-revoked, non-accepted) invitations are returned.\n\n<div>\n  <code>read:organization_invites</code>\n</div>\n"
+      description: 'Get a list of invitations for an organization. By default, only pending (non-revoked, non-accepted) invitations are returned.
+
+
+        read:organization_invites'
       parameters:
       - name: org_code
         in: path
@@ -49,8 +57,9 @@ paths:
         in: query
         description: Field and order to sort the result by.
         schema:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           enum:
           - created_on_asc
           - created_on_desc
@@ -63,28 +72,32 @@ paths:
         in: query
         description: Number of results per page. Defaults to 10 if parameter not sent.
         schema:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
           example: 10
       - name: next_token
         in: query
         description: A string to get the next page of results if there are more results.
         schema:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
       - name: include_revoked
         in: query
         description: Include revoked invitations in the results.
         schema:
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
           default: false
       - name: include_accepted
         in: query
         description: Include accepted invitations in the results.
         schema:
-          type: boolean
-          nullable: true
+          type:
+          - boolean
+          - 'null'
           default: false
       responses:
         '200':
@@ -107,7 +120,19 @@ paths:
       operationId: createOrganizationInvite
       x-scope: create:organization_invites
       summary: Create organization invite
-      description: "Create a new invitation for an organization. An invitation email will be sent to the provided email address if `send_email` is set to `true`.\n\nInvitations cannot be created for organizations that are managed by directory sync; user and role changes for those organizations must be made in the upstream identity provider.\n\nRoles that require an explicit assignment permission cannot be granted to an invitee unless the caller (or the user the token represents) holds that permission. On Kinde-hosted plans, roles outside `owner`/`admin` additionally require the `extended_roles` entitlement.\n\nPer-organization rate limits apply: a maximum number of invitations may be created per rolling 24 hour window, and a maximum number of active (non-accepted, non-revoked) invitations may exist at any time. Requests that exceed either limit are rejected.\n\n<div>\n  <code>create:organization_invites</code>\n</div>\n"
+      description: 'Create a new invitation for an organization. An invitation email will be sent to the provided email address if `send_email` is set to `true`.
+
+
+        Invitations cannot be created for organizations that are managed by directory sync; user and role changes for those organizations must be made in the upstream identity provider.
+
+
+        Roles that require an explicit assignment permission cannot be granted to an invitee unless the caller (or the user the token represents) holds that permission. On Kinde-hosted plans, roles outside `owner`/`admin` additionally require the `extended_roles` entitlement.
+
+
+        Per-organization rate limits apply: a maximum number of invitations may be created per rolling 24 hour window, and a maximum number of active (non-accepted, non-revoked) invitations may exist at any time. Requests that exceed either limit are rejected.
+
+
+        create:organization_invites'
       parameters:
       - name: org_code
         in: path
@@ -134,15 +159,17 @@ paths:
                   example: user@example.com
                 first_name:
                   description: The first name of the user to invite. Maximum 64 characters.
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   maxLength: 64
-                  nullable: true
                   example: John
                 last_name:
                   description: The last name of the user to invite. Maximum 64 characters.
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   maxLength: 64
-                  nullable: true
                   example: Doe
                 roles:
                   description: Array of role keys to assign to the user.
@@ -179,7 +206,10 @@ paths:
       operationId: getOrganizationInvite
       x-scope: read:organization_invites
       summary: Get organization invite
-      description: "Get details of a specific invitation by its code.\n\n<div>\n  <code>read:organization_invites</code>\n</div>\n"
+      description: 'Get details of a specific invitation by its code.
+
+
+        read:organization_invites'
       parameters:
       - name: org_code
         in: path
@@ -218,7 +248,10 @@ paths:
       operationId: deleteOrganizationInvite
       x-scope: delete:organization_invites
       summary: Delete organization invite
-      description: "Revoke (delete) an invitation. This will mark the invitation as revoked and prevent it from being accepted.\n\n<div>\n  <code>delete:organization_invites</code>\n</div>\n"
+      description: 'Revoke (delete) an invitation. This will mark the invitation as revoked and prevent it from being accepted.
+
+
+        delete:organization_invites'
       parameters:
       - name: org_code
         in: path
@@ -259,7 +292,10 @@ paths:
       operationId: getOrganization
       x-scope: read:organizations
       summary: Get organization
-      description: "Retrieve organization details by code.\n\n<div>\n  <code>read:organizations</code>\n</div>\n"
+      description: 'Retrieve organization details by code.
+
+
+        read:organizations'
       parameters:
       - in: query
         name: code
@@ -294,7 +330,10 @@ paths:
       operationId: createOrganization
       x-scope: create:organizations
       summary: Create organization
-      description: "Create a new organization. To learn more read about [multi tenancy using organizations](https://docs.kinde.com/build/organizations/multi-tenancy-using-organizations/)\n\n<div>\n  <code>create:organizations</code>\n</div>\n"
+      description: 'Create a new organization. To learn more read about multi tenancy using organizations
+
+
+        create:organizations'
       requestBody:
         description: Organization details.
         required: true
@@ -364,13 +403,15 @@ paths:
                   type: boolean
                   example: true
                 sender_name:
-                  nullable: true
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   example: Acme Corp
                   description: The name of the organization that will be used in emails
                 sender_email:
-                  nullable: true
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   example: hello@acmecorp.com
                   description: The email address that will be used in emails. Requires custom SMTP to be set up.
                 is_create_billing_customer:
@@ -408,14 +449,18 @@ paths:
       operationId: getOrganizations
       x-scope: read:organizations
       summary: Get organizations
-      description: "Get a list of organizations.\n\n<div>\n  <code>read:organizations</code>\n</div>\n"
+      description: 'Get a list of organizations.
+
+
+        read:organizations'
       parameters:
       - name: sort
         in: query
         description: Field and order to sort the result by.
         schema:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           enum:
           - name_asc
           - name_desc
@@ -425,14 +470,16 @@ paths:
         in: query
         description: Number of results per page. Defaults to 10 if parameter not sent.
         schema:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
       - name: next_token
         in: query
         description: A string to get the next page of results if there are more results.
         schema:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
       responses:
         '200':
           description: Organizations successfully retreived.
@@ -454,7 +501,10 @@ paths:
       tags:
       - Organizations
       operationId: updateOrganization
-      description: "Update an organization.\n\n<div>\n  <code>update:organizations</code>\n</div>\n"
+      description: 'Update an organization.
+
+
+        update:organizations'
       summary: Update Organization
       parameters:
       - name: org_code
@@ -469,8 +519,9 @@ paths:
         description: 'Additional data to include in the response. Allowed value: "billing".'
         required: false
         schema:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           enum:
           - billing
       requestBody:
@@ -562,13 +613,15 @@ paths:
                   type: boolean
                   example: true
                 sender_name:
-                  nullable: true
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   example: Acme Corp
                   description: The name of the organization that will be used in emails
                 sender_email:
-                  nullable: true
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   example: hello@acmecorp.com
                   description: The email address that will be used in emails. Requires custom SMTP to be set up.
                 is_suspended:
@@ -594,7 +647,10 @@ paths:
       tags:
       - Organizations
       operationId: deleteOrganization
-      description: "Delete an organization.\n\n<div>\n  <code>delete:organizations</code>\n</div>\n"
+      description: 'Delete an organization.
+
+
+        delete:organizations'
       summary: Delete Organization
       parameters:
       - name: org_code
@@ -628,15 +684,19 @@ paths:
       operationId: GetOrganizationUsers
       x-scope: read:organization_users
       summary: Get organization users
-      description: "Get user details for all members of an organization.\n\n<div>\n  <code>read:organization_users</code>\n</div>\n"
+      description: 'Get user details for all members of an organization.
+
+
+        read:organization_users'
       parameters:
       - name: sort
         in: query
         description: Field and order to sort the result by.
         schema:
           example: email_asc
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           enum:
           - name_asc
           - name_desc
@@ -649,15 +709,17 @@ paths:
         description: Number of results per page. Defaults to 10 if parameter not sent.
         schema:
           example: 10
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
       - name: next_token
         in: query
         description: A string to get the next page of results if there are more results.
         schema:
           example: MTo6OmlkX2FzYw==
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
       - name: org_code
         in: path
         description: The organization's code.
@@ -665,7 +727,6 @@ paths:
         schema:
           example: org_1ccfb819462
           type: string
-          nullable: false
       - name: permissions
         in: query
         description: Filter by user permissions comma separated (where all match)
@@ -697,7 +758,10 @@ paths:
       tags:
       - Organizations
       operationId: AddOrganizationUsers
-      description: "Add existing users to an organization.\n\n<div>\n  <code>create:organization_users</code>\n</div>\n"
+      description: 'Add existing users to an organization.
+
+
+        create:organization_users'
       summary: Add Organization Users
       parameters:
       - name: org_code
@@ -706,7 +770,6 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       requestBody:
         required: false
         content:
@@ -755,7 +818,10 @@ paths:
       tags:
       - Organizations
       operationId: UpdateOrganizationUsers
-      description: "Update users that belong to an organization.\n\n<div>\n  <code>update:organization_users</code>\n</div>\n"
+      description: 'Update users that belong to an organization.
+
+
+        update:organization_users'
       summary: Update Organization Users
       parameters:
       - name: org_code
@@ -764,7 +830,6 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       requestBody:
         required: false
         content:
@@ -820,7 +885,10 @@ paths:
       - Organizations
       operationId: GetOrganizationUserRoles
       x-scope: read:organization_user_roles
-      description: "Get roles for an organization user.\n\n<div>\n  <code>read:organization_user_roles</code>\n</div>\n"
+      description: 'Get roles for an organization user.
+
+
+        read:organization_user_roles'
       summary: List Organization User Roles
       parameters:
       - name: org_code
@@ -829,14 +897,12 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       - name: user_id
         in: path
         description: The user's id.
         required: true
         schema:
           type: string
-          nullable: false
       responses:
         '200':
           description: A successful response with a list of user roles.
@@ -857,7 +923,10 @@ paths:
       tags:
       - Organizations
       operationId: CreateOrganizationUserRole
-      description: "Add role to an organization user.\n\n<div>\n  <code>create:organization_user_roles</code>\n</div>\n"
+      description: 'Add role to an organization user.
+
+
+        create:organization_user_roles'
       summary: Add Organization User Role
       parameters:
       - name: org_code
@@ -866,14 +935,12 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       - name: user_id
         in: path
         description: The user's id.
         required: true
         schema:
           type: string
-          nullable: false
       requestBody:
         description: Role details.
         required: true
@@ -907,7 +974,10 @@ paths:
       tags:
       - Organizations
       operationId: DeleteOrganizationUserRole
-      description: "Delete role for an organization user.\n\n<div>\n  <code>delete:organization_user_roles</code>\n</div>\n"
+      description: 'Delete role for an organization user.
+
+
+        delete:organization_user_roles'
       summary: Delete Organization User Role
       parameters:
       - name: org_code
@@ -916,21 +986,18 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       - name: user_id
         in: path
         description: The user's id.
         required: true
         schema:
           type: string
-          nullable: false
       - name: role_id
         in: path
         description: The role id.
         required: true
         schema:
           type: string
-          nullable: false
       responses:
         '200':
           description: User successfully removed.
@@ -963,7 +1030,10 @@ paths:
       - Organizations
       operationId: GetOrganizationUserPermissions
       x-scope: read:organization_user_permissions
-      description: "Get permissions for an organization user.\n\n<div>\n  <code>read:organization_user_permissions</code>\n</div>\n"
+      description: 'Get permissions for an organization user.
+
+
+        read:organization_user_permissions'
       summary: List Organization User Permissions
       parameters:
       - name: org_code
@@ -972,21 +1042,20 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       - name: user_id
         in: path
         description: The user's id.
         required: true
         schema:
           type: string
-          nullable: false
       - name: expand
         in: query
         description: 'Additional data to include in the response. Allowed value: "roles".'
         required: false
         schema:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
       responses:
         '200':
           description: A successful response with a list of user permissions.
@@ -1007,7 +1076,10 @@ paths:
       tags:
       - Organizations
       operationId: CreateOrganizationUserPermission
-      description: "Add permission to an organization user.\n\n<div>\n  <code>create:organization_user_permissions</code>\n</div>\n"
+      description: 'Add permission to an organization user.
+
+
+        create:organization_user_permissions'
       summary: Add Organization User Permission
       parameters:
       - name: org_code
@@ -1016,14 +1088,12 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       - name: user_id
         in: path
         description: The user's id.
         required: true
         schema:
           type: string
-          nullable: false
       requestBody:
         description: Permission details.
         required: true
@@ -1057,7 +1127,10 @@ paths:
       tags:
       - Organizations
       operationId: DeleteOrganizationUserPermission
-      description: "Delete permission for an organization user.\n\n<div>\n  <code>delete:organization_user_permissions</code>\n</div>\n"
+      description: 'Delete permission for an organization user.
+
+
+        delete:organization_user_permissions'
       summary: Delete Organization User Permission
       parameters:
       - name: org_code
@@ -1066,21 +1139,18 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       - name: user_id
         in: path
         description: The user's id.
         required: true
         schema:
           type: string
-          nullable: false
       - name: permission_id
         in: path
         description: The permission id.
         required: true
         schema:
           type: string
-          nullable: false
       responses:
         '200':
           description: User successfully removed.
@@ -1112,7 +1182,10 @@ paths:
       tags:
       - Organizations
       operationId: RemoveOrganizationUser
-      description: "Remove user from an organization.\n\n<div>\n  <code>delete:organization_users</code>\n</div>\n"
+      description: 'Remove user from an organization.
+
+
+        delete:organization_users'
       summary: Remove Organization User
       parameters:
       - name: org_code
@@ -1121,14 +1194,12 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       - name: user_id
         in: path
         description: The user's id.
         required: true
         schema:
           type: string
-          nullable: false
       responses:
         '200':
           description: User successfully removed from organization
@@ -1174,7 +1245,6 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
           example: kp_5ce676e5d6a24bc9aac2fba35a46e958
       - name: api_id
         in: path
@@ -1182,7 +1252,6 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
           example: 838f208d006a482dbd8cdb79a9889f68
       - name: scope_id
         in: path
@@ -1190,9 +1259,11 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
           example: api_scope_019391daf58d87d8a7213419c016ac95
-      description: "Add a scope to an organization user api.\n\n<div>\n  <code>create:organization_user_api_scopes</code>\n</div>\n"
+      description: 'Add a scope to an organization user api.
+
+
+        create:organization_user_api_scopes'
       responses:
         '200':
           description: API scope successfully added to organization user api
@@ -1222,7 +1293,6 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
           example: kp_5ce676e5d6a24bc9aac2fba35a46e958
       - name: api_id
         in: path
@@ -1230,7 +1300,6 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
           example: 838f208d006a482dbd8cdb79a9889f68
       - name: scope_id
         in: path
@@ -1238,9 +1307,11 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
           example: api_scope_019391daf58d87d8a7213419c016ac95
-      description: "Delete a scope from an organization user api you previously created.\n\n<div>\n  <code>delete:organization_user_api_scopes</code>\n</div>\n"
+      description: 'Delete a scope from an organization user api you previously created.
+
+
+        delete:organization_user_api_scopes'
       responses:
         '200':
           description: Organization user API scope successfully deleted.
@@ -1258,7 +1329,10 @@ paths:
       tags:
       - Organizations
       operationId: GetOrgUserMFA
-      description: "Get an organization user’s MFA configuration.\n\n<div>\n  <code>read:organization_user_mfa</code>\n</div>\n"
+      description: 'Get an organization user’s MFA configuration.
+
+
+        read:organization_user_mfa'
       summary: Get an organization user's MFA configuration
       parameters:
       - name: org_code
@@ -1296,7 +1370,10 @@ paths:
       tags:
       - Organizations
       operationId: ResetOrgUserMFAAll
-      description: "Reset all organization MFA factors for a user.\n\n<div>\n  <code>delete:organization_user_mfa</code>\n</div>\n"
+      description: 'Reset all organization MFA factors for a user.
+
+
+        delete:organization_user_mfa'
       summary: Reset all organization MFA for a user
       parameters:
       - name: org_code
@@ -1336,7 +1413,10 @@ paths:
       tags:
       - Organizations
       operationId: ResetOrgUserMFA
-      description: "Reset a specific organization MFA factor for a user.\n\n<div>\n  <code>delete:organization_user_mfa</code>\n</div>\n"
+      description: 'Reset a specific organization MFA factor for a user.
+
+
+        delete:organization_user_mfa'
       summary: Reset specific organization MFA for a user
       parameters:
       - name: org_code
@@ -1384,7 +1464,10 @@ paths:
       - Organizations
       operationId: GetOrganizationFeatureFlags
       x-scope: read:organization_feature_flags
-      description: "Get all organization feature flags.\n\n<div>\n  <code>read:organization_feature_flags</code>\n</div>\n"
+      description: 'Get all organization feature flags.
+
+
+        read:organization_feature_flags'
       summary: List Organization Feature Flags
       parameters:
       - name: org_code
@@ -1422,7 +1505,10 @@ paths:
       tags:
       - Organizations
       operationId: DeleteOrganizationFeatureFlagOverrides
-      description: "Delete all organization feature flag overrides.\n\n<div>\n  <code>delete:organization_feature_flags</code>\n</div>\n"
+      description: 'Delete all organization feature flag overrides.
+
+
+        delete:organization_feature_flags'
       summary: Delete Organization Feature Flag Overrides
       parameters:
       - name: org_code
@@ -1462,7 +1548,10 @@ paths:
       tags:
       - Organizations
       operationId: DeleteOrganizationFeatureFlagOverride
-      description: "Delete organization feature flag override.\n\n<div>\n  <code>delete:organization_feature_flags</code>\n</div>\n"
+      description: 'Delete organization feature flag override.
+
+
+        delete:organization_feature_flags'
       summary: Delete Organization Feature Flag Override
       parameters:
       - name: org_code
@@ -1506,7 +1595,10 @@ paths:
       tags:
       - Organizations
       operationId: UpdateOrganizationFeatureFlagOverride
-      description: "Update organization feature flag override.\n\n<div>\n  <code>update:organization_feature_flags</code>\n</div>\n"
+      description: 'Update organization feature flag override.
+
+
+        update:organization_feature_flags'
       summary: Update Organization Feature Flag Override
       parameters:
       - name: org_code
@@ -1558,7 +1650,10 @@ paths:
       tags:
       - Organizations
       operationId: UpdateOrganizationProperty
-      description: "Update organization property value.\n\n<div>\n  <code>update:organization_properties</code>\n</div>\n"
+      description: 'Update organization property value.
+
+
+        update:organization_properties'
       summary: Update Organization Property value
       parameters:
       - name: org_code
@@ -1610,7 +1705,10 @@ paths:
       tags:
       - Organizations
       operationId: GetOrganizationPropertyValues
-      description: "Gets properties for an organization by org code.\n\n<div>\n  <code>read:organization_properties</code>\n</div>\n"
+      description: 'Gets properties for an organization by org code.
+
+
+        read:organization_properties'
       summary: Get Organization Property Values
       parameters:
       - name: org_code
@@ -1619,7 +1717,6 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       responses:
         '200':
           description: Properties successfully retrieved.
@@ -1649,7 +1746,10 @@ paths:
       tags:
       - Organizations
       operationId: UpdateOrganizationProperties
-      description: "Update organization property values.\n\n<div>\n  <code>update:organization_properties</code>\n</div>\n"
+      description: 'Update organization property values.
+
+
+        update:organization_properties'
       summary: Update Organization Property values
       parameters:
       - name: org_code
@@ -1669,7 +1769,6 @@ paths:
                 properties:
                   description: Property keys and values
                   type: object
-                  nullable: false
               required:
               - properties
       responses:
@@ -1703,7 +1802,10 @@ paths:
       tags:
       - Organizations
       operationId: ReplaceOrganizationMFA
-      description: "Replace Organization MFA Configuration.\n\n<div>\n  <code>update:organization_mfa</code>\n</div>\n"
+      description: 'Replace Organization MFA Configuration.
+
+
+        update:organization_mfa'
       summary: Replace Organization MFA Configuration
       parameters:
       - name: org_code
@@ -1723,7 +1825,6 @@ paths:
                 enabled_factors:
                   description: The MFA methods to enable.
                   type: array
-                  nullable: false
                   items:
                     type: string
                     enum:
@@ -1757,7 +1858,10 @@ paths:
       tags:
       - Organizations
       operationId: DeleteOrganizationHandle
-      description: "Delete organization handle\n\n<div>\n  <code>delete:organization_handles</code>\n</div>\n"
+      description: 'Delete organization handle
+
+
+        delete:organization_handles'
       summary: Delete organization handle
       parameters:
       - name: org_code
@@ -1766,7 +1870,6 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       responses:
         '200':
           description: Handle successfully deleted.
@@ -1798,7 +1901,10 @@ paths:
       tags:
       - Organizations
       operationId: ReadOrganizationLogo
-      description: "Read organization logo details\n\n<div>\n  <code>read:organizations</code>\n</div>\n"
+      description: 'Read organization logo details
+
+
+        read:organizations'
       summary: Read organization logo details
       parameters:
       - name: org_code
@@ -1807,7 +1913,6 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
           example: org_1ccfb819462
       responses:
         '200':
@@ -1830,7 +1935,10 @@ paths:
       tags:
       - Organizations
       operationId: AddOrganizationLogo
-      description: "Add organization logo\n\n<div>\n  <code>update:organizations</code>\n</div>\n"
+      description: 'Add organization logo
+
+
+        update:organizations'
       summary: Add organization logo
       parameters:
       - name: org_code
@@ -1839,7 +1947,6 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
           example: org_1ccfb819462
       - name: type
         in: path
@@ -1884,7 +1991,10 @@ paths:
       tags:
       - Organizations
       operationId: DeleteOrganizationLogo
-      description: "Delete organization logo\n\n<div>\n  <code>update:organizations</code>\n</div>\n"
+      description: 'Delete organization logo
+
+
+        update:organizations'
       summary: Delete organization logo
       parameters:
       - name: org_code
@@ -1893,7 +2003,6 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
           example: org_1ccfb819462
       - name: type
         in: path
@@ -1928,7 +2037,10 @@ paths:
       tags:
       - Organizations
       operationId: GetOrganizationConnections
-      description: "Gets all connections for an organization.\n\n<div>\n  <code>read:organization_connections</code>\n</div>\n"
+      description: 'Gets all connections for an organization.
+
+
+        read:organization_connections'
       summary: Get connections
       parameters:
       - name: organization_code
@@ -1937,7 +2049,6 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
           example: org_7d45b01ef13
       responses:
         '200':
@@ -1961,7 +2072,10 @@ paths:
       - Organizations
       operationId: EnableOrgConnection
       summary: Enable connection
-      description: "Enable an auth connection for an organization.\n\n<div>\n  <code>create:organization_connections</code>\n</div>\n"
+      description: 'Enable an auth connection for an organization.
+
+
+        create:organization_connections'
       parameters:
       - name: organization_code
         in: path
@@ -1993,7 +2107,10 @@ paths:
       - Organizations
       operationId: RemoveOrgConnection
       summary: Remove connection
-      description: "Turn off an auth connection for an organization\n\n<div>\n  <code>delete:organization_connections</code>\n</div>\n"
+      description: 'Turn off an auth connection for an organization
+
+
+        delete:organization_connections'
       parameters:
       - name: organization_code
         in: path
@@ -2030,7 +2147,10 @@ paths:
       tags:
       - Organizations
       operationId: UpdateOrganizationSessions
-      description: "Update the organization's session configuration.\n\n<div>\n  <code>update:organizations</code>\n</div>\n"
+      description: 'Update the organization''s session configuration.
+
+
+        update:organizations'
       summary: Update organization session configuration
       parameters:
       - name: org_code
@@ -2039,7 +2159,6 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
           example: org_1ccfb819462
       requestBody:
         description: Organization session configuration.
@@ -2082,62 +2201,13 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    read_logo_response:
+    error_response:
       type: object
       properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        logos:
-          type: array
-          description: A list of logos.
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-                description: The type of logo (light or dark).
-                example: light
-              file_name:
-                type: string
-                description: The name of the logo file.
-                example: kinde_light.jpeg
-              path:
-                type: string
-                description: The relative path to the logo file.
-                example: /logo?p_org_code=org_1767f11ce62
-        message:
-          type: string
-          description: Response message.
-          example: Success
-    organization_user_role:
-      type: object
-      properties:
-        id:
-          type: string
-        key:
-          type: string
-        name:
-          type: string
-    get_organization_users_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        message:
-          type: string
-          description: Response message.
-          example: Success
-        organization_users:
+        errors:
           type: array
           items:
-            $ref: '#/components/schemas/organization_user'
-        next_token:
-          type: string
-          description: Pagination token.
+            $ref: '#/components/schemas/error'
     property_value:
       type: object
       properties:
@@ -2148,200 +2218,18 @@ components:
           type: string
           example: Town
         description:
-          type: string
+          type:
+          - string
+          - 'null'
           example: Where the entity is located
-          nullable: true
         key:
           type: string
           example: kp_town
         value:
-          type: string
+          type:
+          - string
+          - 'null'
           example: West-side Staines massive
-          nullable: true
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
-    get_connections_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        connections:
-          type: array
-          items:
-            $ref: '#/components/schemas/connection'
-        has_more:
-          description: Whether more records exist.
-          type: boolean
-    get_organizations_user_permissions_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        permissions:
-          type: array
-          items:
-            $ref: '#/components/schemas/organization_user_permission'
-    get_organizations_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        message:
-          type: string
-          description: Response message.
-          example: Success
-        organizations:
-          type: array
-          items:
-            $ref: '#/components/schemas/organization_item_schema'
-        next_token:
-          description: Pagination token.
-          type: string
-          example: Mjo5Om1hbWVfYZNj
-    get_organization_invites_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        message:
-          type: string
-          description: Response message.
-          example: Success
-        invites:
-          type: array
-          items:
-            $ref: '#/components/schemas/organization_invite'
-        next_token:
-          type: string
-          description: Pagination token.
-          nullable: true
-    get_property_values_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        properties:
-          type: array
-          items:
-            $ref: '#/components/schemas/property_value'
-        next_token:
-          description: Pagination token.
-          type: string
-    create_organization_invite_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: INVITATION_CREATED
-        message:
-          type: string
-          description: Response message.
-          example: Invitation created
-        invite:
-          type: object
-          properties:
-            id:
-              type: string
-              description: The invitation's unique identifier.
-              example: inv_abc123def456
-            code:
-              type: string
-              description: The invitation's code.
-              example: inv_abc123def456
-            email:
-              type: string
-              description: The email address of the invited user.
-              example: user@example.com
-            first_name:
-              type: string
-              description: The first name of the invited user.
-              nullable: true
-              example: John
-            last_name:
-              type: string
-              description: The last name of the invited user.
-              nullable: true
-              example: Doe
-            full_name:
-              type: string
-              description: The full name of the invited user.
-              example: John Doe
-            created_on:
-              type: string
-              format: date-time
-              description: When the invitation was created.
-              example: '2024-11-18T13:32:03+11'
-            is_sent:
-              type: boolean
-              description: Whether the invitation email was sent.
-              example: true
-            accepted_on:
-              type: string
-              format: date-time
-              description: When the invitation was accepted. Always null for a freshly created invitation.
-              nullable: true
-              example: null
-            roles:
-              type: array
-              description: The roles assigned to the invitation.
-              items:
-                type: object
-                properties:
-                  key:
-                    type: string
-                    description: The role's key.
-                    example: admin
-                  name:
-                    type: string
-                    description: The role's name.
-                    example: Administrator
-              example:
-              - key: admin
-                name: Administrator
-              - key: manager
-                name: Manager
-            is_revoked:
-              type: boolean
-              description: Whether the invitation has been revoked. Always false for a freshly created invitation.
-              example: false
-            invite_link:
-              type: string
-              description: URL to share with the invitee to accept the invitation.
-              example: https://example.kinde.com/team_invitation?code=inv_abc123def456
-    not_found_response:
-      type: object
-      properties:
-        errors:
-          type: object
-          properties:
-            code:
-              type: string
-              example: ROUTE_NOT_FOUND
-            message:
-              type: string
-              example: The requested API route does not exist
     get_organizations_user_roles_response:
       type: object
       properties:
@@ -2358,6 +2246,48 @@ components:
         next_token:
           type: string
           description: Pagination token.
+    create_organization_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        organization:
+          type: object
+          properties:
+            code:
+              description: The organization's unique code.
+              type: string
+              example: org_1ccfb819462
+            billing_customer_id:
+              description: The billing customer id if the organization was created with the is_create_billing_customer as true
+              type: string
+              example: customer_1245adbc6789
+    connection:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        connection:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            display_name:
+              type: string
+            strategy:
+              type: string
     update_organization_users_response:
       type: object
       properties:
@@ -2382,245 +2312,6 @@ components:
           items:
             type: string
             example: kp_057ee6debc624c70947b6ba512908c35
-    get_organization_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: The unique identifier for the organization.
-          example: org_1ccfb819462
-        name:
-          type: string
-          description: The organization's name.
-          example: Acme Corp
-        handle:
-          type: string
-          description: A unique handle for the organization - can be used for dynamic callback urls.
-          example: acme_corp
-          nullable: true
-        is_default:
-          type: boolean
-          description: Whether the organization is the default organization.
-          example: false
-        external_id:
-          type: string
-          description: The organization's external identifier - commonly used when migrating from or mapping to other systems.
-          example: some1234
-          nullable: true
-        is_auto_membership_enabled:
-          type: boolean
-          example: true
-          description: If users become members of this organization when the org code is supplied during authentication.
-        logo:
-          type: string
-          nullable: true
-          description: The organization's logo URL.
-          example: https://yoursubdomain.kinde.com/logo?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
-        logo_dark:
-          type: string
-          nullable: true
-          description: The organization's logo URL to be used for dark themes.
-          example: https://yoursubdomain.kinde.com/logo_dark?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
-        favicon_svg:
-          type: string
-          nullable: true
-          description: The organization's SVG favicon URL. Optimal format for most browsers
-          example: https://yoursubdomain.kinde.com/favicon_svg?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
-        favicon_fallback:
-          type: string
-          nullable: true
-          description: The favicon URL to be used as a fallback in browsers that don't support SVG, add a PNG
-          example: https://yoursubdomain.kinde.com/favicon_fallback?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
-        allowed_domains:
-          type: array
-          description: Domains allowed for self-sign up to this environment.  Empty array means no restrictions.
-          example:
-          - https://acme.kinde.com
-          - https://acme.com
-          items:
-            type: string
-        link_color:
-          type: object
-          nullable: true
-          properties:
-            raw:
-              type: string
-              example: '#0056F1'
-            hex:
-              type: string
-              example: '#0056F1'
-            hsl:
-              type: string
-              example: hsl(220, 100%, 50%)
-        background_color:
-          nullable: true
-          type: object
-          properties:
-            raw:
-              type: string
-              example: '#ffffff'
-            hex:
-              type: string
-              example: '#ffffff'
-            hsl:
-              type: string
-              example: hsl(0, 0%, 100%)
-        button_color:
-          nullable: true
-          type: object
-          properties:
-            raw:
-              type: string
-              example: '#0056F1'
-            hex:
-              type: string
-              example: '#0056F1'
-            hsl:
-              type: string
-              example: hsl(220, 100%, 50%)
-        button_text_color:
-          nullable: true
-          type: object
-          properties:
-            raw:
-              type: string
-              example: '#ffffff'
-            hex:
-              type: string
-              example: '#ffffff'
-            hsl:
-              type: string
-              example: hsl(0, 0%, 100%)
-        link_color_dark:
-          type: object
-          nullable: true
-          properties:
-            raw:
-              type: string
-              example: '#0056F1'
-            hex:
-              type: string
-              example: '#0056F1'
-            hsl:
-              type: string
-              example: hsl(220, 100%, 50%)
-        background_color_dark:
-          type: object
-          nullable: true
-          properties:
-            raw:
-              type: string
-              example: '#0056F1'
-            hex:
-              type: string
-              example: '#0056F1'
-            hsl:
-              type: string
-              example: hsl(220, 100%, 50%)
-        button_text_color_dark:
-          type: object
-          nullable: true
-          properties:
-            raw:
-              type: string
-              example: '#0056F1'
-            hex:
-              type: string
-              example: '#0056F1'
-            hsl:
-              type: string
-              example: hsl(220, 100%, 50%)
-        button_color_dark:
-          type: object
-          nullable: true
-          properties:
-            raw:
-              type: string
-              example: '#0056F1'
-            hex:
-              type: string
-              example: '#0056F1'
-            hsl:
-              type: string
-              example: hsl(220, 100%, 50%)
-        button_border_radius:
-          type: integer
-          nullable: true
-          description: The border radius for buttons. Value is px, Kinde transforms to rem for rendering
-          example: 8
-        card_border_radius:
-          type: integer
-          nullable: true
-          description: The border radius for cards. Value is px, Kinde transforms to rem for rendering
-          example: 16
-        input_border_radius:
-          type: integer
-          nullable: true
-          description: The border radius for inputs. Value is px, Kinde transforms to rem for rendering
-          example: 4
-        theme_code:
-          type: string
-          description: Whether the environment is forced into light mode, dark mode or user preference
-          enum:
-          - light
-          - dark
-          - user_preference
-        color_scheme:
-          type: string
-          description: The color scheme for the environment used for meta tags based on the theme code
-          enum:
-          - light
-          - dark
-          - light dark
-        created_on:
-          type: string
-          description: Date of organization creation in ISO 8601 format.
-          example: '2021-01-01T00:00:00Z'
-        is_allow_registrations:
-          nullable: true
-          type: boolean
-          example: true
-          deprecated: true
-          description: Deprecated - Use 'is_auto_membership_enabled' instead
-        sender_name:
-          nullable: true
-          type: string
-          example: Acme Corp
-          description: The name of the organization that will be used in emails
-        sender_email:
-          nullable: true
-          type: string
-          example: hello@acmecorp.com
-          description: The email address that will be used in emails. Requires custom SMTP to be set up.
-        is_suspended:
-          type: boolean
-          description: Whether the organization is currently suspended or not.
-          example: false
-        suspended_on:
-          type: string
-          description: The date the organization was suspended in ISO 8601 format. Null if not suspended.
-          nullable: true
-          example: '2021-01-01T00:00:00Z'
-        billing:
-          type: object
-          description: The billing information if the organization is a billing customer.
-          properties:
-            billing_customer_id:
-              type: string
-            agreements:
-              type: array
-              description: The billing agreements the billing customer is currently subscribed to
-              items:
-                type: object
-                properties:
-                  plan_code:
-                    type: string
-                    example: pro
-                    description: The code of the plan from which this agreement is taken from
-                  agreement_id:
-                    type: string
-                    example: agreement_a1234b
-                    description: The id of the billing agreement in Kinde
     success_response:
       type: object
       properties:
@@ -2666,6 +2357,395 @@ components:
                 - bool
               value:
                 type: string
+    organization_user_permission:
+      type: object
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        roles:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              key:
+                type: string
+    organization_user:
+      type: object
+      properties:
+        id:
+          type:
+          - string
+          - 'null'
+          example: kp:97c2ba24217d48e3b96a799b76cf2c74
+          description: The unique ID for the user.
+        email:
+          type:
+          - string
+          - 'null'
+          example: john.snow@example.com
+          description: The user's email address.
+        full_name:
+          type: string
+          example: John Snow
+          description: The user's full name.
+        last_name:
+          type:
+          - string
+          - 'null'
+          example: Snow
+          description: The user's last name.
+        first_name:
+          type:
+          - string
+          - 'null'
+          example: John
+          description: The user's first name.
+        picture:
+          type:
+          - string
+          - 'null'
+          example: https://example.com/john_snow.jpg
+          description: The user's profile picture URL.
+        joined_on:
+          type: string
+          example: '2021-01-01T00:00:00Z'
+          description: The date the user joined the organization.
+        last_accessed_on:
+          type:
+          - string
+          - 'null'
+          example: '2022-01-01T00:00:00Z'
+          description: The date the user last accessed the organization.
+        is_suspended:
+          type: boolean
+          description: Whether the user is currently suspended or not.
+          example: false
+        roles:
+          type: array
+          description: The roles the user has in the organization.
+          items:
+            type: string
+            example: admin
+            description: The role's key.
+    get_organization_invites_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        invites:
+          type: array
+          items:
+            $ref: '#/components/schemas/organization_invite'
+        next_token:
+          type:
+          - string
+          - 'null'
+          description: Pagination token.
+    get_organization_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The unique identifier for the organization.
+          example: org_1ccfb819462
+        name:
+          type: string
+          description: The organization's name.
+          example: Acme Corp
+        handle:
+          type:
+          - string
+          - 'null'
+          description: A unique handle for the organization - can be used for dynamic callback urls.
+          example: acme_corp
+        is_default:
+          type: boolean
+          description: Whether the organization is the default organization.
+          example: false
+        external_id:
+          type:
+          - string
+          - 'null'
+          description: The organization's external identifier - commonly used when migrating from or mapping to other systems.
+          example: some1234
+        is_auto_membership_enabled:
+          type: boolean
+          example: true
+          description: If users become members of this organization when the org code is supplied during authentication.
+        logo:
+          type:
+          - string
+          - 'null'
+          description: The organization's logo URL.
+          example: https://yoursubdomain.kinde.com/logo?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+        logo_dark:
+          type:
+          - string
+          - 'null'
+          description: The organization's logo URL to be used for dark themes.
+          example: https://yoursubdomain.kinde.com/logo_dark?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+        favicon_svg:
+          type:
+          - string
+          - 'null'
+          description: The organization's SVG favicon URL. Optimal format for most browsers
+          example: https://yoursubdomain.kinde.com/favicon_svg?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+        favicon_fallback:
+          type:
+          - string
+          - 'null'
+          description: The favicon URL to be used as a fallback in browsers that don't support SVG, add a PNG
+          example: https://yoursubdomain.kinde.com/favicon_fallback?org_code=org_1ccfb819462&cache=311308b8ad3544bf8e572979f0e5748d
+        allowed_domains:
+          type: array
+          description: Domains allowed for self-sign up to this environment.  Empty array means no restrictions.
+          example:
+          - https://acme.kinde.com
+          - https://acme.com
+          items:
+            type: string
+        link_color:
+          type:
+          - object
+          - 'null'
+          properties:
+            raw:
+              type: string
+              example: '#0056F1'
+            hex:
+              type: string
+              example: '#0056F1'
+            hsl:
+              type: string
+              example: hsl(220, 100%, 50%)
+        background_color:
+          type:
+          - object
+          - 'null'
+          properties:
+            raw:
+              type: string
+              example: '#ffffff'
+            hex:
+              type: string
+              example: '#ffffff'
+            hsl:
+              type: string
+              example: hsl(0, 0%, 100%)
+        button_color:
+          type:
+          - object
+          - 'null'
+          properties:
+            raw:
+              type: string
+              example: '#0056F1'
+            hex:
+              type: string
+              example: '#0056F1'
+            hsl:
+              type: string
+              example: hsl(220, 100%, 50%)
+        button_text_color:
+          type:
+          - object
+          - 'null'
+          properties:
+            raw:
+              type: string
+              example: '#ffffff'
+            hex:
+              type: string
+              example: '#ffffff'
+            hsl:
+              type: string
+              example: hsl(0, 0%, 100%)
+        link_color_dark:
+          type:
+          - object
+          - 'null'
+          properties:
+            raw:
+              type: string
+              example: '#0056F1'
+            hex:
+              type: string
+              example: '#0056F1'
+            hsl:
+              type: string
+              example: hsl(220, 100%, 50%)
+        background_color_dark:
+          type:
+          - object
+          - 'null'
+          properties:
+            raw:
+              type: string
+              example: '#0056F1'
+            hex:
+              type: string
+              example: '#0056F1'
+            hsl:
+              type: string
+              example: hsl(220, 100%, 50%)
+        button_text_color_dark:
+          type:
+          - object
+          - 'null'
+          properties:
+            raw:
+              type: string
+              example: '#0056F1'
+            hex:
+              type: string
+              example: '#0056F1'
+            hsl:
+              type: string
+              example: hsl(220, 100%, 50%)
+        button_color_dark:
+          type:
+          - object
+          - 'null'
+          properties:
+            raw:
+              type: string
+              example: '#0056F1'
+            hex:
+              type: string
+              example: '#0056F1'
+            hsl:
+              type: string
+              example: hsl(220, 100%, 50%)
+        button_border_radius:
+          type:
+          - integer
+          - 'null'
+          description: The border radius for buttons. Value is px, Kinde transforms to rem for rendering
+          example: 8
+        card_border_radius:
+          type:
+          - integer
+          - 'null'
+          description: The border radius for cards. Value is px, Kinde transforms to rem for rendering
+          example: 16
+        input_border_radius:
+          type:
+          - integer
+          - 'null'
+          description: The border radius for inputs. Value is px, Kinde transforms to rem for rendering
+          example: 4
+        theme_code:
+          type: string
+          description: Whether the environment is forced into light mode, dark mode or user preference
+          enum:
+          - light
+          - dark
+          - user_preference
+        color_scheme:
+          type: string
+          description: The color scheme for the environment used for meta tags based on the theme code
+          enum:
+          - light
+          - dark
+          - light dark
+        created_on:
+          type: string
+          description: Date of organization creation in ISO 8601 format.
+          example: '2021-01-01T00:00:00Z'
+        is_allow_registrations:
+          type:
+          - boolean
+          - 'null'
+          example: true
+          deprecated: true
+          description: Deprecated - Use 'is_auto_membership_enabled' instead
+        sender_name:
+          type:
+          - string
+          - 'null'
+          example: Acme Corp
+          description: The name of the organization that will be used in emails
+        sender_email:
+          type:
+          - string
+          - 'null'
+          example: hello@acmecorp.com
+          description: The email address that will be used in emails. Requires custom SMTP to be set up.
+        is_suspended:
+          type: boolean
+          description: Whether the organization is currently suspended or not.
+          example: false
+        suspended_on:
+          type:
+          - string
+          - 'null'
+          description: The date the organization was suspended in ISO 8601 format. Null if not suspended.
+          example: '2021-01-01T00:00:00Z'
+        billing:
+          type: object
+          description: The billing information if the organization is a billing customer.
+          properties:
+            billing_customer_id:
+              type: string
+            agreements:
+              type: array
+              description: The billing agreements the billing customer is currently subscribed to
+              items:
+                type: object
+                properties:
+                  plan_code:
+                    type: string
+                    example: pro
+                    description: The code of the plan from which this agreement is taken from
+                  agreement_id:
+                    type: string
+                    example: agreement_a1234b
+                    description: The id of the billing agreement in Kinde
+    not_found_response:
+      type: object
+      properties:
+        errors:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ROUTE_NOT_FOUND
+            message:
+              type: string
+              example: The requested API route does not exist
+    get_organizations_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        organizations:
+          type: array
+          items:
+            $ref: '#/components/schemas/organization_item_schema'
+        next_token:
+          description: Pagination token.
+          type: string
+          example: Mjo5Om1hbWVfYZNj
     get_user_mfa_response:
       type: object
       properties:
@@ -2706,101 +2786,22 @@ components:
               type: string
               format: date-time
               example: '2024-11-18T13:32:07.22538+11:00'
-    get_organization_invite_response:
+    get_property_values_response:
       type: object
       properties:
+        code:
+          type: string
+          description: Response code.
         message:
           type: string
           description: Response message.
-          example: Success
-        id:
-          type: string
-          description: The invitation's unique identifier.
-          example: inv_abc123def456
-        code:
-          type: string
-          description: The invitation's code.
-          example: inv_abc123def456
-        email:
-          type: string
-          description: The email address of the invited user.
-          example: user@example.com
-        first_name:
-          type: string
-          description: The first name of the invited user.
-          nullable: true
-          example: John
-        last_name:
-          type: string
-          description: The last name of the invited user.
-          nullable: true
-          example: Doe
-        full_name:
-          type: string
-          description: The full name of the invited user.
-          example: John Doe
-        created_on:
-          type: string
-          format: date-time
-          description: When the invitation was created.
-          example: '2024-11-18T13:32:03+11'
-        is_sent:
-          type: boolean
-          description: Whether the invitation email was sent.
-          example: true
-        accepted_on:
-          type: string
-          format: date-time
-          description: When the invitation was accepted.
-          nullable: true
-          example: '2024-11-19T10:15:30+11'
-        roles:
-          type: array
-          description: The roles assigned to the invitation.
-          items:
-            type: object
-            properties:
-              key:
-                type: string
-                description: The role's key.
-                example: admin
-              name:
-                type: string
-                description: The role's name.
-                example: Administrator
-          example:
-          - key: admin
-            name: Administrator
-          - key: manager
-            name: Manager
-        is_revoked:
-          type: boolean
-          description: Whether the invitation has been revoked.
-          example: false
-        invite_link:
-          type: string
-          description: URL to share with the invitee to accept the invitation.
-          example: https://example.kinde.com/team_invitation?code=inv_abc123def456
-    organization_user_permission:
-      type: object
-      properties:
-        id:
-          type: string
-        key:
-          type: string
-        name:
-          type: string
-        description:
-          type: string
-        roles:
+        properties:
           type: array
           items:
-            type: object
-            properties:
-              id:
-                type: string
-              key:
-                type: string
+            $ref: '#/components/schemas/property_value'
+        next_token:
+          description: Pagination token.
+          type: string
     organization_invite:
       type: object
       properties:
@@ -2817,14 +2818,16 @@ components:
           description: The email address of the invited user.
           example: user@example.com
         first_name:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The first name of the invited user.
-          nullable: true
           example: John
         last_name:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The last name of the invited user.
-          nullable: true
           example: Doe
         full_name:
           type: string
@@ -2840,10 +2843,11 @@ components:
           description: Whether the invitation email was sent.
           example: true
         accepted_on:
-          type: string
+          type:
+          - string
+          - 'null'
           format: date-time
           description: When the invitation was accepted.
-          nullable: true
           example: '2024-11-19T10:15:30+11'
         roles:
           type: array
@@ -2881,29 +2885,36 @@ components:
         message:
           type: string
           description: Error message.
-    create_organization_response:
+    read_logo_response:
       type: object
       properties:
-        message:
-          type: string
-          description: Response message.
-          example: Success
         code:
           type: string
           description: Response code.
           example: OK
-        organization:
-          type: object
-          properties:
-            code:
-              description: The organization's unique code.
-              type: string
-              example: org_1ccfb819462
-            billing_customer_id:
-              description: The billing customer id if the organization was created with the is_create_billing_customer as true
-              type: string
-              example: customer_1245adbc6789
-    connection:
+        logos:
+          type: array
+          description: A list of logos.
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: The type of logo (light or dark).
+                example: light
+              file_name:
+                type: string
+                description: The name of the logo file.
+                example: kinde_light.jpeg
+              path:
+                type: string
+                description: The relative path to the logo file.
+                example: /logo?p_org_code=org_1767f11ce62
+        message:
+          type: string
+          description: Response message.
+          example: Success
+    get_organizations_user_permissions_response:
       type: object
       properties:
         code:
@@ -2912,69 +2923,104 @@ components:
         message:
           type: string
           description: Response message.
-        connection:
-          type: object
-          properties:
-            id:
-              type: string
-            name:
-              type: string
-            display_name:
-              type: string
-            strategy:
-              type: string
-    organization_user:
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/organization_user_permission'
+    organization_user_role:
       type: object
       properties:
         id:
           type: string
-          example: kp:97c2ba24217d48e3b96a799b76cf2c74
-          description: The unique ID for the user.
-          nullable: true
-        email:
+        key:
           type: string
-          example: john.snow@example.com
-          description: The user's email address.
-          nullable: true
-        full_name:
+        name:
           type: string
-          example: John Snow
-          description: The user's full name.
-        last_name:
+    create_organization_invite_response:
+      type: object
+      properties:
+        code:
           type: string
-          example: Snow
-          description: The user's last name.
-          nullable: true
-        first_name:
+          description: Response code.
+          example: INVITATION_CREATED
+        message:
           type: string
-          example: John
-          description: The user's first name.
-          nullable: true
-        picture:
-          type: string
-          example: https://example.com/john_snow.jpg
-          description: The user's profile picture URL.
-          nullable: true
-        joined_on:
-          type: string
-          example: '2021-01-01T00:00:00Z'
-          description: The date the user joined the organization.
-        last_accessed_on:
-          type: string
-          example: '2022-01-01T00:00:00Z'
-          description: The date the user last accessed the organization.
-          nullable: true
-        is_suspended:
-          type: boolean
-          description: Whether the user is currently suspended or not.
-          example: false
-        roles:
-          type: array
-          description: The roles the user has in the organization.
-          items:
-            type: string
-            example: admin
-            description: The role's key.
+          description: Response message.
+          example: Invitation created
+        invite:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The invitation's unique identifier.
+              example: inv_abc123def456
+            code:
+              type: string
+              description: The invitation's code.
+              example: inv_abc123def456
+            email:
+              type: string
+              description: The email address of the invited user.
+              example: user@example.com
+            first_name:
+              type:
+              - string
+              - 'null'
+              description: The first name of the invited user.
+              example: John
+            last_name:
+              type:
+              - string
+              - 'null'
+              description: The last name of the invited user.
+              example: Doe
+            full_name:
+              type: string
+              description: The full name of the invited user.
+              example: John Doe
+            created_on:
+              type: string
+              format: date-time
+              description: When the invitation was created.
+              example: '2024-11-18T13:32:03+11'
+            is_sent:
+              type: boolean
+              description: Whether the invitation email was sent.
+              example: true
+            accepted_on:
+              type:
+              - string
+              - 'null'
+              format: date-time
+              description: When the invitation was accepted. Always null for a freshly created invitation.
+              example: null
+            roles:
+              type: array
+              description: The roles assigned to the invitation.
+              items:
+                type: object
+                properties:
+                  key:
+                    type: string
+                    description: The role's key.
+                    example: admin
+                  name:
+                    type: string
+                    description: The role's name.
+                    example: Administrator
+              example:
+              - key: admin
+                name: Administrator
+              - key: manager
+                name: Manager
+            is_revoked:
+              type: boolean
+              description: Whether the invitation has been revoked. Always false for a freshly created invitation.
+              example: false
+            invite_link:
+              type: string
+              description: URL to share with the invitee to accept the invitation.
+              example: https://example.kinde.com/team_invitation?code=inv_abc123def456
     organization_item_schema:
       type: object
       properties:
@@ -2987,26 +3033,146 @@ components:
           description: The organization's name.
           example: Acme Corp
         handle:
-          type: string
+          type:
+          - string
+          - 'null'
           description: A unique handle for the organization - can be used for dynamic callback urls.
           example: acme_corp
-          nullable: true
         is_default:
           type: boolean
           description: Whether the organization is the default organization.
           example: false
         external_id:
-          type: string
+          type:
+          - string
+          - 'null'
           description: The organization's external identifier - commonly used when migrating from or mapping to other systems.
           example: some1234
-          nullable: true
         is_auto_membership_enabled:
           type: boolean
           example: true
           description: If users become members of this organization when the org code is supplied during authentication.
+    get_organization_invite_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        id:
+          type: string
+          description: The invitation's unique identifier.
+          example: inv_abc123def456
+        code:
+          type: string
+          description: The invitation's code.
+          example: inv_abc123def456
+        email:
+          type: string
+          description: The email address of the invited user.
+          example: user@example.com
+        first_name:
+          type:
+          - string
+          - 'null'
+          description: The first name of the invited user.
+          example: John
+        last_name:
+          type:
+          - string
+          - 'null'
+          description: The last name of the invited user.
+          example: Doe
+        full_name:
+          type: string
+          description: The full name of the invited user.
+          example: John Doe
+        created_on:
+          type: string
+          format: date-time
+          description: When the invitation was created.
+          example: '2024-11-18T13:32:03+11'
+        is_sent:
+          type: boolean
+          description: Whether the invitation email was sent.
+          example: true
+        accepted_on:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: When the invitation was accepted.
+          example: '2024-11-19T10:15:30+11'
+        roles:
+          type: array
+          description: The roles assigned to the invitation.
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+                description: The role's key.
+                example: admin
+              name:
+                type: string
+                description: The role's name.
+                example: Administrator
+          example:
+          - key: admin
+            name: Administrator
+          - key: manager
+            name: Manager
+        is_revoked:
+          type: boolean
+          description: Whether the invitation has been revoked.
+          example: false
+        invite_link:
+          type: string
+          description: URL to share with the invitee to accept the invitation.
+          example: https://example.kinde.com/team_invitation?code=inv_abc123def456
+    get_connections_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/connection'
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+    get_organization_users_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        organization_users:
+          type: array
+          items:
+            $ref: '#/components/schemas/organization_user'
+        next_token:
+          type: string
+          description: Pagination token.
   responses:
     bad_request:
       description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    forbidden:
+      description: Unauthorized - invalid credentials.
       content:
         application/json:
           schema:
@@ -3023,15 +3189,9 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/not_found_response'
-    forbidden:
-      description: Unauthorized - invalid credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
   securitySchemes:
     kindeBearerAuth:
-      description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.
+      description: 'Requires an access token obtained using the client_credentials flow.
 
         '
       type: http

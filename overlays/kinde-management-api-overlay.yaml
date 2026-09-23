@@ -1,0 +1,159 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Kinde Management API
+  version: 1.0.0
+  x-generated: '2026-09-12'
+  x-method: generated
+  x-source: >-
+    Generated from artifacts already in this repo — scopes/kinde-scopes.yml (the published scope
+    reference the contract omits), rate-limits/kinde-rate-limits.yml, conventions/kinde-conventions.yml
+    and errors/kinde-problem-types.yml — plus probed discovery documents. Every value it writes is
+    sourced from Kinde's own documentation; nothing is invented.
+  x-extends: openapi/_original/kinde-management-api-openapi.yml
+  x-also-applies-to: >-
+    The 30 per-tag OpenAPIs under openapi/ are splits of this same source spec, so these actions
+    apply to them equally where the targeted node is present.
+  x-rationale: >-
+    The Kinde Management API's largest machine-readability gap is that its documented OAuth scope
+    model does not appear in the contract at all. 168 of 169 operations declare a 403 and the spec
+    never says which scope avoids it. This overlay records what Kinde publishes in prose, without
+    mutating the original spec.
+actions:
+  - target: $.info
+    description: Record the documented runtime semantics the contract itself does not carry.
+    update:
+      x-rate-limit:
+        status: 429
+        declared-on-every-operation: true
+        response-headers: [RateLimit-Reset]
+        headers-not-returned: [RateLimit-Limit, RateLimit-Remaining, Retry-After]
+        page-size-max: 500
+        bulk-objects-max: 100
+        limiters: [rate, concurrency]
+        threshold-published: false
+        docs: https://docs.kinde.com/developer-tools/kinde-api/api-rate-limits/
+      x-idempotency:
+        supported: false
+        coverage: none
+        note: >-
+          No Idempotency-Key header or replay protection is documented anywhere. Callers are told
+          to retry 429s, so a lost create response can duplicate a record.
+      x-pagination:
+        style: opaque-cursor
+        request: [page_size, next_token]
+        response: [next_token]
+        page-size-max: 500
+      x-error-format:
+        rfc9457: false
+        media-types: [application/json, 'application/json; charset=utf-8']
+        envelope: '{errors:[{code,message}]}'
+        catalog: errors/kinde-problem-types.yml
+      x-versioning:
+        scheme: path
+        current: v1
+        deprecation-policy-published: false
+        sunset-header: false
+      x-reversibility:
+        grade: documented
+        note: >-
+          Deletes are permanent with no published retention window. Prefer updateUser with
+          is_suspended over deleteUser. Detail in conventions/kinde-conventions.yml.
+      x-tenancy:
+        model: subdomain-per-tenant
+        base: https://{subdomain}.kinde.com
+        note: >-
+          Environments are separate tenants. An org_code or user id from development does not
+          resolve in production; that mismatch is the most common cause of an unexpected 404.
+  - target: $.components.securitySchemes
+    description: >-
+      Record the OAuth 2.0 client-credentials flow and the published scope catalogue. The spec
+      declares only an http/bearer scheme, so the scope model is invisible to generated SDKs.
+    update:
+      x-kindeOAuth2Documented:
+        type: oauth2
+        x-note: >-
+          DOCUMENTED, NOT DECLARED. Kinde's published contract carries only kindeBearerAuth
+          (http/bearer). This node records the flow and scopes exactly as documented at
+          https://docs.kinde.com/developer-tools/kinde-api/api-scopes/ so that tooling can see
+          them. It does not assert that the provider declares an oauth2 scheme.
+        flows:
+          clientCredentials:
+            tokenUrl: https://{subdomain}.kinde.com/oauth2/token
+            x-audience-required: https://{subdomain}.kinde.com/api
+            x-scope-narrowing: >-
+              Pass a space-delimited scope parameter in the token request body to issue a token
+              with fewer scopes than the M2M application holds.
+            scopes:
+              'read:users': Read user details
+              'create:users': Create users
+              'update:users': Update user details
+              'delete:users': Delete users
+              'read:user_identities': Read linked identity providers for a user
+              'read:organizations': Read organizations
+              'create:organizations': Create organizations
+              'update:organizations': Update organizations
+              'delete:organizations': Delete organizations
+              'read:organization_users': Read users in an organization
+              'create:organization_users': Add users to an organization
+              'update:organization_users': Update organization user details
+              'delete:organization_users': Remove users from an organization
+              'read:roles': Read roles
+              'create:roles': Create roles
+              'update:roles': Update roles
+              'delete:roles': Delete roles
+              'read:organization_user_roles': Read roles assigned to organization users
+              'create:organization_user_roles': Assign roles to organization users
+              'delete:organization_user_roles': Remove roles from organization users
+              'read:role_permissions': Read the permissions attached to a role
+              'read:permissions': Read permissions
+              'create:permissions': Create permissions
+              'update:permissions': Update permissions
+              'delete:permissions': Delete permissions
+              'read:applications': Read application details
+              'create:applications': Create applications
+              'update:applications': Update application details
+              'delete:applications': Delete applications
+              'read:feature_flags': Read feature flags
+              'create:feature_flags': Create feature flags
+              'update:feature_flags': Update feature flags
+              'delete:feature_flags': Delete feature flags
+              'read:environments': Read environment details
+              'update:environments': Update environment settings
+              'read:environment_variables': Read environment variables
+              'create:environment_variables': Create environment variables
+              'update:environment_variables': Update environment variables
+              'delete:environment_variables': Delete environment variables
+              'read:connections': Read connection details
+              'create:connections': Create connections
+              'update:connections': Update connections
+              'delete:connections': Delete connections
+              'read:webhooks': Read webhooks
+              'create:webhooks': Create webhooks
+              'update:webhooks': Update webhooks
+              'delete:webhooks': Delete webhooks
+              'read:properties': Read custom properties
+              'create:properties': Create custom properties
+              'read:subscribers': Read subscribers
+              'create:subscribers': Create subscribers
+              'read:apis': View MCP connections, tools and audit
+              'update:apis': Create, delete and authorize APIs; configure backend auth
+  - target: $.paths..[?(@.operationId)]
+    description: >-
+      Flag every operation reachable through the Kinde MCP server. 22 of 169 are; the MCP server is
+      granted no update or delete scopes at all.
+    update:
+      x-mcp-reachable-see: mcp/kinde-tool-crosswalk.yml
+  - target: $.info
+    description: Point at the derived artifacts that carry the rest of this profile.
+    update:
+      x-apievangelist-artifacts:
+        conventions: conventions/kinde-conventions.yml
+        errors: errors/kinde-problem-types.yml
+        scopes: scopes/kinde-scopes.yml
+        rate-limits: rate-limits/kinde-rate-limits.yml
+        lifecycle: lifecycle/kinde-lifecycle.yml
+        conformance: conformance/kinde-conformance.yml
+        data-model: data-model/kinde-data-model.yml
+        tool-crosswalk: mcp/kinde-tool-crosswalk.yml
+        webhooks: webhooks/kinde-webhooks.yml
+        skills: skills/_index.yml

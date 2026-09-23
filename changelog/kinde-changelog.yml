@@ -1,0 +1,90 @@
+generated: '2026-09-12'
+method: searched
+source: https://updates.kinde.com
+provider: Kinde
+providerId: kinde
+description: >-
+  Kinde publishes a dated public release hub ("Feature release hub") on LaunchNotes at
+  updates.kinde.com, alongside a public roadmap board at updates.kinde.com/board. Releases are
+  grouped into monthly themed drops rather than per-API semantic versions — the API itself has been
+  v1 throughout and no entry announces a breaking change. The changelog therefore tracks PRODUCT
+  capability, not contract version.
+scheme: monthly-themed-release
+versioned: false
+current_api_version: v1
+breaking_changes_announced: 0
+platform: LaunchNotes
+urls:
+  changelog: https://updates.kinde.com
+  roadmap: https://updates.kinde.com/board
+  feed: https://updates.kinde.com/feed
+  feed_status: 200
+categories:
+  - Authentication
+  - Billing
+  - Brilliant basics
+  - Customize & extend
+  - Developer features
+  - SDK
+  - User management
+  - Highly requested
+entries:
+  - date: '2026-08-31'
+    title: Flexible sign-in, smarter billing
+    category: [Authentication, Billing, Developer features, User management]
+    breaking: false
+    highlights:
+      - >-
+        Sign-in flexibility: email + password connections can now additionally offer a one-time
+        email code via a "Sign in with a code" option on the password connection.
+  - date: '2026-07-31'
+    title: Bring your own APIs to AI agents
+    category: [Developer features, SDK, Billing, Authentication]
+    breaking: false
+    beta: true
+    highlights:
+      - >-
+        Kinde Secure MCP (beta) — ship an MCP server for YOUR customers. Kinde generates an MCP
+        server in front of a customer-supplied OpenAPI and handles user API key auth.
+    note: >-
+      This is the release that turned MCP from a Kinde-internal admin tool into a Kinde product.
+      See mcp/kinde-mcp.yml mcp_connections_product.
+  - date: '2026-06-30'
+    title: Passkeys, flexible billing, and more
+    category: [Authentication, Billing, Developer features, SDK, User management]
+    breaking: false
+    highlights:
+      - Sign in with passkeys — passwordless authentication via WebAuthn/FIDO2, register and sign in.
+  - date: '2026-05-29'
+    title: Self-serve billing and speed where it counts
+    category: [Billing, Developer features, User management]
+    breaking: false
+    highlights:
+      - >-
+        Smarter billing and self-serve plan management — plan management made more robust for both
+        the operator and their customers, including cancelling a customer's plan.
+  - date: '2026-05-01'
+    title: Scaled up and locked down
+    category: [Authentication, User management, Developer features]
+    breaking: false
+    highlights:
+      - >-
+        Invite member controls for organizations — owners can control whether member invitations
+        are enabled at all, and how invite emails are sent.
+  - date: '2026-03-30'
+    title: Better delivery, higher conversion, lower pricing
+    category: [Authentication, Billing, Developer features, SDK]
+    breaking: false
+    highlights:
+      - WhatsApp messaging support for verification codes and notifications.
+  - date: '2026-02-26'
+    title: More Control, Less Friction
+    category: [Authentication, Developer features, SDK, User management]
+    breaking: false
+    highlights:
+      - IdP-initiated SAML SSO — users can start the login flow from their identity provider portal.
+window:
+  from: '2026-02-26'
+  to: '2026-08-31'
+  note: >-
+    Recent window only. The hub carries entries back through 2025; they are not transcribed here.

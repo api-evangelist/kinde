@@ -1,0 +1,277 @@
+generated: '2026-09-12'
+method: derived
+source: >-
+  Derived from openapi/_original/kinde-management-api-openapi.yml (117 component schemas,
+  169 operations, 100 paths) and openapi/_original/kinde-frontend-api-openapi.yml, with entity
+  descriptions cross-checked against https://docs.kinde.com/. The relationship edges come from the
+  path-nesting graph (which entity appears under which parent path segment) and from id-reference
+  fields in the schemas.
+provider: Kinde
+providerId: kinde
+description: >-
+  Kinde's model has two roots and everything hangs off them: ENVIRONMENT is the tenant boundary and
+  ORGANIZATION is the customer boundary. A user is global to the environment but joins many
+  organizations, and crucially their roles, permissions and feature-flag values are resolved
+  PER ORGANIZATION, not globally — that three-way (user x organization x role) join is the
+  structural heart of Kinde's B2B story and the reason most read operations take both an org_code
+  and a user_id. Roles, permissions, properties and feature flags are all defined once at the
+  environment level and then bound at the organization or user level.
+identifier_conventions:
+  - field: id
+    form: opaque string
+    note: Present on 24 schemas.
+  - field: code
+    form: opaque string
+    note: >-
+      The most common field in the contract (85 schemas) but overloaded — on a response envelope
+      `code` is a status string alongside `message`, while on an organization it is the
+      identifier (`org_code`). Readers must disambiguate by context.
+  - field: org_code
+    form: 'org_<hex>'
+    note: The organization identifier used in nearly every nested path.
+  - field: user_id
+    form: kp:<32 hex> or kp_<32 hex>
+    note: >-
+      Pattern kp[:_][0-9a-f]{32}, published in the user.updated webhook JSON Schema.
+  - field: event_id
+    form: 'event_<32 hex>'
+    note: Pattern event_[0-9a-f]{32}, on every webhook delivery.
+  - field: event type id
+    form: 'et_<32 hex>'
+    note: 'Example: et_018df239698d29177684be3f5ad1266d'
+  - field: api_key
+    form: 'k_live_<random>'
+  - field: provided_id
+    form: caller-supplied string
+    note: >-
+      An external correlation id the caller sets at import time, so a Kinde user can be matched
+      back to a record in the caller's own database. A genuinely useful affordance.
+entities:
+  - name: Environment
+    root: true
+    description: >-
+      The tenant boundary. Each environment has its own subdomain, issuer, applications, users and
+      configuration. A Kinde business has at least production and development.
+    key: environment code
+  - name: Organization
+    root: true
+    description: The customer/tenant-within-a-tenant boundary for B2B. Owns members, branding, policies and a plan.
+    key: org_code
+    fields: [code, name, handle, is_default, external_id]
+  - name: User
+    description: >-
+      A person in the environment. Global to the environment, then a member of zero or more
+      organizations. Suspension (is_suspended) is the reversible alternative to deletion.
+    key: id
+    fields: [id, provided_id, preferred_email, phone, username, first_name, last_name, is_suspended, picture, total_sign_ins, failed_sign_ins, last_signed_in, created_on, organizations, identities, billing]
+  - name: Identity
+    description: A linked credential or identity-provider record attached to a user (email, phone, username, social, enterprise).
+    fields: [type, identity]
+  - name: Application
+    description: An OAuth client — front-end, back-end, or machine-to-machine (M2M).
+    key: id
+    fields: [id, name, type]
+  - name: Connection
+    description: An authentication method or identity-provider integration (social, custom OAuth 2.0, SAML, WS-Fed).
+  - name: Role
+    description: A named bundle of permissions, defined once per environment and assigned to users within an organization.
+    key: id
+    fields: [id, key, name, description, is_default_role]
+  - name: Permission
+    description: A single named capability, assigned to roles or directly to organization users.
+    key: id
+    fields: [id, key, name, description]
+  - name: FeatureFlag
+    description: >-
+      A typed flag defined at the environment level, with override values resolvable per
+      organization and per user.
+  - name: Property
+    description: A typed custom field (belonging to a PropertyCategory) attached to users, organizations or applications, optionally projected into token claims.
+    key: id
+    fields: [id, key, name, is_private, description, is_kinde_property]
+  - name: PropertyCategory
+    description: Grouping for properties.
+  - name: API
+    description: A customer-registered API that Kinde protects, carrying its own scopes.
+  - name: APIScope
+    description: A scope declared on a registered API, grantable to applications and to organization users.
+  - name: APIKey
+    description: A user-level or environment-level key (k_live_ prefix) for calling a registered API or the Kinde MCP server.
+  - name: Webhook
+    description: A registered endpoint subscribed to a set of event types.
+    key: id
+    fields: [id, name, endpoint, description, event_types, created_on]
+  - name: EventType
+    description: >-
+      A published event definition with an attached JSON Schema 2020-12 document, retrievable via
+      GET /api/v1/event_types.
+    key: 'et_<hex>'
+  - name: Subscriber
+    description: A billing/marketing subscriber record.
+    key: id
+    fields: [id, preferred_email, first_name, last_name]
+  - name: BillingAgreement
+    description: A subscription linking an organization or user to a plan; the agreement_id maps to a Stripe subscription.
+  - name: BillingEntitlement
+    description: The resolved feature access a subscriber has under their current plan.
+  - name: MeterUsage
+    description: Reported usage for a metered plan feature.
+  - name: EnvironmentVariable
+    description: A stored configuration value scoped to an environment, readable from Workflows.
+  - name: ConnectedApp
+    description: A third-party app authorization, with auth_url, token and revoke operations.
+  - name: Directory
+    description: A directory source for enterprise provisioning.
+  - name: Session
+    description: An active user session; deletable per user and listable per organization.
+  - name: MFA
+    description: Multi-factor enrollment state for a user, resettable per user or per organization.
+  - name: Timezone
+    description: Reference data.
+  - name: Industry
+    description: Reference data.
+relationships:
+  - from: Environment
+    to: Organization
+    type: has_many
+    via: environment tenancy
+  - from: Environment
+    to: User
+    type: has_many
+  - from: Environment
+    to: Application
+    type: has_many
+  - from: Environment
+    to: FeatureFlag
+    type: has_many
+    via: /api/v1/environment/feature_flags
+  - from: Environment
+    to: EnvironmentVariable
+    type: has_many
+  - from: Environment
+    to: Connection
+    type: has_many
+  - from: Organization
+    to: User
+    type: has_many
+    via: /api/v1/organizations/{org_code}/users
+    note: Many-to-many; a user's `organizations` array is the reverse edge.
+  - from: User
+    to: Organization
+    type: has_many
+    via: user.organizations[]
+  - from: Organization
+    to: Connection
+    type: has_many
+    via: /api/v1/organizations/{org_code}/connections
+  - from: Organization
+    to: FeatureFlag
+    type: has_many
+    via: /api/v1/organizations/{org_code}/feature_flags
+    note: Organization-level overrides of environment-level flags.
+  - from: Organization
+    to: Property
+    type: has_many
+    via: /api/v1/organizations/{org_code}/properties
+  - from: Organization
+    to: Invite
+    type: has_many
+    via: /api/v1/organization/invites
+  - from: Organization
+    to: Session
+    type: has_many
+    via: /api/v1/organizations/{org_code}/sessions
+  - from: OrganizationUser
+    to: Role
+    type: has_many
+    via: /api/v1/organizations/{org_code}/users/{user_id}/roles
+    note: >-
+      THE CENTRAL EDGE. Role assignment is a three-way join across organization, user and role —
+      the same user holds different roles in different organizations.
+  - from: OrganizationUser
+    to: Permission
+    type: has_many
+    via: /api/v1/organizations/{org_code}/users/{user_id}/permissions
+  - from: OrganizationUser
+    to: APIScope
+    type: has_many
+    via: /api/v1/organizations/{org_code}/users/{user_id}/apis
+  - from: OrganizationUser
+    to: MFA
+    type: has_one
+    via: /api/v1/organizations/{org_code}/users/{user_id}/mfa
+  - from: Role
+    to: Permission
+    type: has_many
+    via: /api/v1/roles/{role_id}/permissions
+  - from: Role
+    to: APIScope
+    type: has_many
+    via: /api/v1/roles/{role_id}/scopes
+  - from: User
+    to: Identity
+    type: has_many
+    via: /api/v1/users/{user_id}/identities
+  - from: User
+    to: Property
+    type: has_many
+    via: /api/v1/users/{user_id}/properties
+  - from: User
+    to: Session
+    type: has_many
+    via: /api/v1/users/{user_id}/sessions
+  - from: User
+    to: MFA
+    type: has_one
+    via: /api/v1/users/{user_id}/mfa
+  - from: User
+    to: FeatureFlag
+    type: has_many
+    via: /api/v1/users/{user_id}/feature_flags
+    note: User-level flag overrides.
+  - from: Application
+    to: Connection
+    type: has_many
+    via: /api/v1/applications/{application_id}/connections
+  - from: Application
+    to: Property
+    type: has_many
+    via: /api/v1/applications/{application_id}/properties
+  - from: Application
+    to: APIScope
+    type: has_many
+    via: /api/v1/apis/{api_id}/applications/{application_id}/scopes
+  - from: API
+    to: APIScope
+    type: has_many
+    via: /api/v1/apis/{api_id}/scopes
+  - from: API
+    to: Application
+    type: has_many
+    via: /api/v1/apis/{api_id}/applications
+  - from: Webhook
+    to: EventType
+    type: has_many
+    via: webhook.event_types[]
+  - from: Property
+    to: PropertyCategory
+    type: belongs_to
+  - from: Organization
+    to: BillingAgreement
+    type: has_many
+  - from: BillingAgreement
+    to: BillingEntitlement
+    type: has_many
+  - from: Subscriber
+    to: BillingAgreement
+    type: has_many
+counts:
+  schemas: 117
+  entities: 27
+  relationships: 34
+  operations: 169
+  paths: 100
+render: arazzo/
+render_note: >-
+  No subway/ diagram exists in this repo. The arazzo/ workflows are the closest existing rendering
+  of how these entities are traversed in sequence.

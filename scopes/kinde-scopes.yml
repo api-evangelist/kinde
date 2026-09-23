@@ -1,0 +1,165 @@
+generated: '2026-09-12'
+method: searched
+docs: https://docs.kinde.com/developer-tools/kinde-api/api-scopes/
+source: >-
+  https://docs.kinde.com/developer-tools/kinde-api/api-scopes/ ("Kinde Management API Scopes",
+  last updated 2026-05-02) for the Management API scope table;
+  https://app.kinde.com/.well-known/openid-configuration (probed 2026-09-12, HTTP 200) for
+  scopes_supported on the OIDC surface; https://docs.kinde.com/mcp-servers/operations-and-scopes/
+  for the MCP subset. The derive-oauth-scopes.py baseline produced nothing because the published
+  OpenAPI declares only an http/bearer securityScheme with no oauth2 flows block — the scope model
+  is real and documented, but it is absent from the machine-readable contract.
+provider: Kinde
+providerId: kinde
+description: >-
+  Kinde operates three distinct scope namespaces. (1) OIDC scopes on the authorization endpoint,
+  published in the discovery document. (2) Management API M2M scopes in verb:resource form, granted
+  per M2M application and narrowable per token. (3) The MCP subset, restricted to read and create
+  only. The Management API scope model is granular and well documented, but it does NOT appear in
+  the OpenAPI, so a generated SDK cannot tell a caller which scope an operation needs.
+contract_gap:
+  spec_declares_oauth2: false
+  spec_security_schemes: [kindeBearerAuth (http/bearer, JWT)]
+  consequence: >-
+    All 169 Management API operations declare a 403, but the contract never says which scope
+    prevents it. The scope-to-operation mapping exists only in prose. This is the single largest
+    machine-readability gap in an otherwise strong contract.
+oidc_scopes:
+  source: https://app.kinde.com/.well-known/openid-configuration
+  probed: '2026-09-12'
+  http_status: 200
+  scopes:
+    - name: openid
+      description: Required for OpenID Connect; requests an ID token.
+    - name: profile
+      description: Basic profile claims.
+    - name: email
+      description: Email address claim.
+    - name: phone
+      description: Phone number claim.
+    - name: address
+      description: Address claim.
+    - name: offline
+      description: Requests a refresh token (Kinde's spelling of offline_access).
+    - name: event_hooks
+      description: Kinde-specific scope enabling event-hook delivery for the authorized session.
+management_api_scopes:
+  form: 'verb:resource'
+  granted_at: M2M application (Settings > Applications > APIs > Manage scopes)
+  token_narrowing: >-
+    Pass a space-delimited `scope` parameter in the client_credentials token request body to issue
+    a token carrying fewer scopes than the application holds.
+  docs: https://docs.kinde.com/developer-tools/kinde-api/api-scopes/
+  completeness_note: >-
+    Kinde describes this table as "the most commonly used scopes" and says the dashboard shows the
+    full list when configuring an M2M application. It is therefore a published subset, not a
+    guaranteed-complete enumeration.
+  groups:
+    - group: Users
+      scopes:
+        - {name: 'read:users', description: Read user details}
+        - {name: 'create:users', description: Create users}
+        - {name: 'update:users', description: Update user details}
+        - {name: 'delete:users', description: Delete users}
+        - {name: 'read:user_identities', description: Read linked identity providers for a user}
+    - group: Organizations
+      scopes:
+        - {name: 'read:organizations', description: Read organizations}
+        - {name: 'create:organizations', description: Create organizations}
+        - {name: 'update:organizations', description: Update organizations}
+        - {name: 'delete:organizations', description: Delete organizations}
+    - group: Organization users
+      scopes:
+        - {name: 'read:organization_users', description: Read users in an organization}
+        - {name: 'create:organization_users', description: Add users to an organization}
+        - {name: 'update:organization_users', description: Update organization user details}
+        - {name: 'delete:organization_users', description: Remove users from an organization}
+    - group: Roles
+      scopes:
+        - {name: 'read:roles', description: Read roles}
+        - {name: 'create:roles', description: Create roles}
+        - {name: 'update:roles', description: Update roles}
+        - {name: 'delete:roles', description: Delete roles}
+        - {name: 'read:organization_user_roles', description: Read roles assigned to organization users}
+        - {name: 'create:organization_user_roles', description: Assign roles to organization users}
+        - {name: 'delete:organization_user_roles', description: Remove roles from organization users}
+        - {name: 'read:role_permissions', description: Read the permissions attached to a role}
+    - group: Permissions
+      scopes:
+        - {name: 'read:permissions', description: Read permissions}
+        - {name: 'create:permissions', description: Create permissions}
+        - {name: 'update:permissions', description: Update permissions}
+        - {name: 'delete:permissions', description: Delete permissions}
+    - group: Applications
+      scopes:
+        - {name: 'read:applications', description: Read application details}
+        - {name: 'create:applications', description: Create applications}
+        - {name: 'update:applications', description: Update application details}
+        - {name: 'delete:applications', description: Delete applications}
+    - group: Feature flags
+      scopes:
+        - {name: 'read:feature_flags', description: Read feature flags}
+        - {name: 'create:feature_flags', description: Create feature flags}
+        - {name: 'update:feature_flags', description: Update feature flags}
+        - {name: 'delete:feature_flags', description: Delete feature flags}
+    - group: Environments
+      scopes:
+        - {name: 'read:environments', description: Read environment details}
+        - {name: 'update:environments', description: Update environment settings}
+        - {name: 'read:environment_variables', description: Read environment variables}
+        - {name: 'create:environment_variables', description: Create environment variables}
+        - {name: 'update:environment_variables', description: Update environment variables}
+        - {name: 'delete:environment_variables', description: Delete environment variables}
+    - group: Connections
+      scopes:
+        - {name: 'read:connections', description: Read connection details}
+        - {name: 'create:connections', description: Create connections}
+        - {name: 'update:connections', description: Update connections}
+        - {name: 'delete:connections', description: Delete connections}
+    - group: Webhooks
+      scopes:
+        - {name: 'read:webhooks', description: Read webhooks}
+        - {name: 'create:webhooks', description: Create webhooks}
+        - {name: 'update:webhooks', description: Update webhooks}
+        - {name: 'delete:webhooks', description: Delete webhooks}
+    - group: Properties and subscribers
+      note: >-
+        Named in the MCP operations reference rather than the main scopes table; included here
+        because the MCP reference states them explicitly.
+      scopes:
+        - {name: 'read:properties', description: Read custom properties}
+        - {name: 'create:properties', description: Create custom properties}
+        - {name: 'read:subscribers', description: Read subscribers}
+        - {name: 'create:subscribers', description: Create subscribers}
+    - group: APIs and MCP connections
+      scopes:
+        - {name: 'read:apis', description: View MCP connections, tools and audit}
+        - {name: 'update:apis', description: Create, delete and authorize APIs; configure backend auth}
+mcp_scope_subset:
+  docs: https://docs.kinde.com/mcp-servers/operations-and-scopes/
+  policy: read-and-create-only
+  rationale: >-
+    Kinde will not grant update: or delete: scopes to an MCP server, stating that AI clients can
+    misinterpret requests or hallucinate.
+  scopes:
+    - 'read:users'
+    - 'read:user_identities'
+    - 'read:organizations'
+    - 'read:organization_users'
+    - 'read:feature_flags'
+    - 'read:roles'
+    - 'create:roles'
+    - 'read:permissions'
+    - 'create:permissions'
+    - 'read:role_permissions'
+    - 'read:environments'
+    - 'read:properties'
+    - 'create:properties'
+    - 'create:feature_flags'
+    - 'create:environment_variables'
+    - 'read:subscribers'
+    - 'create:subscribers'
+counts:
+  oidc_scopes: 7
+  management_scopes: 53
+  mcp_scopes: 17

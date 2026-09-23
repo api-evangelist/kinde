@@ -1,0 +1,202 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  https://docs.kinde.com/mcp-servers/operations-and-scopes/ (complete operation + scope table,
+  last updated 2025-12-01), https://docs.kinde.com/mcp-servers/manage-kinde-account-with-ai-agents/
+  (endpoint, auth and client config), https://docs.kinde.com/mcp-servers/ (the two-product overview),
+  read from the provider's own docs corpus on 2026-09-12.
+provider: Kinde
+providerId: kinde
+status: published
+description: >-
+  Kinde ships TWO distinct MCP surfaces and they must not be conflated.
+  (1) The Kinde Management MCP Server: a Kinde-authored remote MCP server exposing a read-and-create
+  subset of the Kinde Management API. It is TENANT-SCOPED — the endpoint is
+  https://{subdomain}.kinde.com/mcp, one per Kinde business, not a single shared host.
+  (2) Kinde MCP Connections: a PRODUCT, not a server — customers upload their own OpenAPI and Kinde
+  generates an MCP server in front of it, with Kinde handling the user-level API key auth. That is
+  Kinde selling MCP infrastructure, and it is recorded here as a capability, not as a Kinde tool list.
+deployment:
+  mode: both
+  endpoint: https://{subdomain}.kinde.com/mcp
+  install: >-
+    claude mcp add --transport http kinde https://YOUR_BUSINESS.kinde.com/mcp --header
+    "Authorization: Bearer YOUR_API_KEY"
+  package: https://github.com/kinde-oss/kinde-cli
+  auth: api-key
+  verified: searched
+  checked: '2026-09-12'
+  note: >-
+    mode is `both` because Kinde publishes a Remote MCP (HTTP) config AND a Stdio bridge config
+    for the same tenant endpoint — the docs' Quick start page offers both JSON blocks side by side
+    (Remote MCP for Cursor/VS Code, Stdio bridge for Claude Desktop). The stdio bridge is a
+    transport shim in front of the same remote URL, not a separately published package.
+  endpoint_template:
+    pattern: https://{subdomain}.kinde.com/mcp
+    variable: subdomain
+    description: The Kinde subdomain generated for your business (e.g. acme for acme.kinde.com).
+    verbatim_from_docs: https://YOUR_BUSINESS.kinde.com/mcp
+transport:
+  remote: streamable-http
+  stdio_bridge: true
+authentication:
+  type: bearer
+  credential: Kinde Environment API key
+  header: 'Authorization: Bearer YOUR_API_KEY'
+  provisioning: >-
+    Settings > APIs > Kinde Management API > View details > API Keys > Add API Key, with the
+    "Can be used by the Kinde MCP server" option checked and the desired scopes selected.
+  scope_model: >-
+    The MCP server can only be granted a subset of Management API scopes. Kinde deliberately
+    restricts it to read (get) and create scopes — no update and no delete — so an agent that
+    misreads an instruction cannot modify or destroy existing records.
+  docs: https://docs.kinde.com/mcp-servers/manage-kinde-account-with-ai-agents/
+probe:
+  date: '2026-09-12'
+  host: mcp.kinde.com
+  method: POST /mcp with {"jsonrpc":"2.0","id":1,"method":"tools/list"}
+  http_status: 202
+  result: waf-challenge
+  detail: >-
+    mcp.kinde.com returns 202 with a zero-length body and `x-amzn-waf-action: challenge` for every
+    path and method, including GET /. It is an AWS WAF-fronted host, not the documented MCP
+    endpoint. A prior round of this pipeline recorded mcp.kinde.com/mcp as the server URL; the
+    provider's own documentation names https://{subdomain}.kinde.com/mcp instead, and that is the
+    value carried above. The tenant endpoint was NOT probed because it requires a Kinde business
+    subdomain and an Environment API key.
+  tools_list_captured: false
+tools_source: >-
+  The tools below are the operations Kinde PUBLISHES for the Management MCP server, transcribed
+  from its Operations and Scopes reference. They were not obtained from a live tools/list call,
+  so no inputSchema is recorded here — see mcp/kinde-tool-crosswalk.yml, which binds each tool to
+  the backing Management API operationId whose parameters and requestBody are its real input schema.
+tools:
+  - name: GetUsers
+    category: Users
+    description: List all users
+    scope: read:users
+  - name: GetUserData
+    category: Users
+    description: Get user details
+    scope: read:users
+  - name: GetUserIdentities
+    category: Users
+    description: Get linked identity providers
+    scope: read:user_identities
+  - name: GetOrganizations
+    category: Organizations
+    description: List all organizations
+    scope: read:organizations
+  - name: GetOrganization
+    category: Organizations
+    description: Get organization details
+    scope: read:organizations
+  - name: GetOrganizationUsers
+    category: Organizations
+    description: List users in org
+    scope: read:organization_users
+  - name: GetOrganizationUserRoles
+    category: Organizations
+    description: Get user's roles in org
+    scope: read:organization_users
+  - name: GetOrganizationUserPermissions
+    category: Organizations
+    description: Get user's permissions in org
+    scope: read:organization_users
+  - name: GetOrganizationFeatureFlags
+    category: Organizations
+    description: Get org's feature flags
+    scope: read:feature_flags
+  - name: GetRoles
+    category: Roles & Permissions
+    description: List all roles
+    scope: read:roles
+  - name: GetRole
+    category: Roles & Permissions
+    description: Get role details
+    scope: read:roles
+  - name: CreateRole
+    category: Roles & Permissions
+    description: Create a new role
+    scope: create:roles
+  - name: GetPermissions
+    category: Roles & Permissions
+    description: List all permissions
+    scope: read:permissions
+  - name: CreatePermission
+    category: Roles & Permissions
+    description: Create a permission
+    scope: create:permissions
+  - name: GetRolePermissions
+    category: Roles & Permissions
+    description: Get role's permissions
+    scope: read:role_permissions
+  - name: GetEnvironment
+    category: Configuration
+    description: Get environment details
+    scope: read:environments
+  - name: GetProperties
+    category: Configuration
+    description: List custom properties
+    scope: read:properties
+  - name: CreateProperty
+    category: Configuration
+    description: Create a custom property
+    scope: create:properties
+  - name: CreateFeatureFlag
+    category: Configuration
+    description: Create a feature flag
+    scope: create:feature_flags
+  - name: CreateEnvironmentVariable
+    category: Configuration
+    description: Create env variable
+    scope: create:environment_variables
+  - name: GetSubscribers
+    category: Configuration
+    description: List subscribers
+    scope: read:subscribers
+  - name: CreateSubscriber
+    category: Configuration
+    description: Create a subscriber
+    scope: create:subscribers
+tool_counts:
+  total: 22
+  read: 15
+  create: 7
+  update: 0
+  delete: 0
+safety_posture:
+  write_restriction: read-and-create-only
+  stated_rationale: >-
+    "As AI can misinterpret requests or hallucinate, the scopes that the Kinde MCP server can be
+    assigned are currently limited to gets and creates only. This ensures that AI clients can query
+    information and create new resources, but cannot modify or delete existing data, providing an
+    additional layer of safety when using AI to interact with your Kinde account."
+  source: https://docs.kinde.com/mcp-servers/operations-and-scopes/
+  assessment: >-
+    This is a genuine agent-safety design decision and a rare one: of the 169 operations in the
+    Management API, the MCP server exposes 22, and zero of them are destructive. The reversibility
+    question for this surface is therefore narrow — the only irreversible-through-MCP actions are
+    the seven creates, and each has a corresponding delete available on the REST API but NOT
+    through MCP.
+mcp_connections_product:
+  description: >-
+    Separate from its own server, Kinde sells MCP-server generation: a customer registers an
+    OpenAPI (the first servers[] entry becomes the upstream base URL), Kinde parses it to generate
+    scopes, and Kinde fronts it as an MCP connection with per-user API keys
+    (format k_live_...). Clients get a unique connection URL plus Remote MCP and Stdio bridge configs.
+  status: beta
+  docs: https://docs.kinde.com/mcp-servers/add-mcp-connection/
+  scopes:
+    - scope: read:apis
+      description: View connections, tools, audit
+    - scope: update:apis
+      description: Create, delete, authorize APIs, configure backend auth
+  note: >-
+    This makes Kinde a PRODUCER of MCP infrastructure for other companies' APIs. It is recorded
+    for accuracy but is not a Kinde agent surface and contributes no tools to the list above.
+docs:
+  - https://docs.kinde.com/mcp-servers/
+  - https://docs.kinde.com/mcp-servers/manage-kinde-account-with-ai-agents/
+  - https://docs.kinde.com/mcp-servers/operations-and-scopes/
+  - https://docs.kinde.com/mcp-servers/add-mcp-connection/

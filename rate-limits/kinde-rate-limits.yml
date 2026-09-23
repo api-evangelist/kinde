@@ -1,52 +1,117 @@
 specification: API Commons Rate Limits
 specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+generated: '2026-09-12'
+method: searched
+source: https://docs.kinde.com/developer-tools/kinde-api/api-rate-limits/
 provider: Kinde
 providerId: kinde
 created: '2026-05-22'
-modified: '2026-05-22'
-reconciled: false
+modified: '2026-09-12'
+reconciled: true
 tags:
   - Rate Limiting
   - Identity
 description: >-
-  Kinde does not publish a precise per-endpoint rate-limit table on its public docs. It does state that
-  M2M token issuance is metered (the Free plan includes 2,000 M2M tokens per month) and that "attack
-  protection" mitigations (anomaly detection, IP-based throttling, denial-of-service rate limits) are
-  applied to the authentication endpoints. The values below reflect the documented quota signals and
-  reasonable defaults — verify against current docs before relying in production.
+  Kinde publishes a dedicated Management API rate-limits reference (last updated 2026-05-03) that
+  supersedes the earlier "not documented" reading in this repo. It describes TWO limiters — a rate
+  limiter capping request frequency and payload size, and a concurrency limiter capping in-flight
+  requests — both of which shed with HTTP 429. What Kinde does NOT publish is a number: no requests
+  per second, no burst size, no concurrency ceiling. The quantified caps are on payload shape
+  (500 results per page, 100 objects per bulk write), not on request rate. Every one of the 169
+  Management API operations declares a 429 response.
 sources:
+  - https://docs.kinde.com/developer-tools/kinde-api/api-rate-limits/
   - https://kinde.com/pricing/
-  - https://kinde.com/blog/blog/mitigating-denial-of-service-attacks-with-a-mix-of-fingerprinting-and-rate-limits/
+  - https://docs.kinde.com/get-started/switch-to-kinde/
 headers:
-  limit: not-documented
-  remaining: not-documented
-  reset: not-documented
+  limit: not-returned
+  remaining: not-returned
+  reset: RateLimit-Reset
+  retry_after: not-returned
+  note: >-
+    Kinde returns only the RESET member of the RFC 9331 draft header family. A client can learn how
+    long to wait after being throttled but cannot see remaining budget, so it cannot pace itself
+    proactively — it can only react.
+  documented_example: |
+    HTTP/1.1 429 Too Many Requests
+    RateLimit-Reset: 30
 responseCodes:
   throttled: 429
-  attackProtection: 429
+limiters:
+  - name: Rate limiter
+    type: rate
+    caps: [request frequency, payload size]
+    threshold: not-published
+    note: >-
+      Kinde states the limiter exists and describes what it caps, but publishes no numeric
+      threshold. Raising it is a support request.
+  - name: Concurrency limiter
+    type: concurrency
+    caps: [in-flight requests]
+    threshold: not-published
+    behavior: >-
+      When the in-flight cap is reached, new incoming requests are SHED and return 429 — they are
+      not queued. Resource-intensive requests (large list queries, requests using expansions) hold
+      concurrency slots longer and therefore reduce headroom for everything else.
 limits:
+  - name: Page size
+    scope: per-request
+    metric: results
+    limit: 500
+    timeFrame: request
+    applies_to: GET endpoints accepting a page_size parameter
+    notes: >-
+      Use page_size with next_token to paginate beyond 500, e.g. GET /api/v1/subscribers.
+      Published and numeric.
+  - name: Bulk update objects
+    scope: per-request
+    metric: objects
+    limit: 100
+    timeFrame: request
+    applies_to: Bulk POST/PATCH endpoints, e.g. PATCH /api/v1/organizations/{org_code}/users
+    notes: Published and numeric. Contact support to raise for sustained higher-volume integrations.
+  - name: Management API request rate
+    scope: tenant
+    metric: requests
+    limit: not-published
+    timeFrame: unspecified
+    notes: Limiter confirmed to exist by the provider; threshold not disclosed.
+  - name: Management API concurrency
+    scope: tenant
+    metric: in-flight requests
+    limit: not-published
+    timeFrame: instantaneous
+    notes: Limiter confirmed to exist by the provider; threshold not disclosed.
   - name: M2M tokens (Free plan)
     scope: tenant
     metric: tokens_per_month
     limit: 2000
     timeFrame: month
-    notes: Documented in the Free-tier inclusions on the pricing page.
-  - name: M2M tokens (Pro / Plus / Scale)
-    scope: tenant
-    metric: tokens_per_month
-    limit: configurable
-    timeFrame: month
-    notes: Paid plans expand the M2M token quota; exact number is configurable.
-  - name: Authentication endpoints — anomaly detection
+    notes: From the pricing page Free-tier inclusions, not the rate-limits reference.
+  - name: Authentication endpoints (attack protection)
     scope: ip
     metric: auth_attempts
     limit: configurable
     timeFrame: rolling
-    notes: Kinde applies fingerprint + IP-based throttling on auth endpoints as part of "attack protection".
-  - name: Management API
-    scope: tenant
-    metric: requests
-    limit: not-published
-    timeFrame: second
-    notes: Kinde reserves the right to throttle Management API calls. Exact thresholds are not published.
+    notes: >-
+      Fingerprint- and IP-based throttling applied to hosted auth endpoints as part of Kinde's
+      attack-protection feature set. Separate from the Management API limiters above.
+causes_documented:
+  - High request volume from analytical or migration operations.
+  - Long-lived or resource-intensive requests holding concurrency slots.
+  - List requests and requests using expansions.
+  - Sudden traffic spikes, such as bulk user creation.
+remediation:
+  recommended: exponential backoff with jitter
+  provider_guidance: >-
+    Read RateLimit-Reset (seconds), wait at least that long, add randomness to avoid a thundering
+    herd, and cap retries. Kinde publishes a working JavaScript fetchWithBackoff implementation.
+    It also recommends a client-side token-bucket global throttle as an alternative.
+  bulk_advice: >-
+    For bulk provisioning of thousands of users Kinde directs callers to CSV import rather than the
+    API. Contact support in advance of an anticipated spike to have limits raised.
+  caution: >-
+    Kinde recommends retrying 429s but publishes no idempotency mechanism, so a retried create can
+    duplicate. See conventions/kinde-conventions.yml.
+limit_count: 6

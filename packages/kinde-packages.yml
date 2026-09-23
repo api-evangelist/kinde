@@ -1,0 +1,367 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  Registry metadata read unauthenticated from registry.npmjs.org, pypi.org, rubygems.org,
+  hex.pm, pub.dev, proxy.golang.org, api.nuget.org, search.maven.org, repo.packagist.org,
+  api.wordpress.org and registry.terraform.io on 2026-09-12; package names taken from the
+  Kinde SDK documentation (https://docs.kinde.com/developer-tools/sdks/) and the
+  https://github.com/kinde-oss organization.
+provider: Kinde
+providerId: kinde
+description: >-
+  Kinde publishes a broad first-party SDK estate across eleven registries. Every package below is
+  owned by Kinde (the @kinde and @kinde-oss npm scopes, the com.kinde Maven group, the kinde-oss
+  GitHub organization). The currency fields expose a clear two-speed estate: the JavaScript /
+  TypeScript surface ships continuously (August-September 2026), while the JVM artifacts on Maven
+  Central have not moved since December 2024 and the Elixir gem has not moved since June 2023.
+notes:
+  - >-
+    DISTRIBUTION GAP: kinde-java-sdk tags v3.0.1 on GitHub (2026-08-20) but the newest
+    com.kinde coordinate on Maven Central is 2.0.1 (2024-12-10). A Maven consumer cannot
+    obtain the 3.x line from the central repository. Recorded as observed, not explained.
+  - >-
+    The WordPress plugin (kinde-auth, 1.0, 2023-02-15) and the Elixir hex package
+    (kinde_sdk, 1.2.0, 2023-06-09) are the two oldest published releases in the estate.
+  - >-
+    Six repositories in the kinde-oss organization are ARCHIVED and are recorded in
+    lifecycle/kinde-lifecycle.yml rather than here.
+packages:
+  # ---------- npm: JavaScript / TypeScript ----------
+  - name: '@kinde-oss/kinde-typescript-sdk'
+    registry: npm
+    language: TypeScript
+    official: true
+    version: 2.15.1
+    published: '2026-08-11'
+    url: https://www.npmjs.com/package/@kinde-oss/kinde-typescript-sdk
+    repository: https://github.com/kinde-oss/kinde-typescript-sdk
+    role: Core TypeScript SDK
+  - name: '@kinde-oss/kinde-auth-nextjs'
+    registry: npm
+    language: TypeScript
+    official: true
+    version: 2.13.1
+    published: '2026-08-11'
+    url: https://www.npmjs.com/package/@kinde-oss/kinde-auth-nextjs
+    repository: https://github.com/kinde-oss/kinde-auth-nextjs
+    role: Next.js App Router and Pages Router auth
+  - name: '@kinde-oss/kinde-auth-react'
+    registry: npm
+    language: TypeScript
+    official: true
+    version: 5.13.0
+    published: '2026-08-03'
+    url: https://www.npmjs.com/package/@kinde-oss/kinde-auth-react
+    repository: https://github.com/kinde-oss/kinde-auth-react
+    role: React SDK; ships the LoginLink / RegisterLink / PortalLink components
+  - name: '@kinde-oss/kinde-auth-pkce-js'
+    registry: npm
+    language: TypeScript
+    official: true
+    version: 4.5.1
+    published: '2026-08-04'
+    url: https://www.npmjs.com/package/@kinde-oss/kinde-auth-pkce-js
+    repository: https://github.com/kinde-oss/kinde-auth-pkce-js
+    role: Vanilla JavaScript SPA SDK (PKCE)
+  - name: '@kinde-oss/kinde-node-express'
+    registry: npm
+    language: TypeScript
+    official: true
+    version: 2.0.3
+    published: '2026-09-02'
+    url: https://www.npmjs.com/package/@kinde-oss/kinde-node-express
+    repository: https://github.com/kinde-oss/kinde-node-express
+    role: Express.js middleware
+  - name: '@kinde-oss/kinde-auth-sveltekit'
+    registry: npm
+    language: TypeScript
+    official: true
+    version: 2.5.0
+    published: '2026-09-03'
+    url: https://www.npmjs.com/package/@kinde-oss/kinde-auth-sveltekit
+    repository: https://github.com/kinde-oss/kinde-sveltekit-sdk
+    role: SvelteKit SDK
+  - name: '@kinde-oss/kinde-remix-sdk'
+    registry: npm
+    language: TypeScript
+    official: true
+    version: 2.1.2
+    published: '2026-08-06'
+    url: https://www.npmjs.com/package/@kinde-oss/kinde-remix-sdk
+    repository: https://github.com/kinde-oss/kinde-remix-sdk
+    role: Remix SDK
+  - name: '@kinde-oss/react-native-sdk-0-7x'
+    registry: npm
+    language: TypeScript
+    official: true
+    version: 2.3.1
+    published: '2026-08-17'
+    url: https://www.npmjs.com/package/@kinde-oss/react-native-sdk-0-7x
+    repository: https://github.com/kinde-oss/kinde-react-native-sdk-0-7x
+    role: React Native 0.7x SDK
+  - name: '@kinde/expo'
+    registry: npm
+    language: TypeScript
+    official: true
+    version: 0.8.1
+    published: '2026-09-11'
+    url: https://www.npmjs.com/package/@kinde/expo
+    repository: https://github.com/kinde-oss/expo
+    role: Expo / React Native SDK
+  - name: '@kinde/tsr'
+    registry: npm
+    language: TypeScript
+    official: true
+    version: 0.1.0
+    published: '2026-08-18'
+    url: https://www.npmjs.com/package/@kinde/tsr
+    repository: https://github.com/kinde-oss/kinde-tsr
+    role: TanStack Start React SDK
+  - name: '@kinde/management-api-js'
+    registry: npm
+    language: TypeScript
+    official: true
+    version: 0.19.0
+    published: '2026-08-12'
+    url: https://www.npmjs.com/package/@kinde/management-api-js
+    repository: https://github.com/kinde-oss/management-api-js
+    role: Generated client for the Kinde Management API
+  - name: '@kinde/js-utils'
+    registry: npm
+    language: TypeScript
+    official: true
+    version: 0.32.1
+    published: '2026-08-31'
+    url: https://www.npmjs.com/package/@kinde/js-utils
+    repository: https://github.com/kinde-oss/js-utils
+    role: Shared token-handling utilities
+  - name: '@kinde/jwt-validator'
+    registry: npm
+    language: TypeScript
+    official: true
+    version: 0.4.5
+    published: '2026-08-25'
+    url: https://www.npmjs.com/package/@kinde/jwt-validator
+    repository: https://github.com/kinde-oss/jwt-validator
+    role: JWT validation for mobile and edge runtimes
+  - name: '@kinde/jwt-decoder'
+    registry: npm
+    language: TypeScript
+    official: true
+    version: 0.2.5
+    published: '2026-08-18'
+    url: https://www.npmjs.com/package/@kinde/jwt-decoder
+    repository: https://github.com/kinde-oss/jwt-decoder
+    role: JWT decoding helper
+  - name: '@kinde/webhooks'
+    registry: npm
+    language: TypeScript
+    official: true
+    version: 1.3.2
+    published: '2026-08-18'
+    url: https://www.npmjs.com/package/@kinde/webhooks
+    repository: https://github.com/kinde-oss/webhook
+    role: Webhook signature verification and event typing
+  - name: '@kinde/infrastructure'
+    registry: npm
+    language: TypeScript
+    official: true
+    version: 0.11.1
+    published: '2026-08-10'
+    url: https://www.npmjs.com/package/@kinde/infrastructure
+    repository: https://github.com/kinde-oss/infrastructure
+    role: Kinde Workflows runtime bindings (kinde.env, kinde.fetch)
+  - name: '@kinde-oss/kinde-node'
+    registry: npm
+    language: JavaScript
+    official: true
+    version: 0.0.3
+    published: '2022-04-22'
+    url: https://www.npmjs.com/package/@kinde-oss/kinde-node
+    repository: https://github.com/kinde-oss/kinde-node
+    role: Early Node.js SDK
+    note: Last published 2022-04-22; superseded by @kinde-oss/kinde-node-express.
+  - name: '@kinde-oss/kinde-node-express-api'
+    registry: npm
+    language: JavaScript
+    official: true
+    version: 0.0.11
+    published: '2022-12-13'
+    url: https://www.npmjs.com/package/@kinde-oss/kinde-node-express-api
+    repository: https://github.com/kinde-oss/kinde-node-express-api
+    role: Express API protection helper
+    note: Source repository is ARCHIVED on GitHub (last push 2024-02-24).
+  # ---------- PyPI ----------
+  - name: kinde-python-sdk
+    registry: pypi
+    language: Python
+    official: true
+    version: 2.4.0
+    published: '2026-08-20'
+    url: https://pypi.org/project/kinde-python-sdk/
+    repository: https://github.com/kinde-oss/kinde-python-sdk
+    role: Python SDK
+  # ---------- RubyGems ----------
+  - name: kinde_sdk
+    registry: rubygems
+    language: Ruby
+    official: true
+    version: 1.8.0
+    published: '2026-07-16'
+    url: https://rubygems.org/gems/kinde_sdk
+    repository: https://github.com/kinde-oss/kinde-ruby-sdk
+    role: Ruby SDK
+  # ---------- Go ----------
+  - name: github.com/kinde-oss/kinde-go
+    registry: go
+    language: Go
+    official: true
+    version: v0.3.0
+    published: '2026-08-24'
+    url: https://pkg.go.dev/github.com/kinde-oss/kinde-go
+    repository: https://github.com/kinde-oss/kinde-go
+    role: Go SDK
+  # ---------- NuGet ----------
+  - name: Kinde.SDK
+    registry: nuget
+    language: 'C#'
+    official: true
+    version: 2.5.0
+    published: '2026-08-13'
+    url: https://www.nuget.org/packages/Kinde.SDK
+    repository: https://github.com/kinde-oss/kinde-dotnet-sdk
+    role: .NET SDK
+  # ---------- Maven Central ----------
+  - name: com.kinde:kinde-core
+    registry: maven
+    language: Java
+    official: true
+    version: 2.0.1
+    published: '2024-12-10'
+    url: https://central.sonatype.com/artifact/com.kinde/kinde-core
+    repository: https://github.com/kinde-oss/kinde-java-sdk
+    role: Java SDK core
+    note: >-
+      GitHub tags v3.0.1 (2026-08-20) but Maven Central's newest com.kinde release is 2.0.1
+      from 2024-12-10 — the 3.x line is not obtainable from Central.
+  - name: com.kinde:kinde-management
+    registry: maven
+    language: Java
+    official: true
+    version: 2.0.1
+    published: '2024-12-10'
+    url: https://central.sonatype.com/artifact/com.kinde/kinde-management
+    repository: https://github.com/kinde-oss/kinde-java-sdk
+    role: Java Management API client
+  - name: com.kinde:kinde-j2ee
+    registry: maven
+    language: Java
+    official: true
+    version: 2.0.1
+    published: '2024-12-10'
+    url: https://central.sonatype.com/artifact/com.kinde/kinde-j2ee
+    repository: https://github.com/kinde-oss/kinde-java-sdk
+    role: Java EE / Jakarta integration
+  - name: com.kinde.spring:kinde-springboot-starter
+    registry: maven
+    language: Java
+    official: true
+    version: 2.0.1
+    published: '2024-12-10'
+    url: https://central.sonatype.com/artifact/com.kinde.spring/kinde-springboot-starter
+    repository: https://github.com/kinde-oss/kinde-java-sdk
+    role: Spring Boot starter
+  - name: com.kinde:android-sdk
+    registry: maven
+    language: Kotlin
+    official: true
+    version: 1.2.3
+    published: '2024-05-03'
+    url: https://central.sonatype.com/artifact/com.kinde/android-sdk
+    repository: https://github.com/kinde-oss/kinde-sdk-android
+    role: Android SDK
+    note: >-
+      GitHub tags v2.1.0 (2026-08-24); Maven Central's newest android-sdk release is
+      1.2.3 from 2024-05-03.
+  # ---------- Packagist ----------
+  - name: kinde-oss/kinde-auth-php
+    registry: packagist
+    language: PHP
+    official: true
+    version: 2.6.0
+    published: '2026-08-28'
+    url: https://packagist.org/packages/kinde-oss/kinde-auth-php
+    repository: https://github.com/kinde-oss/kinde-php-sdk
+    role: PHP SDK
+  # ---------- Hex ----------
+  - name: kinde_sdk
+    registry: hex
+    language: Elixir
+    official: true
+    version: 1.2.0
+    published: '2023-06-09'
+    url: https://hex.pm/packages/kinde_sdk
+    repository: https://github.com/kinde-oss/kinde-elixir-sdk
+    role: Elixir SDK
+    note: Oldest published release in the estate (2023-06-09), though the source repo is still active.
+  # ---------- pub.dev ----------
+  - name: kinde_flutter_sdk
+    registry: pub
+    language: Dart
+    official: true
+    version: 2.2.0
+    published: '2026-07-17'
+    url: https://pub.dev/packages/kinde_flutter_sdk
+    repository: https://github.com/kinde-oss/kinde-flutter-sdk
+    role: Flutter SDK
+  # ---------- WordPress ----------
+  - name: kinde-auth
+    registry: wordpress
+    language: PHP
+    official: true
+    version: '1.0'
+    published: '2023-02-15'
+    url: https://wordpress.org/plugins/kinde-auth/
+    repository: https://github.com/kinde-oss/kinde-auth-wordpress
+    role: WordPress authentication plugin
+    note: Published by the heykinde WordPress.org account. Not updated since 2023-02-15.
+  # ---------- Terraform Registry ----------
+  - name: kinde-oss/kinde
+    registry: terraform
+    language: HCL
+    official: true
+    version: 0.1.0
+    published: '2026-08-21'
+    url: https://registry.terraform.io/providers/kinde-oss/kinde/latest
+    repository: https://github.com/kinde-oss/terraform-provider-kinde
+    role: Terraform provider (community tier)
+  # ---------- GitHub releases only (no package registry) ----------
+  - name: kinde-cli
+    registry: github-releases
+    language: Go
+    official: true
+    version: v0.1.20
+    published: '2025-09-08'
+    url: https://github.com/kinde-oss/kinde-cli/releases
+    repository: https://github.com/kinde-oss/kinde-cli
+    role: Kinde CLI binary
+    note: >-
+      Distributed via GitHub Releases plus the kinde-oss/homebrew-kinde-cli tap and the
+      scoop-kinde-cli bucket; no npm/pypi coordinate exists. See cli/kinde-cli.yml.
+  - name: kinde-sdk-ios
+    registry: github-releases
+    language: Swift
+    official: true
+    version: 1.6.0
+    published: '2026-04-24'
+    url: https://github.com/kinde-oss/kinde-sdk-ios/releases
+    repository: https://github.com/kinde-oss/kinde-sdk-ios
+    role: iOS SDK
+    note: >-
+      Consumed by Swift Package Manager / CocoaPods directly from the Git tag; there is no
+      central registry metadata endpoint to query, so the version above is read from the
+      GitHub release.
+counts:
+  total: 34
+  official: 34
+  registries: 11

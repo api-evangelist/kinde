@@ -2728,9 +2728,7 @@ paths:
                           type: string
                           description: Private key associated with the signing certificate.
                           example: |-
-                            -----BEGIN PRIVATE KEY-----
-                            MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCy5+KLjTzF6tvl
-                            -----END PRIVATE KEY-----
+                            REDACTED_PRIVATE_KEY_EXAMPLE
                         is_auto_join_organization_enabled:
                           type: boolean
                           description: Users automatically join organization when using this connection.
@@ -3008,9 +3006,7 @@ paths:
                           type: string
                           description: Private key associated with the signing certificate.
                           example: |-
-                            -----BEGIN PRIVATE KEY-----
-                            MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCy5+KLjTzF6tvl
-                            -----END PRIVATE KEY-----
+                            REDACTED_PRIVATE_KEY_EXAMPLE
                         is_use_custom_domain:
                           type: boolean
                           description: Use custom domain callback URL.
@@ -3247,9 +3243,7 @@ paths:
                           type: string
                           description: Private key associated with the signing certificate.
                           example: |-
-                            -----BEGIN PRIVATE KEY-----
-                            MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCy5+KLjTzF6tvl
-                            -----END PRIVATE KEY-----
+                            REDACTED_PRIVATE_KEY_EXAMPLE
                         is_use_custom_domain:
                           type: boolean
                           description: Use custom domain callback URL.

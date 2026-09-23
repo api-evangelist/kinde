@@ -1,0 +1,201 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  DERIVED from the 4xx/5xx responses of openapi/_original/kinde-management-api-openapi.yml
+  (169 operations) and ENRICHED from the provider's published references:
+  https://docs.kinde.com/get-started/guides/error-codes/ (numeric platform error codes, last
+  updated 2026-05-29), https://docs.kinde.com/build/tokens/oauth-error-codes/ (OAuth 2.0 token
+  error values, last updated 2026-04-13) and
+  https://docs.kinde.com/developer-tools/kinde-api/api-rate-limits/ (429 semantics).
+  Read 2026-09-12.
+provider: Kinde
+providerId: kinde
+format: kinde-native
+rfc9457: false
+rfc9457_evidence: >-
+  Zero operations return application/problem+json. Error bodies are application/json and
+  application/json; charset=utf-8 carrying an `errors` array of {code, message} objects. No
+  type/title/status/detail/instance members are present anywhere in the contract.
+description: >-
+  Kinde publishes three separate and non-overlapping error vocabularies: the HTTP status contract of
+  the Management API, the RFC 6749 error values returned by the OAuth 2.0 token endpoint, and a set
+  of numeric platform error codes surfaced to end users during authentication flows. The third set
+  is unusual and genuinely useful — most identity providers do not publish their internal auth-flow
+  failure codes at all.
+envelope:
+  media_type: application/json
+  schema_ref: '#/components/schemas/error_response'
+  shape:
+    errors:
+      - code: string
+        message: string
+  variant_note: >-
+    `not_found_response` uses an `errors` OBJECT rather than an array — an inconsistency inside the
+    contract itself.
+coverage:
+  operations: 169
+  with_400: 162
+  with_401: 1
+  with_403: 168
+  with_404: 21
+  with_405: 1
+  with_409: 1
+  with_429: 169
+  note: >-
+    429 is declared on every single operation, which is consistent with the documented global
+    rate and concurrency limiters. 401 is declared on only ONE operation despite every operation
+    requiring a bearer token — a contract defect: an expired or missing token on any of the other
+    168 produces an undeclared response.
+http_status_catalog:
+  - status: 400
+    title: Bad request
+    meaning: Invalid or malformed request parameters or body.
+    remediation: Validate parameter types and required fields against the operation schema.
+    operations: 162
+  - status: 401
+    title: Unauthorized
+    meaning: Missing, malformed or expired bearer token.
+    remediation: >-
+      Re-request an M2M access token from https://{subdomain}.kinde.com/oauth2/token with the
+      `audience` parameter set to https://{subdomain}.kinde.com/api.
+    operations: 1
+    note: Under-declared in the contract; see coverage.note.
+  - status: 403
+    title: Forbidden
+    meaning: The token is valid but lacks the scope required for this operation.
+    remediation: >-
+      Add the required scope to the M2M application (Settings > Applications > APIs > Manage
+      scopes) and request a fresh token. See scopes/kinde-scopes.yml.
+    operations: 168
+  - status: 404
+    title: Not found
+    meaning: The addressed resource does not exist in this environment.
+    remediation: >-
+      Confirm the identifier and the environment. Kinde environments are separate tenants; an
+      org_code or user id from development does not exist in production.
+    operations: 21
+  - status: 405
+    title: Method not allowed
+    operations: 1
+  - status: 409
+    title: Conflict
+    meaning: The resource already exists or the request conflicts with current state.
+    remediation: >-
+      Because Kinde publishes no idempotency mechanism, a 409 on a retried create is the only
+      signal distinguishing a duplicate from a first attempt. Treat it as success-if-exists.
+    operations: 1
+  - status: 429
+    title: Too many requests
+    meaning: >-
+      Either the rate limiter (request frequency / payload size) or the concurrency limiter
+      (in-flight request cap) shed the request.
+    remediation: >-
+      Read the RateLimit-Reset response header (seconds until reset) and retry with exponential
+      backoff plus jitter. Reduce page_size and avoid expansions on list calls.
+    headers:
+      - RateLimit-Reset
+    operations: 169
+oauth_error_values:
+  endpoint: https://{subdomain}.kinde.com/oauth2/token
+  format: rfc6749
+  fields: [error, error_description]
+  docs: https://docs.kinde.com/build/tokens/oauth-error-codes/
+  values:
+    - code: invalid_request
+      meaning: The request is missing a parameter, includes an unsupported parameter, or repeats a parameter.
+    - code: invalid_client
+      meaning: Client authentication failed — invalid client ID or secret.
+      http: 401
+    - code: invalid_grant
+      meaning: >-
+        The authorization code or refresh token is invalid or expired, or the redirect URL does not
+        match the one used in the authorization grant.
+      remediation: >-
+        Also returned when a rotated refresh token held in memory no longer matches the
+        refresh_token cookie after a silent refresh that did not update the httpOnly cookie.
+    - code: invalid_scope
+      meaning: An invalid scope value was requested on a password or client_credentials grant.
+    - code: unauthorized_client
+      meaning: The client is not authorized to use the requested grant type.
+    - code: unsupported_grant_type
+      meaning: The authorization server does not recognize the requested grant type.
+platform_error_codes:
+  docs: https://docs.kinde.com/get-started/guides/error-codes/
+  description: >-
+    Numeric codes surfaced during hosted authentication, social sign-in and SAML flows. These do
+    not appear in API responses; they appear on Kinde-hosted auth pages and in logs.
+  codes:
+    - code: '578'
+      meaning: Error validating the SAML response at Kinde.
+      remediation: Check the Assertion Consumer Service (ACS) URL at the identity provider.
+    - code: '780'
+      meaning: The OAuth 2.0 response failed — token is valid but the redirect is null.
+    - code: '928'
+      meaning: Error getting or reading the connected-app configuration.
+    - code: '1004'
+      meaning: Error getting custom SAML config while initializing the SAML redirect.
+    - code: '1656'
+      meaning: >-
+        Authorization response error — missing a required parameter, invalid parameter value, a
+        repeated parameter, or otherwise malformed.
+      remediation: >-
+        Check for a missing nonce on implicit flow, a non-https redirect URI (only localhost may
+        use http), or a workflow error.
+    - code: '1706'
+      meaning: A post-authentication workflow failed to complete and its failure policy is `stop`.
+      remediation: >-
+        Review the workflow for missing data references or inactive integrations; temporarily
+        change the policy from `stop` to `warn` or `allow` to unblock users while investigating.
+    - code: '1794'
+      meaning: >-
+        The `state` value on the social sign-in callback could not be decrypted or validated —
+        tampered, truncated, expired, or from a different environment or domain.
+      remediation: Restart the sign-in flow from the sign-in button rather than a bookmarked URL.
+    - code: '1829'
+      meaning: Error exchanging token on the connected-app callback.
+      remediation: Check redirect URLs for a mismatch and verify client credentials.
+    - code: '1959'
+      meaning: Error decoding the SAML response — invalid Base64 characters.
+    - code: '2201'
+      meaning: >-
+        A post-authentication workflow ran successfully and triggered a deny-access action. This is
+        intentional blocking, not a fault.
+    - code: '3005'
+      meaning: Cannot handle the SAML callback — the userProfile contains invalid values.
+    - code: '3420'
+      meaning: OAuth 2.0 response failed — token invalid and redirect ID null.
+    - code: '4030'
+      meaning: >-
+        Social sign-in stopped at the identity provider before a token was issued; the provider
+        returned access_denied (user cancelled, or an org/provider policy such as Microsoft Entra
+        Conditional Access blocked it).
+    - code: '4031'
+      meaning: >-
+        The identity provider requires further interaction — interaction_required, login_required,
+        consent_required or account_selection_required.
+    - code: '4032'
+      meaning: The identity provider was temporarily unavailable (temporarily_unavailable or server_error).
+    - code: '4033'
+      meaning: The identity provider returned an unrecognized error during the social sign-in callback.
+    - code: '4034'
+      meaning: >-
+        The social sign-in callback arrived with neither an authorization code nor an error — the
+        cross-site form POST lost its body in transit.
+    - code: '4179'
+      meaning: Error exchanging token on the social OAuth 2.0 callback, typically an expired provider secret.
+    - code: '4321'
+      meaning: >-
+        A user entered an authentication flow at a mid-step URL instead of the beginning (reused
+        bookmark, shared step URL, or browser back/forward).
+named_errors:
+  - name: Sorry we don't see way to authenticate you
+    causes: [expired or invalid tokens, misconfigured authentication settings, session management issues, incorrect callback URLs]
+  - name: State not found
+    causes: [mismatch between environment variables and the domain used during authentication, trailing whitespace, incorrect syntax]
+  - name: JWKS endpoint returning 403
+    endpoint: https://{subdomain}.kinde.com/.well-known/jwks
+    causes:
+      - Wrong domain or region subdomain.
+      - Credentials sent to a public endpoint — remove Authorization headers from JWKS fetches.
+      - CORS restrictions on browser-side fetches; fetch JWKS server-side.
+      - IP allowlist or firewall rules blocking outbound requests.

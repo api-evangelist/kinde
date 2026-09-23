@@ -1,0 +1,432 @@
+generated: '2026-09-12'
+method: derived
+source: Derived by binding the 22 tools Kinde publishes at https://docs.kinde.com/mcp-servers/operations-and-scopes/
+  to the operationIds in this repo's refined Kinde Management API OpenAPIs (openapi/*.yml, harvested from
+  https://api-spec.kinde.com/kinde-management-api-spec.yaml). Every binding was verified by locating the
+  operationId in a spec file; none were guessed.
+provider: Kinde
+providerId: kinde
+description: 'Complete crosswalk between the Kinde Management MCP Server tool surface and the Kinde Management
+  API. All 22 published tools bind one-to-one to a real operationId, so each tool''s true inputSchema
+  is the parameters + requestBody of the operation named in rest[]. The striking number is the other direction:
+  the REST API exposes 169 operations and the MCP server exposes 22, so 157 REST operations — including
+  every update and every delete — have no agent-reachable tool. That gap is deliberate, not an oversight;
+  see safety_posture in mcp/kinde-mcp.yml.'
+surfaces:
+  openapi:
+    path: openapi/
+    canonical: https://api-spec.kinde.com/kinde-management-api-spec.yaml
+    gated: false
+    operations: 179
+  mcp:
+    url: https://{subdomain}.kinde.com/mcp
+    gated: true
+    gate: Tenant-scoped; requires a Kinde business subdomain and an Environment API key with the MCP option
+      enabled. Live tools/list was not obtainable anonymously.
+  graphql:
+    present: false
+    note: Kinde publishes no GraphQL API. The Node/Apollo and Node/Express GraphQL docs pages are guides
+      for protecting a CUSTOMER's GraphQL server with Kinde auth, not a Kinde GraphQL surface.
+crosswalk:
+- tool: GetUsers
+  category: Users
+  rest:
+  - getUsers
+  binding: one-to-one
+  confidence: high
+  scope: read:users
+  http: GET /api/v1/users
+  openapi: openapi/kinde-users-api-openapi.yml
+  note: Tool name 'GetUsers' is the TitleCase form of operationId 'getUsers'; the spec uses camelCase
+    for this operation. Same operation, confirmed by path and scope.
+- tool: GetUserData
+  category: Users
+  rest:
+  - getUserData
+  binding: one-to-one
+  confidence: high
+  scope: read:users
+  http: GET /api/v1/user
+  openapi: openapi/kinde-users-api-openapi.yml
+  note: Tool name 'GetUserData' is the TitleCase form of operationId 'getUserData'; the spec uses camelCase
+    for this operation. Same operation, confirmed by path and scope.
+- tool: GetUserIdentities
+  category: Users
+  rest:
+  - GetUserIdentities
+  binding: one-to-one
+  confidence: high
+  scope: read:user_identities
+  http: GET /api/v1/users/{user_id}/identities
+  openapi: openapi/kinde-users-api-openapi.yml
+  note: Tool name matches the operationId exactly.
+- tool: GetOrganizations
+  category: Organizations
+  rest:
+  - getOrganizations
+  binding: one-to-one
+  confidence: high
+  scope: read:organizations
+  http: GET /api/v1/organizations
+  openapi: openapi/kinde-organizations-api-openapi.yml
+  note: Tool name 'GetOrganizations' is the TitleCase form of operationId 'getOrganizations'; the spec
+    uses camelCase for this operation. Same operation, confirmed by path and scope.
+- tool: GetOrganization
+  category: Organizations
+  rest:
+  - getOrganization
+  binding: one-to-one
+  confidence: high
+  scope: read:organizations
+  http: GET /api/v1/organization
+  openapi: openapi/kinde-organizations-api-openapi.yml
+  note: Tool name 'GetOrganization' is the TitleCase form of operationId 'getOrganization'; the spec uses
+    camelCase for this operation. Same operation, confirmed by path and scope.
+- tool: GetOrganizationUsers
+  category: Organizations
+  rest:
+  - GetOrganizationUsers
+  binding: one-to-one
+  confidence: high
+  scope: read:organization_users
+  http: GET /api/v1/organizations/{org_code}/users
+  openapi: openapi/kinde-organizations-api-openapi.yml
+  note: Tool name matches the operationId exactly.
+- tool: GetOrganizationUserRoles
+  category: Organizations
+  rest:
+  - GetOrganizationUserRoles
+  binding: one-to-one
+  confidence: high
+  scope: read:organization_users
+  http: GET /api/v1/organizations/{org_code}/users/{user_id}/roles
+  openapi: openapi/kinde-organizations-api-openapi.yml
+  note: Tool name matches the operationId exactly.
+- tool: GetOrganizationUserPermissions
+  category: Organizations
+  rest:
+  - GetOrganizationUserPermissions
+  binding: one-to-one
+  confidence: high
+  scope: read:organization_users
+  http: GET /api/v1/organizations/{org_code}/users/{user_id}/permissions
+  openapi: openapi/kinde-organizations-api-openapi.yml
+  note: Tool name matches the operationId exactly.
+- tool: GetOrganizationFeatureFlags
+  category: Organizations
+  rest:
+  - GetOrganizationFeatureFlags
+  binding: one-to-one
+  confidence: high
+  scope: read:feature_flags
+  http: GET /api/v1/organizations/{org_code}/feature_flags
+  openapi: openapi/kinde-organizations-api-openapi.yml
+  note: Tool name matches the operationId exactly.
+- tool: GetRoles
+  category: Roles & Permissions
+  rest:
+  - GetRoles
+  binding: one-to-one
+  confidence: high
+  scope: read:roles
+  http: GET /api/v1/roles
+  openapi: openapi/kinde-roles-api-openapi.yml
+  note: Tool name matches the operationId exactly.
+- tool: GetRole
+  category: Roles & Permissions
+  rest:
+  - GetRole
+  binding: one-to-one
+  confidence: high
+  scope: read:roles
+  http: GET /api/v1/roles/{role_id}
+  openapi: openapi/kinde-roles-api-openapi.yml
+  note: Tool name matches the operationId exactly.
+- tool: CreateRole
+  category: Roles & Permissions
+  rest:
+  - CreateRole
+  binding: one-to-one
+  confidence: high
+  scope: create:roles
+  http: POST /api/v1/roles
+  openapi: openapi/kinde-roles-api-openapi.yml
+  note: Tool name matches the operationId exactly.
+- tool: GetPermissions
+  category: Roles & Permissions
+  rest:
+  - GetPermissions
+  binding: one-to-one
+  confidence: high
+  scope: read:permissions
+  http: GET /api/v1/permissions
+  openapi: openapi/kinde-permissions-api-openapi.yml
+  note: Tool name matches the operationId exactly.
+- tool: CreatePermission
+  category: Roles & Permissions
+  rest:
+  - CreatePermission
+  binding: one-to-one
+  confidence: high
+  scope: create:permissions
+  http: POST /api/v1/permissions
+  openapi: openapi/kinde-permissions-api-openapi.yml
+  note: Tool name matches the operationId exactly.
+- tool: GetRolePermissions
+  category: Roles & Permissions
+  rest:
+  - GetRolePermissions
+  binding: one-to-one
+  confidence: high
+  scope: read:role_permissions
+  http: GET /api/v1/roles/{role_id}/permissions
+  openapi: openapi/kinde-roles-api-openapi.yml
+  note: Tool name matches the operationId exactly.
+- tool: GetEnvironment
+  category: Configuration
+  rest:
+  - getEnvironment
+  binding: one-to-one
+  confidence: high
+  scope: read:environments
+  http: GET /api/v1/environment
+  openapi: openapi/kinde-environments-api-openapi.yml
+  note: Tool name 'GetEnvironment' is the TitleCase form of operationId 'getEnvironment'; the spec uses
+    camelCase for this operation. Same operation, confirmed by path and scope.
+- tool: GetProperties
+  category: Configuration
+  rest:
+  - GetProperties
+  binding: one-to-one
+  confidence: high
+  scope: read:properties
+  http: GET /api/v1/properties
+  openapi: openapi/kinde-properties-api-openapi.yml
+  note: Tool name matches the operationId exactly.
+- tool: CreateProperty
+  category: Configuration
+  rest:
+  - CreateProperty
+  binding: one-to-one
+  confidence: high
+  scope: create:properties
+  http: POST /api/v1/properties
+  openapi: openapi/kinde-properties-api-openapi.yml
+  note: Tool name matches the operationId exactly.
+- tool: CreateFeatureFlag
+  category: Configuration
+  rest:
+  - CreateFeatureFlag
+  binding: one-to-one
+  confidence: high
+  scope: create:feature_flags
+  http: POST /api/v1/feature_flags
+  openapi: openapi/kinde-feature-flags-api-openapi.yml
+  note: Tool name matches the operationId exactly.
+- tool: CreateEnvironmentVariable
+  category: Configuration
+  rest:
+  - createEnvironmentVariable
+  binding: one-to-one
+  confidence: high
+  scope: create:environment_variables
+  http: POST /api/v1/environment_variables
+  openapi: openapi/kinde-environment-variables-api-openapi.yml
+  note: Tool name 'CreateEnvironmentVariable' is the TitleCase form of operationId 'createEnvironmentVariable';
+    the spec uses camelCase for this operation. Same operation, confirmed by path and scope.
+- tool: GetSubscribers
+  category: Configuration
+  rest:
+  - GetSubscribers
+  binding: one-to-one
+  confidence: high
+  scope: read:subscribers
+  http: GET /api/v1/subscribers
+  openapi: openapi/kinde-subscribers-api-openapi.yml
+  note: Tool name matches the operationId exactly.
+- tool: CreateSubscriber
+  category: Configuration
+  rest:
+  - CreateSubscriber
+  binding: one-to-one
+  confidence: high
+  scope: create:subscribers
+  http: POST /api/v1/subscribers
+  openapi: openapi/kinde-subscribers-api-openapi.yml
+  note: Tool name matches the operationId exactly.
+mcp_only: []
+mcp_only_note: None. Every published MCP tool has a public REST operation behind it.
+rest_only_summary:
+  count: 157
+  note: Operations present in the REST contract with no MCP tool. Kinde restricts the MCP server to read
+    and create scopes only, so all update/delete/reset/revoke operations appear here by design.
+rest_only:
+- AddLogo
+- AddOrganizationLogo
+- AddOrganizationUsers
+- AddRoleScope
+- CreateCategory
+- CreateConnection
+- CreateOrganizationUserPermission
+- CreateOrganizationUserRole
+- CreateUserIdentity
+- CreateWebHook
+- DeleteEnvironementFeatureFlagOverride
+- DeleteEnvironementFeatureFlagOverrides
+- DeleteFeatureFlag
+- DeleteIdentity
+- DeleteLogo
+- DeleteOrganizationFeatureFlagOverride
+- DeleteOrganizationFeatureFlagOverrides
+- DeleteOrganizationHandle
+- DeleteOrganizationLogo
+- DeleteOrganizationUserPermission
+- DeleteOrganizationUserRole
+- DeletePermission
+- DeleteProperty
+- DeleteRole
+- DeleteRoleScope
+- DeleteUserSessions
+- DeleteWebHook
+- EnableConnection
+- EnableOrgConnection
+- GetApplicationConnections
+- GetCategories
+- GetConnectedAppAuthUrl
+- GetConnectedAppToken
+- GetConnection
+- GetConnections
+- GetEntitlement
+- GetEntitlements
+- GetEnvironementFeatureFlags
+- GetEvent
+- GetEventTypes
+- GetFeatureFlags
+- GetIdentity
+- GetOrgUserMFA
+- GetOrganizationConnections
+- GetOrganizationPropertyValues
+- GetPortalLink
+- GetRoleScopes
+- GetSubscriber
+- GetUserPermissions
+- GetUserProperties
+- GetUserPropertyValues
+- GetUserRoles
+- GetUserSessions
+- GetUsersMFA
+- GetWebHooks
+- ReadLogo
+- ReadOrganizationLogo
+- RemoveConnection
+- RemoveOrgConnection
+- RemoveOrganizationUser
+- RemoveRolePermission
+- ReplaceConnection
+- ReplaceMFA
+- ReplaceOrganizationMFA
+- ResetOrgUserMFA
+- ResetOrgUserMFAAll
+- ResetUsersMFA
+- ResetUsersMFAAll
+- RevokeConnectedAppToken
+- SetUserPassword
+- UpdateCategory
+- UpdateConnection
+- UpdateEnvironementFeatureFlagOverride
+- UpdateFeatureFlag
+- UpdateIdentity
+- UpdateOrganizationFeatureFlagOverride
+- UpdateOrganizationProperties
+- UpdateOrganizationProperty
+- UpdateOrganizationSessions
+- UpdateOrganizationUsers
+- UpdatePermissions
+- UpdateProperty
+- UpdateRolePermissions
+- UpdateRoles
+- UpdateUserFeatureFlagOverride
+- UpdateUserProperties
+- UpdateUserProperty
+- UpdateWebHook
+- addAPIApplicationScope
+- addAPIScope
+- addAPIs
+- addLogoutRedirectURLs
+- addOrganizationUserAPIScope
+- addRedirectCallbackURLs
+- createApiKey
+- createApplication
+- createBillingAgreement
+- createDirectory
+- createMeterUsageRecord
+- createOrganization
+- createOrganizationInvite
+- createUser
+- deleteAPI
+- deleteAPIApplicationScope
+- deleteAPIScope
+- deleteApiKey
+- deleteApplication
+- deleteCallbackURLs
+- deleteConnection
+- deleteDirectory
+- deleteEnvironmentVariable
+- deleteLogoutURLs
+- deleteOrganization
+- deleteOrganizationInvite
+- deleteOrganizationUserAPIScope
+- deleteUser
+- getAPI
+- getAPIScope
+- getAPIScopes
+- getAPIs
+- getApiKey
+- getApiKeys
+- getApplication
+- getApplicationPropertyValues
+- getApplications
+- getBillingAgreements
+- getBillingEntitlements
+- getBusiness
+- getCallbackURLs
+- getDirectories
+- getDirectory
+- getEnvironmentVariable
+- getEnvironmentVariables
+- getIndustries
+- getLogoutURLs
+- getOrganizationInvite
+- getOrganizationInvites
+- getTimezones
+- getUserProfileV2
+- refreshUserClaims
+- replaceLogoutRedirectURLs
+- replaceRedirectCallbackURLs
+- rotateApiKey
+- searchUsers
+- tokenIntrospection
+- tokenRevocation
+- updateAPIApplications
+- updateAPIScope
+- updateApplication
+- updateApplicationTokens
+- updateApplicationsProperty
+- updateBusiness
+- updateDirectory
+- updateEnvironmentVariable
+- updateOrganization
+- updateUser
+- verifyApiKey
+coverage:
+  mcp_tools: 22
+  mcp_tools_bound: 22
+  mcp_tools_unbound: 0
+  rest_operations: 179
+  rest_operations_with_tool: 22
+  rest_operations_without_tool: 157
+  rest_coverage_pct: 12.3
+  binding_confidence:
+    high: 22
+    medium: 0
+    low: 0

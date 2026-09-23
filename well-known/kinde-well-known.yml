@@ -1,0 +1,179 @@
+generated: '2026-09-12'
+method: probed
+source: >-
+  Direct unauthenticated GET of the five canonical /.well-known/ paths against every host this
+  record knows, 2026-09-12.
+provider: Kinde
+providerId: kinde
+description: >-
+  Kinde serves two real discovery documents. RFC 9116 security.txt is published on the marketing
+  apex (kinde.com and www.kinde.com) and names a live disclosure policy. The OAuth/OIDC discovery
+  documents live on the CONSOLE host app.kinde.com, not on the apex — app.kinde.com serves an
+  identical body at both /.well-known/openid-configuration and /.well-known/oauth-authorization-server.
+  Every tenant also serves the same pair at https://{subdomain}.kinde.com/.well-known/openid-configuration,
+  which is the issuer an integrator actually configures; that host is per-customer and was not probed.
+notes:
+  - >-
+    mcp.kinde.com answers HTTP 202 with a zero-length body and the header
+    `x-amzn-waf-action: challenge` on EVERY path, including paths that cannot exist. These are
+    AWS WAF bot challenges, not documents, and are recorded as misses.
+  - >-
+    api-spec.kinde.com is an S3 origin that returns 403 AccessDenied for any key it does not
+    hold; it serves the two OpenAPI specs and nothing else.
+  - No agent card was found on any host. No a2a/ artifact is written.
+hosts:
+  - host: kinde.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        file: kinde-security.txt
+        note: RFC 9116. Contact mailto:security@kinde.com, Expires 2027-12-11, Policy points at the live VDP page.
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: www.kinde.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        file: kinde-security.txt
+        note: Byte-identical to the apex response.
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: app.kinde.com
+    documents:
+      - path: /.well-known/openid-configuration
+        status: 200
+        file: kinde-app-openid-configuration.json
+        note: >-
+          Real OIDC discovery document. issuer https://app.kinde.com, RS256, PKCE S256,
+          authorization_code only, scopes address/email/event_hooks/offline/openid/phone/profile.
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        file: kinde-app-oauth-authorization-server.json
+        note: RFC 8414. Byte-identical to the openid-configuration body (same SHA-1).
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: docs.kinde.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: api-spec.kinde.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+        note: S3 AccessDenied. Bucket serves only the two published OpenAPI keys.
+      - path: /.well-known/openid-configuration
+        status: 403
+      - path: /.well-known/oauth-authorization-server
+        status: 403
+      - path: /.well-known/oauth-protected-resource
+        status: 403
+      - path: /.well-known/api-catalog
+        status: 403
+      - path: /.well-known/ai-plugin.json
+        status: 403
+      - path: /.well-known/agent-card.json
+        status: 403
+      - path: /.well-known/agent.json
+        status: 403
+  - host: mcp.kinde.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 202
+        note: WAF challenge, empty body. Not a document.
+      - path: /.well-known/openid-configuration
+        status: 202
+        note: WAF challenge, empty body. Not a document.
+      - path: /.well-known/oauth-authorization-server
+        status: 202
+        note: WAF challenge, empty body. Not a document.
+      - path: /.well-known/oauth-protected-resource
+        status: 202
+        note: WAF challenge, empty body. Not a document.
+      - path: /.well-known/api-catalog
+        status: 202
+        note: WAF challenge, empty body. Not a document.
+      - path: /.well-known/ai-plugin.json
+        status: 202
+        note: WAF challenge, empty body. Not a document.
+      - path: /.well-known/agent-card.json
+        status: 202
+        note: WAF challenge, empty body. Not a document.
+      - path: /.well-known/agent.json
+        status: 202
+        note: WAF challenge, empty body. Not a document.
+  - host: status.kinde.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+summary:
+  hosts_probed: 7
+  documents_served: 3
+  security_txt: true
+  openid_configuration: true
+  oauth_authorization_server: true
+  oauth_protected_resource: false
+  api_catalog: false
+  ai_plugin: false
+  agent_card: false

@@ -1,29 +1,19 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
+  title: Kinde Roles API
   version: '1'
-  title: Kinde Account API Keys Roles API
-  description: '
-
-    Provides endpoints to operate on an authenticated user.
-
-
-    ## Intro
-
-
-    ## How to use
-
-
-    1. Get a user access token - this can be obtained when a user signs in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc).
-
-
-    2. Call one of the endpoints below using the user access token in the Authorization header as a Bearer token. Typically, you can use the `getToken` command in the relevant SDK.
-
-    '
-  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
   contact:
     name: Kinde Support Team
     email: support@kinde.com
     url: https://docs.kinde.com
+  termsOfService: https://docs.kinde.com/trust-center/agreements/terms-of-service/
+  description: 'Operations tagged Roles across 2 of this provider''s published API definitions: kinde-frontend-api-openapi.yml, kinde-management-api-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://{subdomain}.kinde.com
+  variables:
+    subdomain:
+      default: your_kinde_subdomain
+      description: The subdomain generated for your business on Kinde.
 tags:
 - name: Roles
   x-displayName: Roles
@@ -35,24 +25,24 @@ paths:
       - Roles
       operationId: GetUserRoles
       summary: Get roles
-      description: 'Returns all roles for the user
-
-        '
+      description: Returns all roles for the user
       parameters:
       - name: page_size
         in: query
         required: false
         description: Number of results per page. Defaults to 10 if parameter not sent.
         schema:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
       - name: starting_after
         in: query
         required: false
         description: The ID of the role to start after.
         schema:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           example: role_1234567890abcdef
       responses:
         '200':
@@ -74,15 +64,19 @@ paths:
       - Roles
       operationId: GetRoles
       x-scope: read:roles
-      description: "The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.\n\n<div>\n  <code>read:roles</code>\n</div>\n"
+      description: 'The returned list can be sorted by role name or role ID in ascending or descending order. The number of records to return at a time can also be controlled using the `page_size` query string parameter.
+
+
+        read:roles'
       summary: List roles
       parameters:
       - name: sort
         in: query
         description: Field and order to sort the result by.
         schema:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           enum:
           - name_asc
           - name_desc
@@ -92,14 +86,16 @@ paths:
         in: query
         description: Number of results per page. Defaults to 10 if parameter not sent.
         schema:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
       - name: next_token
         in: query
         description: A string to get the next page of results if there are more results.
         schema:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
       responses:
         '200':
           description: Roles successfully retrieved.
@@ -120,7 +116,10 @@ paths:
       - Roles
       operationId: CreateRole
       x-scope: create:roles
-      description: "Create role.\n\n<div>\n  <code>create:roles</code>\n</div>\n"
+      description: 'Create role.
+
+
+        create:roles'
       summary: Create role
       requestBody:
         description: Role details.
@@ -144,9 +143,10 @@ paths:
                   type: boolean
                 assignment_permission_id:
                   description: The public ID of the permission required to assign this role to users. If null, no permission is required.
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   format: uuid
-                  nullable: true
       responses:
         '201':
           description: Role successfully created
@@ -169,7 +169,10 @@ paths:
       - Roles
       operationId: GetRole
       x-scope: read:roles
-      description: "Get a role\n\n<div>\n  <code>read:roles</code>\n</div>\n"
+      description: 'Get a role
+
+
+        read:roles'
       summary: Get role
       parameters:
       - name: role_id
@@ -198,7 +201,10 @@ paths:
       - Roles
       operationId: UpdateRoles
       x-scope: update:roles
-      description: "Update a role\n\n<div>\n  <code>update:roles</code>\n</div>\n"
+      description: 'Update a role
+
+
+        update:roles'
       summary: Update role
       parameters:
       - name: role_id
@@ -229,9 +235,10 @@ paths:
                   type: boolean
                 assignment_permission_id:
                   description: The public ID of the permission required to assign this role to users. If null, no change to the assignment permission is made. If set to 'NO_PERMISSION_REQUIRED', no permission is required.
-                  type: string
+                  type:
+                  - string
+                  - 'null'
                   format: uuid
-                  nullable: true
               required:
               - name
               - key
@@ -255,7 +262,10 @@ paths:
       - Roles
       operationId: DeleteRole
       x-scope: delete:roles
-      description: "Delete role\n\n<div>\n  <code>delete:roles</code>\n</div>\n"
+      description: 'Delete role
+
+
+        delete:roles'
       summary: Delete role
       parameters:
       - name: role_id
@@ -286,7 +296,10 @@ paths:
       - Roles
       operationId: GetRoleScopes
       x-scope: read:role_scopes
-      description: "Get scopes for a role.\n\n<div>\n  <code>read:role_scopes</code>\n</div>\n"
+      description: 'Get scopes for a role.
+
+
+        read:role_scopes'
       summary: Get role scopes
       parameters:
       - name: role_id
@@ -295,7 +308,6 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       responses:
         '200':
           description: A list of scopes for a role
@@ -326,7 +338,10 @@ paths:
       - Roles
       operationId: AddRoleScope
       x-scope: create:role_scopes
-      description: "Add scope to role.\n\n<div>\n  <code>create:role_scopes</code>\n</div>\n"
+      description: 'Add scope to role.
+
+
+        create:role_scopes'
       summary: Add role scope
       parameters:
       - name: role_id
@@ -335,7 +350,6 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       requestBody:
         description: Add scope to role.
         required: true
@@ -371,7 +385,10 @@ paths:
       - Roles
       operationId: DeleteRoleScope
       x-scope: delete:role_scopes
-      description: "Delete scope from role.\n\n<div>\n  <code>delete:role_scopes</code>\n</div>\n"
+      description: 'Delete scope from role.
+
+
+        delete:role_scopes'
       summary: Delete role scope
       parameters:
       - name: role_id
@@ -380,14 +397,12 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       - name: scope_id
         in: path
         description: The scope id.
         required: true
         schema:
           type: string
-          nullable: false
       responses:
         '200':
           description: Role scope successfully deleted.
@@ -410,7 +425,10 @@ paths:
       - Roles
       operationId: GetRolePermissions
       x-scope: read:role_permissions
-      description: "Get permissions for a role.\n\n<div>\n  <code>read:role_permissions</code>\n</div>\n"
+      description: 'Get permissions for a role.
+
+
+        read:role_permissions'
       summary: Get role permissions
       parameters:
       - name: role_id
@@ -419,13 +437,13 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       - name: sort
         in: query
         description: Field and order to sort the result by.
         schema:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
           enum:
           - name_asc
           - name_desc
@@ -435,14 +453,16 @@ paths:
         in: query
         description: Number of results per page. Defaults to 10 if parameter not sent.
         schema:
-          type: integer
-          nullable: true
+          type:
+          - integer
+          - 'null'
       - name: next_token
         in: query
         description: A string to get the next page of results if there are more results.
         schema:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
       responses:
         '200':
           description: A list of permissions for a role
@@ -473,7 +493,10 @@ paths:
       - Roles
       operationId: UpdateRolePermissions
       x-scope: update:role_permissions
-      description: "Update role permissions.\n\n<div>\n  <code>update:role_permissions</code>\n</div>\n"
+      description: 'Update role permissions.
+
+
+        update:role_permissions'
       summary: Update role permissions
       parameters:
       - name: role_id
@@ -482,7 +505,6 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       requestBody:
         required: true
         content:
@@ -532,7 +554,10 @@ paths:
       - Roles
       operationId: RemoveRolePermission
       x-scope: delete:role_permissions
-      description: "Remove a permission from a role.\n\n<div>\n  <code>delete:role_permissions</code>\n</div>\n"
+      description: 'Remove a permission from a role.
+
+
+        delete:role_permissions'
       summary: Remove role permission
       parameters:
       - name: role_id
@@ -541,14 +566,12 @@ paths:
         required: true
         schema:
           type: string
-          nullable: false
       - name: permission_id
         in: path
         description: The permission's public id.
         required: true
         schema:
           type: string
-          nullable: false
       responses:
         '200':
           description: Permission successfully removed from role
@@ -576,64 +599,6 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    update_role_permissions_response:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        permissions_added:
-          type: array
-          items:
-            type: string
-        permissions_removed:
-          type: array
-          items:
-            type: string
-    roles:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The role's ID.
-        key:
-          type: string
-          description: The role identifier to use in code.
-        name:
-          type: string
-          description: The role's name.
-        description:
-          type: string
-          description: The role's description.
-          nullable: true
-        is_default_role:
-          type: boolean
-          description: Whether the role is the default role.
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
-    permissions:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The permission's ID.
-        key:
-          type: string
-          description: The permission identifier to use in code.
-        name:
-          type: string
-          description: The permission's name.
-        description:
-          type: string
-          description: The permission's description.
     get_user_roles_response:
       type: object
       properties:
@@ -673,6 +638,55 @@ components:
               type: string
               description: The ID of the last record on the current page.
               example: role_0195ac80a14e8d71f42b98e75d3c61ad
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    add_role_scope_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: ROLE_SCOPE_ADDED
+        message:
+          type: string
+          description: Response message.
+          example: Scope added to role
+    get_roles_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/roles'
+        next_token:
+          description: Pagination token.
+          type: string
+    update_role_permissions_response:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        permissions_added:
+          type: array
+          items:
+            type: string
+        permissions_removed:
+          type: array
+          items:
+            type: string
     scopes:
       type: object
       properties:
@@ -692,7 +706,16 @@ components:
           type: string
           description: API ID.
           example: 3635b4431f174de6b789c67481bd0c7a
-    get_roles_response:
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+    create_roles_response:
       type: object
       properties:
         code:
@@ -701,31 +724,32 @@ components:
         message:
           type: string
           description: Response message.
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/roles'
-        next_token:
-          description: Pagination token.
-          type: string
-    delete_role_scope_response:
+        role:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The role's ID.
+    roles:
       type: object
       properties:
-        code:
+        id:
           type: string
-          description: Response code.
-          example: SCOPE_DELETED
-        message:
+          description: The role's ID.
+        key:
           type: string
-          description: Response message.
-          example: Scope deleted from role
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
+          description: The role identifier to use in code.
+        name:
+          type: string
+          description: The role's name.
+        description:
+          type:
+          - string
+          - 'null'
+          description: The role's description.
+        is_default_role:
+          type: boolean
+          description: Whether the role is the default role.
     get_role_response:
       type: object
       properties:
@@ -758,56 +782,15 @@ components:
               type: boolean
               description: Whether the role is the default role.
               example: false
-    success_response:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-        code:
-          type: string
-          example: OK
-    create_roles_response:
+    error:
       type: object
       properties:
         code:
           type: string
-          description: Response code.
+          description: Error code.
         message:
           type: string
-          description: Response message.
-        role:
-          type: object
-          properties:
-            id:
-              type: string
-              description: The role's ID.
-    role_scopes_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        message:
-          type: string
-          description: Response message.
-          example: Success
-        scopes:
-          type: array
-          items:
-            $ref: '#/components/schemas/scopes'
-    add_role_scope_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: ROLE_SCOPE_ADDED
-        message:
-          type: string
-          description: Response message.
-          example: Scope added to role
+          description: Error message.
     role_permissions_response:
       type: object
       properties:
@@ -824,6 +807,47 @@ components:
         next_token:
           type: string
           description: Pagination token.
+    permissions:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The permission's ID.
+        key:
+          type: string
+          description: The permission identifier to use in code.
+        name:
+          type: string
+          description: The permission's name.
+        description:
+          type: string
+          description: The permission's description.
+    delete_role_scope_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: SCOPE_DELETED
+        message:
+          type: string
+          description: Response message.
+          example: Scope deleted from role
+    role_scopes_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        scopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/scopes'
   responses:
     bad_request:
       description: Invalid request.
@@ -831,14 +855,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-    forbidden:
-      description: Unauthorized - invalid credentials.
+    too_many_requests:
+      description: Too many requests. Request was throttled.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-    too_many_requests:
-      description: Too many requests. Request was throttled.
+    forbidden:
+      description: Unauthorized - invalid credentials.
       content:
         application/json:
           schema:
@@ -851,3 +875,6 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+x-refined-from:
+- kinde-frontend-api-openapi.yml
+- kinde-management-api-openapi.yml

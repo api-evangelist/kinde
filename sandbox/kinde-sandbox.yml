@@ -1,0 +1,84 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  https://docs.kinde.com/build/environments/environments/,
+  https://docs.kinde.com/build/environments/go-live-checklist/,
+  https://docs.kinde.com/billing/get-started/connect-stripe/ and the Kinde pricing page.
+  Read 2026-09-12.
+provider: Kinde
+providerId: kinde
+model: separate-environment
+description: >-
+  Kinde has no test-mode flag and no test key prefix. Its test story is ENVIRONMENTS: a Kinde
+  business gets a real, separately-addressed development environment alongside production, each
+  with its own subdomain, its own issuer, its own applications, its own client IDs and secrets, and
+  its own user population. That is a stronger isolation boundary than a test-mode header, and a
+  weaker one for fixtures — there are no published test cards, no seeded test users, no time
+  simulation and no trigger tooling, because the development environment is a live system with no
+  data in it rather than a simulator.
+environments:
+  mechanism: Per-environment subdomain
+  base_url_shape: https://{subdomain}.kinde.com
+  isolation:
+    - Separate issuer and OAuth endpoints per environment.
+    - Separate applications, client IDs and client secrets.
+    - Separate users, organizations, roles, permissions and feature flags.
+    - Separate environment variables.
+    - Separate custom domains.
+  consequence: >-
+    An identifier from one environment does not resolve in another. A 404 on a known-good org_code
+    or user id is most often an environment mismatch, not a missing record.
+  included_by_plan:
+    - plan: Free
+      environments: 2
+      note: Production plus development.
+    - plan: Pro
+      environments: 2
+    - plan: Plus
+      environments: 6
+    - plan: Scale
+      environments: 11
+  docs: https://docs.kinde.com/build/environments/environments/
+test_credentials:
+  key_prefixes:
+    - prefix: k_live_
+      applies_to: Kinde API keys (user-level and environment-level)
+      note: >-
+        Only a live prefix is published. There is no k_test_ counterpart — isolation comes from
+        which environment issued the key, not from the key's prefix.
+  test_cards: none-published
+  test_bank_accounts: none-published
+  hosted_test_tokens: none-published
+  note: NEVER invent test values. Kinde publishes none.
+billing_test_mode:
+  provider: Stripe
+  mechanism: >-
+    Kinde's billing feature connects to Stripe. In a Kinde development environment the Stripe
+    connection flow runs against Stripe's test environment; in production it prompts to use or
+    create a live Stripe account.
+  test_values: >-
+    Any test card numbers used here are STRIPE's published test values, not Kinde's. Kinde
+    publishes none of its own and none are recorded in this artifact.
+  docs: https://docs.kinde.com/billing/get-started/connect-stripe/
+time_simulation:
+  supported: false
+  note: No test clock, time-travel or subscription-fast-forward facility is published.
+fixtures_and_triggers:
+  fixtures: none-published
+  event_triggers: none-published
+  note: >-
+    There is no "send me a test webhook" trigger documented. Webhook delivery is exercised by
+    performing the real action in a development environment.
+go_live:
+  checklist: https://docs.kinde.com/build/environments/go-live-checklist/
+  note: >-
+    Kinde publishes an explicit go-live checklist for promoting a development environment's
+    configuration to production, which is the closest thing it has to a promotion workflow.
+    Configuration is not automatically synced between environments.
+config_as_code:
+  supported: true
+  docs: https://docs.kinde.com/developer-tools/kinde-api/kinde-config-as-code/
+  terraform_provider: https://registry.terraform.io/providers/kinde-oss/kinde/latest
+  note: >-
+    A community-tier Terraform provider (kinde-oss/kinde 0.1.0, 2026-08-21) plus a documented
+    config-as-code path is the supported way to keep environments in step.

@@ -1,0 +1,283 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  https://docs.kinde.com/developer-tools/kinde-api/api-rate-limits/ (page size, bulk caps,
+  RateLimit-Reset, 429), https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/
+  (client_credentials, audience, scope parameter),
+  https://docs.kinde.com/build/tokens/oauth-error-codes/ (OAuth error envelope),
+  https://docs.kinde.com/billing/manage-plans/cancel-plans/ (cancellation path), plus derivation
+  from openapi/_original/kinde-management-api-openapi.yml (169 operations) and
+  openapi/_original/kinde-frontend-api-openapi.yml (10 operations). Read 2026-09-12.
+provider: Kinde
+providerId: kinde
+description: >-
+  Cross-cutting runtime semantics for the Kinde Management API and Account API. Kinde is a
+  tenant-subdomain platform: every base URL is https://{subdomain}.kinde.com, the OAuth issuer is
+  the same host, and there is no shared multi-tenant API host. Conventions are consistent across
+  the Management API's 169 operations because the whole contract is generated from one source.
+auth_style:
+  management_api:
+    mechanism: OAuth 2.0 client credentials (M2M application)
+    token_endpoint: https://{subdomain}.kinde.com/oauth2/token
+    audience_required: true
+    audience_value: https://{subdomain}.kinde.com/api
+    presentation: 'Authorization: Bearer <JWT>'
+    scheme_name: kindeBearerAuth
+    token_format: JWT, RS256, RSA 2048-bit
+    scope_narrowing: >-
+      A token request returns all scopes enabled on the M2M application by default. Passing a
+      `scope` parameter in the token request body narrows the issued token to a subset — a real
+      least-privilege control most identity APIs do not expose.
+    docs: https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/
+  account_api:
+    mechanism: End-user access token (obtained from the user's sign-in session)
+    presentation: 'Authorization: Bearer <user access token>'
+    note: The Account API operates on the authenticated user only; there is no admin dimension.
+    docs: https://docs.kinde.com/developer-tools/account-api/about-account-api/
+  api_keys:
+    format_prefix: k_live_
+    used_for: Kinde MCP connections and user/organization-level API keys for customer-owned APIs
+    docs: https://docs.kinde.com/manage-your-apis/about-api-keys/
+idempotency:
+  coverage: none
+  scope: []
+  mechanism: null
+  header: null
+  retention: null
+  evidence: >-
+    No Idempotency-Key header, idempotency token, request-id-replay mechanism or "safe to retry"
+    guarantee appears anywhere in the Kinde documentation corpus (docs.kinde.com/llms-full.txt,
+    2.86 MB, fetched 2026-09-12) or in either published OpenAPI. A case-insensitive search for
+    "idempoten" across the full docs corpus returns zero matches in an API-semantics context.
+  consequence: >-
+    The API's own rate-limit guidance tells clients to retry 429s with exponential backoff. Because
+    no replay protection exists, a retry of a POST whose response was lost in transit can create a
+    duplicate record — a second role, permission, property, feature flag, environment variable or
+    subscriber. There are 7 create operations reachable by MCP agents and many more over REST, and
+    none of them is replay-safe.
+  verdict_basis: >-
+    `none` per the 0.12.0 machine verdict: no mechanism exists on any part of the mutating surface.
+pagination:
+  style: opaque-cursor
+  request_params:
+    - name: page_size
+      in: query
+      max: 500
+      note: Maximum 500 results per request on GET endpoints that accept it.
+    - name: next_token
+      in: query
+      note: Opaque continuation token from the previous response.
+    - name: sort
+      in: query
+      note: Present on several list endpoints in the spec.
+  response_fields:
+    - next_token
+    - code
+    - message
+  example_response: '{"code":"...","message":"Success","next_token":"Mjo6Om5hbWVfYXNj"}'
+  termination: next_token is absent or null when there are no further pages.
+  docs: https://docs.kinde.com/developer-tools/kinde-api/api-rate-limits/
+bulk_operations:
+  max_objects_per_request: 100
+  applies_to: Bulk POST/PATCH endpoints, e.g. PATCH /api/v1/organizations/{org_code}/users
+  overage: Contact Kinde support to raise the cap.
+  docs: https://docs.kinde.com/developer-tools/kinde-api/api-rate-limits/
+field_expansion:
+  supported: true
+  note: >-
+    The docs name "expansions" as a first-class cost driver ("requests that include expansions
+    consume more server resources and take longer to complete, which reduces available concurrency
+    slots"). The spec carries `expand` query parameters on several read operations.
+  sparse_fields: false
+metadata:
+  mechanism: Custom Properties
+  description: >-
+    Kinde's extensibility model is Properties — typed custom fields declared per environment and
+    attached to users, organizations and applications, then optionally projected into token claims.
+    This is the closest analogue to a Stripe-style `metadata` map and it is schema-ful rather than
+    free-form.
+  operations:
+    - GetProperties
+    - CreateProperty
+    - UpdateUserProperties
+    - GetUserPropertyValues
+    - GetOrganizationPropertyValues
+    - GetApplicationPropertyValues
+  docs: https://docs.kinde.com/properties/
+request_id_tracing:
+  request_header: null
+  response_header: null
+  evidence: >-
+    No request-id or correlation-id header is documented for the Management API, and none appears
+    in either OpenAPI. Webhook DELIVERIES do carry an `event_id` (pattern `event_[0-9a-f]{32}`) in
+    the payload, which is the only first-class traceable identifier Kinde publishes.
+  supported: false
+versioning:
+  style: path
+  current: v1
+  path_prefix: /api/v1 (Management API), /account_api/v1 (Account API)
+  spec_info_version: '1'
+  breaking_change_policy: not-published
+  note: >-
+    No API versioning or deprecation policy document exists. The version has been v1 since launch
+    and no v2 or dated-version scheme is announced. Neither published OpenAPI marks any operation
+    `deprecated: true` (0 of 179 refined operations).
+error_envelope:
+  management_api:
+    shape: kinde-native
+    format: application/json
+    fields:
+      - code
+      - message
+      - errors[].code
+      - errors[].message
+    rfc9457: false
+    note: >-
+      Responses are application/json (and application/json; charset=utf-8), never
+      application/problem+json. No `type`/`title`/`status`/`detail`/`instance` members.
+  oauth_endpoints:
+    shape: rfc6749
+    fields:
+      - error
+      - error_description
+    values:
+      - invalid_request
+      - invalid_client
+      - invalid_grant
+      - invalid_scope
+      - unauthorized_client
+      - unsupported_grant_type
+    docs: https://docs.kinde.com/build/tokens/oauth-error-codes/
+  catalog: errors/kinde-problem-types.yml
+rate_limit_signaling:
+  status_on_exhaustion: 429
+  headers_returned:
+    - name: RateLimit-Reset
+      meaning: Seconds until the rate limit resets.
+      documented_example: 'RateLimit-Reset: 30'
+  headers_absent:
+    - RateLimit-Limit
+    - RateLimit-Remaining
+    - X-RateLimit-Limit
+    - X-RateLimit-Remaining
+    - Retry-After
+  assessment: >-
+    Kinde returns the RESET half of the RFC 9331 draft header family but not the limit or
+    remaining halves. A client can learn how long to wait but cannot see how much budget it has
+    left, so it cannot pace itself — only react after being throttled. Every one of the 169
+    Management API operations declares a 429 response.
+  detail: rate-limits/kinde-rate-limits.yml
+reversibility:
+  applicability: applies
+  grade: documented
+  summary: >-
+    Kinde's write surface is largely CRUD with a symmetric delete, which is reversal of a CREATE,
+    not reversal of a DELETE. There is no undo, no restore, no trash/recycle window and no stated
+    retention period for deleted users, organizations, roles or permissions anywhere in the docs.
+    The one genuinely reversible-by-design control is user SUSPENSION. The one documented
+    reversal-with-money-attached is subscription cancellation, whose financial outcome is governed
+    by policies the customer configures — and because those policies are per-customer, Kinde
+    publishes no universal window, so this cannot be graded `verified`.
+  grade_basis: >-
+    `documented` (0.4): reversal paths exist and are named, but no reversal WINDOW is stated by the
+    provider for any of them. Grading this `verified` would require asserting a window Kinde does
+    not publish.
+  reversals:
+    - action: Suspend a user
+      operation: updateUser
+      mechanism: Set is_suspended=true; set it back to false to restore access.
+      reversal: updateUser with is_suspended=false
+      window: unbounded
+      window_stated: true
+      note: >-
+        This is the reversible alternative to deleteUser and the only true undo in the API.
+        Suspension preserves the user record, identities and organization memberships.
+    - action: Cancel a subscription
+      operation: null
+      http: DELETE /api/v1/billing/agreements
+      reversal: null
+      window: not-published
+      window_stated: false
+      spec_gap: true
+      note: >-
+        Cancellation is itself the reversal of a subscription. Its financial consequences — whether
+        unpaid metered usage is billed or forgiven, whether unused paid subscription days are
+        refunded or retained — are set by the CUSTOMER in Kinde's billing Policies, and Kinde
+        states no default. Refunds are executed by Stripe, not by a Kinde API operation.
+        CONTRACT GAP: the docs instruct callers to send a DELETE to /api/v1/billing/agreements with
+        an agreement_id, but the published Management API OpenAPI declares only
+        createBillingAgreement and getBillingAgreements for that path — there is no DELETE
+        operation and therefore no operationId. A generated SDK cannot cancel a subscription.
+      docs: https://docs.kinde.com/billing/manage-plans/cancel-plans/
+    - action: Remove a user from an organization
+      operation: RemoveOrganizationUser
+      reversal: AddOrganizationUsers
+      window: unbounded
+      window_stated: true
+      note: Membership can be re-added; the user record is untouched.
+    - action: Remove a role or permission assignment
+      operation: DeleteOrganizationUserRole / DeleteOrganizationUserPermission
+      reversal: CreateOrganizationUserRole / CreateOrganizationUserPermission
+      window: unbounded
+      window_stated: true
+    - action: Revoke a connected-app token
+      operation: RevokeConnectedAppToken
+      reversal: null
+      window: none
+      window_stated: true
+      note: Irreversible by design — the point of a revocation.
+    - action: Rotate an API key
+      operation: rotateApiKey
+      reversal: null
+      window: not-published
+      window_stated: false
+      note: >-
+        A first-class rotation operation exists in the contract. No overlap window during which the
+        superseded key keeps working is stated.
+    - action: Rotate a client secret
+      operation: dashboard action (Settings > Applications > Rotate client secret)
+      reversal: null
+      window: not-published
+      window_stated: false
+      note: >-
+        Kinde documents a rotation PROCESS with a dependency-update step, but no grace period
+        during which the previous secret keeps working is stated.
+    - action: Delete an API key
+      operation: deleteApiKey
+      reversal: null
+      window: none
+      window_stated: true
+      note: >-
+        Kinde documents revoke and rotate as the recommended lifecycle operations; a deleted key
+        cannot be recovered and the secret is shown only once at creation.
+  irreversible_no_window_stated:
+    - deleteUser
+    - deleteOrganization
+    - DeleteRole
+    - DeletePermission
+    - DeleteProperty
+    - DeleteFeatureFlag
+    - deleteApplication
+    - deleteConnection
+    - deleteDirectory
+    - deleteAPI
+    - DeleteWebHook
+    - deleteEnvironmentVariable
+  agent_guidance: >-
+    An agent acting on a Kinde tenant should prefer suspension over deletion for users, and should
+    treat every delete* operation as permanent. Note that the Kinde MCP server exposes NO delete
+    operations at all, so an agent confined to MCP cannot reach any of the irreversible actions
+    listed above.
+dry_run_mode:
+  supported: false
+  evidence: >-
+    No dry-run, preview, validate-only, simulate or `?validate=true` mode is documented for any
+    operation. Kinde's nearest equivalent is environment separation — a development environment
+    that is a real, separate tenant rather than a flag on a request. See sandbox/kinde-sandbox.yml.
+cross_references:
+  errors: errors/kinde-problem-types.yml
+  lifecycle: lifecycle/kinde-lifecycle.yml
+  authentication: authentication/kinde-authentication.yml
+  rate_limits: rate-limits/kinde-rate-limits.yml
+  scopes: scopes/kinde-scopes.yml
+  sandbox: sandbox/kinde-sandbox.yml

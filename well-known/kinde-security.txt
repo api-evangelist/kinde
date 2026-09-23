@@ -1,0 +1,4 @@
+Contact: mailto:security@kinde.com
+Expires: 2027-12-11T05:30:00.000Z
+Preferred-Languages: en
+Policy: https://docs.kinde.com/trust-center/security/vulnerability-disclosure-policy/

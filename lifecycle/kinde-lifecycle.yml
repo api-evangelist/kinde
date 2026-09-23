@@ -1,0 +1,111 @@
+generated: '2026-09-12'
+method: searched
+source: >-
+  https://status.kinde.com (+ /history.rss, /history.atom), https://updates.kinde.com and
+  /board, https://docs.kinde.com/trust-center/agreements/terms-of-service/,
+  https://api.github.com/orgs/kinde-oss/repos (archive state of 64 repositories, read 2026-09-12),
+  and derivation from the two published OpenAPIs.
+provider: Kinde
+providerId: kinde
+description: >-
+  Kinde runs an operational status page and a public changelog/roadmap, but publishes no API
+  versioning policy, no deprecation policy, and no Sunset/Deprecation header commitment. The
+  deprecation signal that DOES exist is in the SDK estate, where six repositories are archived —
+  that is the only place Kinde tells a consumer something has been retired.
+versioning:
+  scheme: path
+  current: v1
+  since: launch
+  policy_published: false
+  breaking_change_notice: not-published
+  header_negotiation: false
+deprecation:
+  policy_published: false
+  rfc8594_sunset_header: false
+  rfc8594_deprecation_header: false
+  evidence: >-
+    No Sunset or Deprecation response header is documented or declared in either OpenAPI. No
+    deprecation policy page exists in the docs corpus. Neither published spec marks any operation
+    `deprecated: true` — 0 of 179 refined operations.
+  deprecated_operations: []
+  deprecated_packages:
+    - name: kinde-node-express-api
+      repository: https://github.com/kinde-oss/kinde-node-express-api
+      state: archived
+      last_push: '2024-02-24'
+      npm: '@kinde-oss/kinde-node-express-api@0.0.11 (2022-12-13)'
+      replacement: '@kinde-oss/kinde-node-express'
+    - name: react-native-sdk-0-5x
+      repository: https://github.com/kinde-oss/react-native-sdk-0-5x
+      state: archived
+      last_push: '2024-02-24'
+      replacement: '@kinde-oss/react-native-sdk-0-7x'
+    - name: kinde-auth-remix-sdk
+      repository: https://github.com/kinde-oss/kinde-auth-remix-sdk
+      state: archived
+      last_push: '2024-03-26'
+      replacement: '@kinde-oss/kinde-remix-sdk'
+    - name: nuxt-kinde
+      repository: https://github.com/kinde-oss/nuxt-kinde
+      state: archived
+      last_push: '2023-10-19'
+      replacement: not-stated
+      note: >-
+        apis.yml still advertises this as a current SDK. The repository has been archived since
+        2023 and no npm package by this name is published.
+    - name: kinde-java-generator
+      repository: https://github.com/kinde-oss/kinde-java-generator
+      state: archived
+      last_push: '2024-02-29'
+      note: Internal code generator, not a consumer-facing SDK.
+    - name: kinde-ruby-generator
+      repository: https://github.com/kinde-oss/kinde-ruby-generator
+      state: archived
+      last_push: '2024-12-23'
+      note: Internal code generator, not a consumer-facing SDK.
+  note: >-
+    Archiving a GitHub repository is a real retirement signal but it is not a deprecation policy:
+    there is no announced date, no migration window and no notice period. A consumer learns an SDK
+    is dead only by visiting its repository.
+status_page:
+  url: https://status.kinde.com
+  feeds:
+    - format: rss
+      url: https://status.kinde.com/history.rss
+    - format: atom
+      url: https://status.kinde.com/history.atom
+  machine_readable: true
+  note: RSS and Atom incident history are both published, so uptime history is agent-readable.
+changelog:
+  url: https://updates.kinde.com
+  roadmap: https://updates.kinde.com/board
+  detail: changelog/kinde-changelog.yml
+sla:
+  published: false
+  note: >-
+    No numeric uptime SLA is published on the pricing page or in the Terms of Service. The
+    Enterprise tier advertises "Custom SLAs" as a negotiated item, which means no SLA applies to
+    the self-serve tiers.
+  enterprise_sla: negotiated
+support:
+  channels:
+    - type: email
+      value: mailto:support@kinde.com
+    - type: community
+      value: Slack (#ask-kinde-ai) and Discord
+    - type: sales
+      value: https://kinde.com/contact-us/
+  ai_support: >-
+    Kinde runs an @kindeAI agent in its Slack and Discord communities for 24/7 documentation Q&A.
+roadmap:
+  url: https://updates.kinde.com/board
+  public: true
+  vote: true
+  example_item:
+    name: SCIM identity management
+    url: https://updates.kinde.com/board/integrate-scim-identity-management
+    state: in-development
+    note: >-
+      The pricing page lists "SCIM support" as a Scale-tier feature while the enterprise-connections
+      documentation says SCIM is "coming soon" and points at this roadmap item. Recorded as a
+      discrepancy between the pricing page and the docs, not resolved.
