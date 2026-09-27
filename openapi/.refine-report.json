@@ -36,9 +36,7 @@
     "kinde-users-api-openapi.yml",
     "kinde-webhooks-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 2 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
@@ -49,12 +47,11 @@
     "tag 'Permissions' spans 2 source specs (kinde-frontend-api-openapi.yml, kinde-management-api-openapi.yml): per-path servers applied",
     "tag 'Properties' spans 2 source specs (kinde-frontend-api-openapi.yml, kinde-management-api-openapi.yml): per-path servers applied",
     "tag 'Roles' spans 2 source specs (kinde-frontend-api-openapi.yml, kinde-management-api-openapi.yml): per-path servers applied",
-    "superseded outputs removed: kinde-ap-is-api-openapi.yml, kinde-o-auth-api-openapi.yml",
-    "apis.yml register: written (+2 apis, 31 total)"
+    "apis.yml register: already-registered"
   ],
   "skipped": [
-    "kinde-ap-is-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "kinde-api-keys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kinde-apis-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "kinde-applications-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "kinde-billing-agreements-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "kinde-billing-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -71,7 +68,7 @@
     "kinde-identities-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "kinde-industries-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "kinde-mfa-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "kinde-o-auth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "kinde-oauth-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "kinde-organizations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "kinde-permissions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "kinde-properties-api-openapi.yml: previously refined output, superseded by openapi/_original/",

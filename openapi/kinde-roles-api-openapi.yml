@@ -645,33 +645,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/error'
-    add_role_scope_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: ROLE_SCOPE_ADDED
-        message:
-          type: string
-          description: Response message.
-          example: Scope added to role
-    get_roles_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        roles:
-          type: array
-          items:
-            $ref: '#/components/schemas/roles'
-        next_token:
-          description: Pagination token.
-          type: string
     update_role_permissions_response:
       type: object
       properties:
@@ -687,49 +660,37 @@ components:
           type: array
           items:
             type: string
-    scopes:
+    error:
       type: object
       properties:
-        id:
-          type: string
-          description: Scope ID.
-          example: api_scope_019541f3fa0c874fc47b3ae73585b21c
-        key:
-          type: string
-          description: Scope key.
-          example: create:users
-        description:
-          type: string
-          description: Description of scope.
-          example: Create users
-        api_id:
-          type: string
-          description: API ID.
-          example: 3635b4431f174de6b789c67481bd0c7a
-    success_response:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
         code:
           type: string
-          example: OK
-    create_roles_response:
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    delete_role_scope_response:
       type: object
       properties:
         code:
           type: string
           description: Response code.
+          example: SCOPE_DELETED
         message:
           type: string
           description: Response message.
-        role:
-          type: object
-          properties:
-            id:
-              type: string
-              description: The role's ID.
+          example: Scope deleted from role
+    add_role_scope_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: ROLE_SCOPE_ADDED
+        message:
+          type: string
+          description: Response message.
+          example: Scope added to role
     roles:
       type: object
       properties:
@@ -750,6 +711,67 @@ components:
         is_default_role:
           type: boolean
           description: Whether the role is the default role.
+    create_roles_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        role:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The role's ID.
+    role_permissions_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/permissions'
+        next_token:
+          type: string
+          description: Pagination token.
+    permissions:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The permission's ID.
+        key:
+          type: string
+          description: The permission identifier to use in code.
+        name:
+          type: string
+          description: The permission's name.
+        description:
+          type: string
+          description: The permission's description.
+    role_scopes_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        scopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/scopes'
     get_role_response:
       type: object
       properties:
@@ -782,72 +804,50 @@ components:
               type: boolean
               description: Whether the role is the default role.
               example: false
-    error:
+    success_response:
       type: object
       properties:
-        code:
-          type: string
-          description: Error code.
         message:
           type: string
-          description: Error message.
-    role_permissions_response:
-      type: object
-      properties:
+          example: Success
         code:
           type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        permissions:
-          type: array
-          items:
-            $ref: '#/components/schemas/permissions'
-        next_token:
-          type: string
-          description: Pagination token.
-    permissions:
+          example: OK
+    scopes:
       type: object
       properties:
         id:
           type: string
-          description: The permission's ID.
+          description: Scope ID.
+          example: api_scope_019541f3fa0c874fc47b3ae73585b21c
         key:
           type: string
-          description: The permission identifier to use in code.
-        name:
-          type: string
-          description: The permission's name.
+          description: Scope key.
+          example: create:users
         description:
           type: string
-          description: The permission's description.
-    delete_role_scope_response:
+          description: Description of scope.
+          example: Create users
+        api_id:
+          type: string
+          description: API ID.
+          example: 3635b4431f174de6b789c67481bd0c7a
+    get_roles_response:
       type: object
       properties:
         code:
           type: string
           description: Response code.
-          example: SCOPE_DELETED
         message:
           type: string
           description: Response message.
-          example: Scope deleted from role
-    role_scopes_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        message:
-          type: string
-          description: Response message.
-          example: Success
-        scopes:
+        roles:
           type: array
           items:
-            $ref: '#/components/schemas/scopes'
+            $ref: '#/components/schemas/roles'
+        next_token:
+          description: Pagination token.
+          type: string
   responses:
     bad_request:
       description: Invalid request.

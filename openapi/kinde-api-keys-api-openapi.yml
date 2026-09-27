@@ -326,28 +326,145 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/error'
-    rotate_api_key_response:
+    verify_api_key_response:
       type: object
       properties:
         code:
           type: string
           description: Response code.
-          example: API_KEY_ROTATED
+          example: API_KEY_VERIFIED
         message:
           type: string
           description: Response message.
-          example: API key rotated successfully
-        api_key:
-          type: object
-          properties:
-            id:
-              type: string
-              description: The unique ID for the API key.
-              example: api_key_0195ac80a14e8d71f42b98e75d3c61ad
-            key:
-              type: string
-              description: The new API key value (only shown once).
-              example: k_live_1234567890abcdef1234567890abcdef
+          example: API key verified
+        is_valid:
+          type: boolean
+          description: Whether the API key is valid.
+          example: true
+        key_id:
+          type: string
+          description: The unique ID for the API key.
+          example: api_key_0195ac80a14e8d71f42b98e75d3c61ad
+        status:
+          type: string
+          description: The status of the API key.
+          example: active
+        scopes:
+          type: array
+          description: Array of scopes associated with this key.
+          items:
+            type: string
+          example:
+          - read:users
+          - write:users
+        org_code:
+          type:
+          - string
+          - 'null'
+          description: The organization code associated with this key.
+          example: org_123
+        user_id:
+          type:
+          - string
+          - 'null'
+          description: The user ID associated with this key.
+          example: user_456
+        last_verified_on:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: When the API key was last verified.
+          example: '2024-11-18T13:32:03+11'
+        verification_count:
+          type: integer
+          description: Number of times this API key has been verified.
+          example: 42
+    get_api_keys_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+        api_keys:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                description: The unique ID for the API key.
+                type: string
+                example: api_key_0195ac80a14e8d71f42b98e75d3c61ad
+              name:
+                type: string
+                description: The API key's name.
+                example: My API Key
+              type:
+                type: string
+                description: The type of API key.
+                example: organization
+              status:
+                type: string
+                description: The status of the API key.
+                example: active
+              key_prefix:
+                type: string
+                description: The first 6 characters of the API key for identification.
+                example: kinde_
+              key_suffix:
+                type:
+                - string
+                - 'null'
+                description: The last 4 characters of the API key for identification.
+                example: abcd
+              created_on:
+                type: string
+                format: date-time
+                description: When the API key was created.
+                example: '2024-11-18T13:32:03+11'
+              last_verified_on:
+                type:
+                - string
+                - 'null'
+                format: date-time
+                description: When the API key was last verified.
+                example: '2024-11-18T13:32:03+11'
+              last_verified_ip:
+                type:
+                - string
+                - 'null'
+                description: The IP address from which the API key was last verified.
+                example: 192.168.1.1
+              created_by:
+                type:
+                - string
+                - 'null'
+                description: The name of the user who created the API key.
+                example: John Doe
+              api_ids:
+                type: array
+                description: Array of API IDs associated with this key.
+                items:
+                  type: string
+                example:
+                - api_123
+                - api_456
+              scopes:
+                type: array
+                description: Array of scopes associated with this key.
+                items:
+                  type: string
+                example:
+                - read:users
+                - write:users
     get_api_key_response:
       type: object
       properties:
@@ -446,175 +563,6 @@ components:
               - 'null'
               description: The user ID associated with this key.
               example: user_456
-    success_response:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-        code:
-          type: string
-          example: OK
-    get_api_keys_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        message:
-          type: string
-          description: Response message.
-          example: Success
-        has_more:
-          description: Whether more records exist.
-          type: boolean
-        api_keys:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                description: The unique ID for the API key.
-                type: string
-                example: api_key_0195ac80a14e8d71f42b98e75d3c61ad
-              name:
-                type: string
-                description: The API key's name.
-                example: My API Key
-              type:
-                type: string
-                description: The type of API key.
-                example: organization
-              status:
-                type: string
-                description: The status of the API key.
-                example: active
-              key_prefix:
-                type: string
-                description: The first 6 characters of the API key for identification.
-                example: kinde_
-              key_suffix:
-                type:
-                - string
-                - 'null'
-                description: The last 4 characters of the API key for identification.
-                example: abcd
-              created_on:
-                type: string
-                format: date-time
-                description: When the API key was created.
-                example: '2024-11-18T13:32:03+11'
-              last_verified_on:
-                type:
-                - string
-                - 'null'
-                format: date-time
-                description: When the API key was last verified.
-                example: '2024-11-18T13:32:03+11'
-              last_verified_ip:
-                type:
-                - string
-                - 'null'
-                description: The IP address from which the API key was last verified.
-                example: 192.168.1.1
-              created_by:
-                type:
-                - string
-                - 'null'
-                description: The name of the user who created the API key.
-                example: John Doe
-              api_ids:
-                type: array
-                description: Array of API IDs associated with this key.
-                items:
-                  type: string
-                example:
-                - api_123
-                - api_456
-              scopes:
-                type: array
-                description: Array of scopes associated with this key.
-                items:
-                  type: string
-                example:
-                - read:users
-                - write:users
-    not_found_response:
-      type: object
-      properties:
-        errors:
-          type: object
-          properties:
-            code:
-              type: string
-              example: ROUTE_NOT_FOUND
-            message:
-              type: string
-              example: The requested API route does not exist
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
-    verify_api_key_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: API_KEY_VERIFIED
-        message:
-          type: string
-          description: Response message.
-          example: API key verified
-        is_valid:
-          type: boolean
-          description: Whether the API key is valid.
-          example: true
-        key_id:
-          type: string
-          description: The unique ID for the API key.
-          example: api_key_0195ac80a14e8d71f42b98e75d3c61ad
-        status:
-          type: string
-          description: The status of the API key.
-          example: active
-        scopes:
-          type: array
-          description: Array of scopes associated with this key.
-          items:
-            type: string
-          example:
-          - read:users
-          - write:users
-        org_code:
-          type:
-          - string
-          - 'null'
-          description: The organization code associated with this key.
-          example: org_123
-        user_id:
-          type:
-          - string
-          - 'null'
-          description: The user ID associated with this key.
-          example: user_456
-        last_verified_on:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: When the API key was last verified.
-          example: '2024-11-18T13:32:03+11'
-        verification_count:
-          type: integer
-          description: Number of times this API key has been verified.
-          example: 42
     create_api_key_response:
       type: object
       properties:
@@ -637,15 +585,73 @@ components:
               description: The API key value (only shown once on creation).
               type: string
               example: k_live_1234567890abcdef
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+    not_found_response:
+      type: object
+      properties:
+        errors:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ROUTE_NOT_FOUND
+            message:
+              type: string
+              example: The requested API route does not exist
+    rotate_api_key_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: API_KEY_ROTATED
+        message:
+          type: string
+          description: Response message.
+          example: API key rotated successfully
+        api_key:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The unique ID for the API key.
+              example: api_key_0195ac80a14e8d71f42b98e75d3c61ad
+            key:
+              type: string
+              description: The new API key value (only shown once).
+              example: k_live_1234567890abcdef1234567890abcdef
   responses:
-    forbidden:
-      description: Unauthorized - invalid credentials.
+    not_found:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/not_found_response'
+    bad_request:
+      description: Invalid request.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-    bad_request:
-      description: Invalid request.
+    forbidden:
+      description: Unauthorized - invalid credentials.
       content:
         application/json:
           schema:
@@ -656,12 +662,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-    not_found:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/not_found_response'
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

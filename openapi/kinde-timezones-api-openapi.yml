@@ -108,14 +108,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-    too_many_requests:
-      description: Too many requests. Request was throttled.
+    forbidden:
+      description: Unauthorized - invalid credentials.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-    forbidden:
-      description: Unauthorized - invalid credentials.
+    too_many_requests:
+      description: Too many requests. Request was throttled.
       content:
         application/json:
           schema:

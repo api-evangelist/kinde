@@ -294,13 +294,6 @@ components:
                     - type: object
                     description: The value of the flag
                     example: true
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
     error:
       type: object
       properties:
@@ -310,6 +303,13 @@ components:
         message:
           type: string
           description: Error message.
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
     success_response:
       type: object
       properties:

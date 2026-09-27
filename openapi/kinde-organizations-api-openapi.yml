@@ -2201,35 +2201,24 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    error_response:
+    get_organization_users_response:
       type: object
       properties:
-        errors:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        organization_users:
           type: array
           items:
-            $ref: '#/components/schemas/error'
-    property_value:
-      type: object
-      properties:
-        id:
+            $ref: '#/components/schemas/organization_user'
+        next_token:
           type: string
-          example: prop_0192b7e8b4f8ca08110d2b22059662a8
-        name:
-          type: string
-          example: Town
-        description:
-          type:
-          - string
-          - 'null'
-          example: Where the entity is located
-        key:
-          type: string
-          example: kp_town
-        value:
-          type:
-          - string
-          - 'null'
-          example: West-side Staines massive
+          description: Pagination token.
     get_organizations_user_roles_response:
       type: object
       properties:
@@ -2268,26 +2257,6 @@ components:
               description: The billing customer id if the organization was created with the is_create_billing_customer as true
               type: string
               example: customer_1245adbc6789
-    connection:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        connection:
-          type: object
-          properties:
-            id:
-              type: string
-            name:
-              type: string
-            display_name:
-              type: string
-            strategy:
-              type: string
     update_organization_users_response:
       type: object
       properties:
@@ -2312,16 +2281,7 @@ components:
           items:
             type: string
             example: kp_057ee6debc624c70947b6ba512908c35
-    success_response:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-        code:
-          type: string
-          example: OK
-    add_organization_users_response:
+    connection:
       type: object
       properties:
         code:
@@ -2330,33 +2290,48 @@ components:
         message:
           type: string
           description: Response message.
-        users_added:
-          type: array
-          items:
-            type: string
-    get_organization_feature_flags_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        feature_flags:
+        connection:
           type: object
-          description: The environment's feature flag settings.
-          additionalProperties:
-            type: object
-            properties:
-              type:
-                type: string
-                enum:
-                - str
-                - int
-                - bool
-              value:
-                type: string
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            display_name:
+              type: string
+            strategy:
+              type: string
+    organization_item_schema:
+      type: object
+      properties:
+        code:
+          type: string
+          description: The unique identifier for the organization.
+          example: org_1ccfb819462
+        name:
+          type: string
+          description: The organization's name.
+          example: Acme Corp
+        handle:
+          type:
+          - string
+          - 'null'
+          description: A unique handle for the organization - can be used for dynamic callback urls.
+          example: acme_corp
+        is_default:
+          type: boolean
+          description: Whether the organization is the default organization.
+          example: false
+        external_id:
+          type:
+          - string
+          - 'null'
+          description: The organization's external identifier - commonly used when migrating from or mapping to other systems.
+          example: some1234
+        is_auto_membership_enabled:
+          type: boolean
+          example: true
+          description: If users become members of this organization when the org code is supplied during authentication.
     organization_user_permission:
       type: object
       properties:
@@ -2377,6 +2352,158 @@ components:
                 type: string
               key:
                 type: string
+    get_organization_invite_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        id:
+          type: string
+          description: The invitation's unique identifier.
+          example: inv_abc123def456
+        code:
+          type: string
+          description: The invitation's code.
+          example: inv_abc123def456
+        email:
+          type: string
+          description: The email address of the invited user.
+          example: user@example.com
+        first_name:
+          type:
+          - string
+          - 'null'
+          description: The first name of the invited user.
+          example: John
+        last_name:
+          type:
+          - string
+          - 'null'
+          description: The last name of the invited user.
+          example: Doe
+        full_name:
+          type: string
+          description: The full name of the invited user.
+          example: John Doe
+        created_on:
+          type: string
+          format: date-time
+          description: When the invitation was created.
+          example: '2024-11-18T13:32:03+11'
+        is_sent:
+          type: boolean
+          description: Whether the invitation email was sent.
+          example: true
+        accepted_on:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: When the invitation was accepted.
+          example: '2024-11-19T10:15:30+11'
+        roles:
+          type: array
+          description: The roles assigned to the invitation.
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+                description: The role's key.
+                example: admin
+              name:
+                type: string
+                description: The role's name.
+                example: Administrator
+          example:
+          - key: admin
+            name: Administrator
+          - key: manager
+            name: Manager
+        is_revoked:
+          type: boolean
+          description: Whether the invitation has been revoked.
+          example: false
+        invite_link:
+          type: string
+          description: URL to share with the invitee to accept the invitation.
+          example: https://example.kinde.com/team_invitation?code=inv_abc123def456
+    organization_invite:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The invitation's unique identifier.
+          example: inv_abc123def456
+        code:
+          type: string
+          description: The invitation's code.
+          example: inv_abc123def456
+        email:
+          type: string
+          description: The email address of the invited user.
+          example: user@example.com
+        first_name:
+          type:
+          - string
+          - 'null'
+          description: The first name of the invited user.
+          example: John
+        last_name:
+          type:
+          - string
+          - 'null'
+          description: The last name of the invited user.
+          example: Doe
+        full_name:
+          type: string
+          description: The full name of the invited user.
+          example: John Doe
+        created_on:
+          type: string
+          format: date-time
+          description: When the invitation was created.
+          example: '2024-11-18T13:32:03+11'
+        is_sent:
+          type: boolean
+          description: Whether the invitation email was sent.
+          example: true
+        accepted_on:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: When the invitation was accepted.
+          example: '2024-11-19T10:15:30+11'
+        roles:
+          type: array
+          description: The roles assigned to the invitation.
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+                description: The role's key.
+                example: admin
+              name:
+                type: string
+                description: The role's name.
+                example: Administrator
+          example:
+          - key: admin
+            name: Administrator
+          - key: manager
+            name: Manager
+        is_revoked:
+          type: boolean
+          description: Whether the invitation has been revoked.
+          example: false
+        invite_link:
+          type: string
+          description: URL to share with the invitee to accept the invitation.
+          example: https://example.kinde.com/team_invitation?code=inv_abc123def456
     organization_user:
       type: object
       properties:
@@ -2435,6 +2562,216 @@ components:
             type: string
             example: admin
             description: The role's key.
+    get_organization_feature_flags_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        feature_flags:
+          type: object
+          description: The environment's feature flag settings.
+          additionalProperties:
+            type: object
+            properties:
+              type:
+                type: string
+                enum:
+                - str
+                - int
+                - bool
+              value:
+                type: string
+    read_logo_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        logos:
+          type: array
+          description: A list of logos.
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: The type of logo (light or dark).
+                example: light
+              file_name:
+                type: string
+                description: The name of the logo file.
+                example: kinde_light.jpeg
+              path:
+                type: string
+                description: The relative path to the logo file.
+                example: /logo?p_org_code=org_1767f11ce62
+        message:
+          type: string
+          description: Response message.
+          example: Success
+    get_property_values_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/property_value'
+        next_token:
+          description: Pagination token.
+          type: string
+    not_found_response:
+      type: object
+      properties:
+        errors:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ROUTE_NOT_FOUND
+            message:
+              type: string
+              example: The requested API route does not exist
+    get_connections_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/connection'
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    add_organization_users_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        users_added:
+          type: array
+          items:
+            type: string
+    create_organization_invite_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: INVITATION_CREATED
+        message:
+          type: string
+          description: Response message.
+          example: Invitation created
+        invite:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The invitation's unique identifier.
+              example: inv_abc123def456
+            code:
+              type: string
+              description: The invitation's code.
+              example: inv_abc123def456
+            email:
+              type: string
+              description: The email address of the invited user.
+              example: user@example.com
+            first_name:
+              type:
+              - string
+              - 'null'
+              description: The first name of the invited user.
+              example: John
+            last_name:
+              type:
+              - string
+              - 'null'
+              description: The last name of the invited user.
+              example: Doe
+            full_name:
+              type: string
+              description: The full name of the invited user.
+              example: John Doe
+            created_on:
+              type: string
+              format: date-time
+              description: When the invitation was created.
+              example: '2024-11-18T13:32:03+11'
+            is_sent:
+              type: boolean
+              description: Whether the invitation email was sent.
+              example: true
+            accepted_on:
+              type:
+              - string
+              - 'null'
+              format: date-time
+              description: When the invitation was accepted. Always null for a freshly created invitation.
+              example: null
+            roles:
+              type: array
+              description: The roles assigned to the invitation.
+              items:
+                type: object
+                properties:
+                  key:
+                    type: string
+                    description: The role's key.
+                    example: admin
+                  name:
+                    type: string
+                    description: The role's name.
+                    example: Administrator
+              example:
+              - key: admin
+                name: Administrator
+              - key: manager
+                name: Manager
+            is_revoked:
+              type: boolean
+              description: Whether the invitation has been revoked. Always false for a freshly created invitation.
+              example: false
+            invite_link:
+              type: string
+              description: URL to share with the invitee to accept the invitation.
+              example: https://example.kinde.com/team_invitation?code=inv_abc123def456
     get_organization_invites_response:
       type: object
       properties:
@@ -2455,6 +2792,68 @@ components:
           - string
           - 'null'
           description: Pagination token.
+    get_organizations_user_permissions_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/organization_user_permission'
+    get_user_mfa_response:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        mfa:
+          type: object
+          properties:
+            id:
+              description: The MFA's identifier.
+              type: string
+              example: mfa_01933d1ca1f093e7fad48ebcdb65a871
+            type:
+              description: The type of MFA (e.g. email, SMS, authenticator app).
+              type: string
+              example: email
+            created_on:
+              description: The timestamp when the MFA was created.
+              type: string
+              format: date-time
+              example: '2024-11-18T13:31:46.795085+11:00'
+            name:
+              description: The identifier used for MFA (e.g. email address, phone number).
+              type: string
+              example: sally@gmail.com
+            is_verified:
+              description: Whether the MFA is verified or not.
+              type: boolean
+              example: true
+            usage_count:
+              description: The number of times MFA has been used.
+              type: integer
+              example: 2
+            last_used_on:
+              description: The timestamp when the MFA was last used.
+              type: string
+              format: date-time
+              example: '2024-11-18T13:32:07.22538+11:00'
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
     get_organization_response:
       type: object
       properties:
@@ -2715,18 +3114,6 @@ components:
                     type: string
                     example: agreement_a1234b
                     description: The id of the billing agreement in Kinde
-    not_found_response:
-      type: object
-      properties:
-        errors:
-          type: object
-          properties:
-            code:
-              type: string
-              example: ROUTE_NOT_FOUND
-            message:
-              type: string
-              example: The requested API route does not exist
     get_organizations_response:
       type: object
       properties:
@@ -2746,187 +3133,6 @@ components:
           description: Pagination token.
           type: string
           example: Mjo5Om1hbWVfYZNj
-    get_user_mfa_response:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
-        mfa:
-          type: object
-          properties:
-            id:
-              description: The MFA's identifier.
-              type: string
-              example: mfa_01933d1ca1f093e7fad48ebcdb65a871
-            type:
-              description: The type of MFA (e.g. email, SMS, authenticator app).
-              type: string
-              example: email
-            created_on:
-              description: The timestamp when the MFA was created.
-              type: string
-              format: date-time
-              example: '2024-11-18T13:31:46.795085+11:00'
-            name:
-              description: The identifier used for MFA (e.g. email address, phone number).
-              type: string
-              example: sally@gmail.com
-            is_verified:
-              description: Whether the MFA is verified or not.
-              type: boolean
-              example: true
-            usage_count:
-              description: The number of times MFA has been used.
-              type: integer
-              example: 2
-            last_used_on:
-              description: The timestamp when the MFA was last used.
-              type: string
-              format: date-time
-              example: '2024-11-18T13:32:07.22538+11:00'
-    get_property_values_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        properties:
-          type: array
-          items:
-            $ref: '#/components/schemas/property_value'
-        next_token:
-          description: Pagination token.
-          type: string
-    organization_invite:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The invitation's unique identifier.
-          example: inv_abc123def456
-        code:
-          type: string
-          description: The invitation's code.
-          example: inv_abc123def456
-        email:
-          type: string
-          description: The email address of the invited user.
-          example: user@example.com
-        first_name:
-          type:
-          - string
-          - 'null'
-          description: The first name of the invited user.
-          example: John
-        last_name:
-          type:
-          - string
-          - 'null'
-          description: The last name of the invited user.
-          example: Doe
-        full_name:
-          type: string
-          description: The full name of the invited user.
-          example: John Doe
-        created_on:
-          type: string
-          format: date-time
-          description: When the invitation was created.
-          example: '2024-11-18T13:32:03+11'
-        is_sent:
-          type: boolean
-          description: Whether the invitation email was sent.
-          example: true
-        accepted_on:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: When the invitation was accepted.
-          example: '2024-11-19T10:15:30+11'
-        roles:
-          type: array
-          description: The roles assigned to the invitation.
-          items:
-            type: object
-            properties:
-              key:
-                type: string
-                description: The role's key.
-                example: admin
-              name:
-                type: string
-                description: The role's name.
-                example: Administrator
-          example:
-          - key: admin
-            name: Administrator
-          - key: manager
-            name: Manager
-        is_revoked:
-          type: boolean
-          description: Whether the invitation has been revoked.
-          example: false
-        invite_link:
-          type: string
-          description: URL to share with the invitee to accept the invitation.
-          example: https://example.kinde.com/team_invitation?code=inv_abc123def456
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
-    read_logo_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        logos:
-          type: array
-          description: A list of logos.
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-                description: The type of logo (light or dark).
-                example: light
-              file_name:
-                type: string
-                description: The name of the logo file.
-                example: kinde_light.jpeg
-              path:
-                type: string
-                description: The relative path to the logo file.
-                example: /logo?p_org_code=org_1767f11ce62
-        message:
-          type: string
-          description: Response message.
-          example: Success
-    get_organizations_user_permissions_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        permissions:
-          type: array
-          items:
-            $ref: '#/components/schemas/organization_user_permission'
     organization_user_role:
       type: object
       properties:
@@ -2936,249 +3142,31 @@ components:
           type: string
         name:
           type: string
-    create_organization_invite_response:
+    property_value:
       type: object
       properties:
-        code:
-          type: string
-          description: Response code.
-          example: INVITATION_CREATED
-        message:
-          type: string
-          description: Response message.
-          example: Invitation created
-        invite:
-          type: object
-          properties:
-            id:
-              type: string
-              description: The invitation's unique identifier.
-              example: inv_abc123def456
-            code:
-              type: string
-              description: The invitation's code.
-              example: inv_abc123def456
-            email:
-              type: string
-              description: The email address of the invited user.
-              example: user@example.com
-            first_name:
-              type:
-              - string
-              - 'null'
-              description: The first name of the invited user.
-              example: John
-            last_name:
-              type:
-              - string
-              - 'null'
-              description: The last name of the invited user.
-              example: Doe
-            full_name:
-              type: string
-              description: The full name of the invited user.
-              example: John Doe
-            created_on:
-              type: string
-              format: date-time
-              description: When the invitation was created.
-              example: '2024-11-18T13:32:03+11'
-            is_sent:
-              type: boolean
-              description: Whether the invitation email was sent.
-              example: true
-            accepted_on:
-              type:
-              - string
-              - 'null'
-              format: date-time
-              description: When the invitation was accepted. Always null for a freshly created invitation.
-              example: null
-            roles:
-              type: array
-              description: The roles assigned to the invitation.
-              items:
-                type: object
-                properties:
-                  key:
-                    type: string
-                    description: The role's key.
-                    example: admin
-                  name:
-                    type: string
-                    description: The role's name.
-                    example: Administrator
-              example:
-              - key: admin
-                name: Administrator
-              - key: manager
-                name: Manager
-            is_revoked:
-              type: boolean
-              description: Whether the invitation has been revoked. Always false for a freshly created invitation.
-              example: false
-            invite_link:
-              type: string
-              description: URL to share with the invitee to accept the invitation.
-              example: https://example.kinde.com/team_invitation?code=inv_abc123def456
-    organization_item_schema:
-      type: object
-      properties:
-        code:
-          type: string
-          description: The unique identifier for the organization.
-          example: org_1ccfb819462
-        name:
-          type: string
-          description: The organization's name.
-          example: Acme Corp
-        handle:
-          type:
-          - string
-          - 'null'
-          description: A unique handle for the organization - can be used for dynamic callback urls.
-          example: acme_corp
-        is_default:
-          type: boolean
-          description: Whether the organization is the default organization.
-          example: false
-        external_id:
-          type:
-          - string
-          - 'null'
-          description: The organization's external identifier - commonly used when migrating from or mapping to other systems.
-          example: some1234
-        is_auto_membership_enabled:
-          type: boolean
-          example: true
-          description: If users become members of this organization when the org code is supplied during authentication.
-    get_organization_invite_response:
-      type: object
-      properties:
-        message:
-          type: string
-          description: Response message.
-          example: Success
         id:
           type: string
-          description: The invitation's unique identifier.
-          example: inv_abc123def456
-        code:
+          example: prop_0192b7e8b4f8ca08110d2b22059662a8
+        name:
           type: string
-          description: The invitation's code.
-          example: inv_abc123def456
-        email:
-          type: string
-          description: The email address of the invited user.
-          example: user@example.com
-        first_name:
+          example: Town
+        description:
           type:
           - string
           - 'null'
-          description: The first name of the invited user.
-          example: John
-        last_name:
+          example: Where the entity is located
+        key:
+          type: string
+          example: kp_town
+        value:
           type:
           - string
           - 'null'
-          description: The last name of the invited user.
-          example: Doe
-        full_name:
-          type: string
-          description: The full name of the invited user.
-          example: John Doe
-        created_on:
-          type: string
-          format: date-time
-          description: When the invitation was created.
-          example: '2024-11-18T13:32:03+11'
-        is_sent:
-          type: boolean
-          description: Whether the invitation email was sent.
-          example: true
-        accepted_on:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: When the invitation was accepted.
-          example: '2024-11-19T10:15:30+11'
-        roles:
-          type: array
-          description: The roles assigned to the invitation.
-          items:
-            type: object
-            properties:
-              key:
-                type: string
-                description: The role's key.
-                example: admin
-              name:
-                type: string
-                description: The role's name.
-                example: Administrator
-          example:
-          - key: admin
-            name: Administrator
-          - key: manager
-            name: Manager
-        is_revoked:
-          type: boolean
-          description: Whether the invitation has been revoked.
-          example: false
-        invite_link:
-          type: string
-          description: URL to share with the invitee to accept the invitation.
-          example: https://example.kinde.com/team_invitation?code=inv_abc123def456
-    get_connections_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        connections:
-          type: array
-          items:
-            $ref: '#/components/schemas/connection'
-        has_more:
-          description: Whether more records exist.
-          type: boolean
-    get_organization_users_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        message:
-          type: string
-          description: Response message.
-          example: Success
-        organization_users:
-          type: array
-          items:
-            $ref: '#/components/schemas/organization_user'
-        next_token:
-          type: string
-          description: Pagination token.
+          example: West-side Staines massive
   responses:
     bad_request:
       description: Invalid request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    forbidden:
-      description: Unauthorized - invalid credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    too_many_requests:
-      description: Too many requests. Request was throttled.
       content:
         application/json:
           schema:
@@ -3189,6 +3177,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/not_found_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

@@ -100,15 +100,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/error'
-    success_response:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-        code:
-          type: string
-          example: OK
     error:
       type: object
       properties:
@@ -118,6 +109,15 @@ components:
         message:
           type: string
           description: Error message.
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
   responses:
     bad_request:
       description: Invalid request.
@@ -125,14 +125,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-    too_many_requests:
-      description: Too many requests. Request was throttled.
+    forbidden:
+      description: Unauthorized - invalid credentials.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-    forbidden:
-      description: Unauthorized - invalid credentials.
+    too_many_requests:
+      description: Too many requests. Request was throttled.
       content:
         application/json:
           schema:

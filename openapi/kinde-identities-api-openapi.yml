@@ -181,13 +181,6 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
     error:
       type: object
       properties:
@@ -197,15 +190,13 @@ components:
         message:
           type: string
           description: Error message.
-    success_response:
+    error_response:
       type: object
       properties:
-        message:
-          type: string
-          example: Success
-        code:
-          type: string
-          example: OK
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
     identity:
       type: object
       properties:
@@ -246,6 +237,15 @@ components:
           - 'null'
           description: Whether the identity is the primary identity for the user
           example: true
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

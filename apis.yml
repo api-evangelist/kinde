@@ -1644,7 +1644,7 @@ apis:
   - type: OpenAPICanonical
     url: https://api-spec.kinde.com/kinde-frontend-api-spec.yaml
 - aid: kinde:kinde-apis-api
-  name: Kinde AP Is API
+  name: Kinde APIs API
   description: The APIs API from Kinde — 6 operation(s) for apis.
   humanURL: https://docs.kinde.com/mcp-servers/
   baseURL: https://{subdomain}.kinde.com/mcp

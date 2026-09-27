@@ -208,55 +208,6 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
-    get_environment_variable_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        message:
-          type: string
-          description: Response message.
-          example: Success
-        environment_variable:
-          $ref: '#/components/schemas/environment_variable'
-    update_environment_variable_response:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A Kinde generated message.
-          example: Environment variable updated
-        code:
-          type: string
-          description: A Kinde generated status code.
-          example: ENVIRONMENT_VARIABLE_UPDATED
-    create_environment_variable_response:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A Kinde generated message.
-          example: Environment variable created
-        code:
-          type: string
-          description: A Kinde generated status code.
-          example: VARIABLE_CREATED
-        environment_variable:
-          type: object
-          properties:
-            id:
-              description: The unique ID for the environment variable.
-              type: string
-              example: env_var_0192b194f6156fb7452fe38cfb144958
     environment_variable:
       type: object
       properties:
@@ -282,26 +233,13 @@ components:
           type: string
           description: The date the environment variable was created.
           example: '2021-01-01T00:00:00Z'
-    error:
+    error_response:
       type: object
       properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
-    delete_environment_variable_response:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A Kinde generated message.
-          example: Environment variable deleted
-        code:
-          type: string
-          description: A Kinde generated status code.
-          example: ENVIRONMENT_VARIABLE_DELETED
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
     get_environment_variables_response:
       type: object
       properties:
@@ -320,6 +258,68 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/environment_variable'
+    create_environment_variable_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A Kinde generated message.
+          example: Environment variable created
+        code:
+          type: string
+          description: A Kinde generated status code.
+          example: VARIABLE_CREATED
+        environment_variable:
+          type: object
+          properties:
+            id:
+              description: The unique ID for the environment variable.
+              type: string
+              example: env_var_0192b194f6156fb7452fe38cfb144958
+    update_environment_variable_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A Kinde generated message.
+          example: Environment variable updated
+        code:
+          type: string
+          description: A Kinde generated status code.
+          example: ENVIRONMENT_VARIABLE_UPDATED
+    get_environment_variable_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        environment_variable:
+          $ref: '#/components/schemas/environment_variable'
+    delete_environment_variable_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A Kinde generated message.
+          example: Environment variable deleted
+        code:
+          type: string
+          description: A Kinde generated status code.
+          example: ENVIRONMENT_VARIABLE_DELETED
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
   responses:
     bad_request:
       description: Invalid request.

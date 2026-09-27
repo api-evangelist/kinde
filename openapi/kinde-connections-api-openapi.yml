@@ -916,47 +916,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/error'
-    connection:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        connection:
-          type: object
-          properties:
-            id:
-              type: string
-            name:
-              type: string
-            display_name:
-              type: string
-            strategy:
-              type: string
-    success_response:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-        code:
-          type: string
-          example: OK
-    not_found_response:
-      type: object
-      properties:
-        errors:
-          type: object
-          properties:
-            code:
-              type: string
-              example: ROUTE_NOT_FOUND
-            message:
-              type: string
-              example: The requested API route does not exist
     create_connection_response:
       type: object
       properties:
@@ -995,27 +954,68 @@ components:
         message:
           type: string
           description: Error message.
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+    not_found_response:
+      type: object
+      properties:
+        errors:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ROUTE_NOT_FOUND
+            message:
+              type: string
+              example: The requested API route does not exist
+    connection:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        connection:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            display_name:
+              type: string
+            strategy:
+              type: string
   responses:
-    bad_request:
-      description: Invalid request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    too_many_requests:
-      description: Too many requests. Request was throttled.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
     not_found:
       description: The specified resource was not found
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/not_found_response'
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
     forbidden:
       description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
       content:
         application/json:
           schema:

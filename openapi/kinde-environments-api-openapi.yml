@@ -352,41 +352,40 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/error'
-    success_response:
+    error:
       type: object
       properties:
-        message:
-          type: string
-          example: Success
         code:
           type: string
-          example: OK
-    get_environment_feature_flags_response:
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    read_env_logo_response:
       type: object
       properties:
         code:
           type: string
           description: Response code.
-        message:
-          type: string
-          description: Response message.
-        feature_flags:
-          type: object
-          description: The environment's feature flag settings.
-          additionalProperties:
+          example: OK
+        logos:
+          type: array
+          description: A list of logos.
+          items:
             type: object
             properties:
               type:
                 type: string
-                enum:
-                - str
-                - int
-                - bool
-              value:
+                description: The type of logo (light or dark).
+                example: light
+              file_name:
                 type: string
-        next_token:
+                description: The name of the logo file.
+                example: kinde_light.jpeg
+        message:
           type: string
-          description: Pagination token.
+          description: Response message.
+          example: Success
     get_environment_response:
       type: object
       properties:
@@ -617,40 +616,41 @@ components:
               type: string
               description: Date of environment creation in ISO 8601 format.
               example: '2021-01-01T00:00:00Z'
-    read_env_logo_response:
+    get_environment_feature_flags_response:
       type: object
       properties:
         code:
           type: string
           description: Response code.
-          example: OK
-        logos:
-          type: array
-          description: A list of logos.
-          items:
+        message:
+          type: string
+          description: Response message.
+        feature_flags:
+          type: object
+          description: The environment's feature flag settings.
+          additionalProperties:
             type: object
             properties:
               type:
                 type: string
-                description: The type of logo (light or dark).
-                example: light
-              file_name:
+                enum:
+                - str
+                - int
+                - bool
+              value:
                 type: string
-                description: The name of the logo file.
-                example: kinde_light.jpeg
-        message:
+        next_token:
           type: string
-          description: Response message.
-          example: Success
-    error:
+          description: Pagination token.
+    success_response:
       type: object
       properties:
-        code:
-          type: string
-          description: Error code.
         message:
           type: string
-          description: Error message.
+          example: Success
+        code:
+          type: string
+          example: OK
   responses:
     bad_request:
       description: Invalid request.
@@ -658,14 +658,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-    too_many_requests:
-      description: Too many requests. Request was throttled.
+    forbidden:
+      description: Unauthorized - invalid credentials.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-    forbidden:
-      description: Unauthorized - invalid credentials.
+    too_many_requests:
+      description: Too many requests. Request was throttled.
       content:
         application/json:
           schema:

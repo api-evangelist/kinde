@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   version: '1'
-  title: Kinde Management AP Is API
+  title: Kinde Management APIs API
   description: 'Provides endpoints to manage your Kinde Businesses.
 
 
@@ -526,60 +526,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/error'
-    get_api_scopes_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        message:
-          type: string
-          description: Response message.
-          example: success_response
-        scopes:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                description: Unique ID of the API scope.
-                example: api_scope_01939128c3d7193ae87c4755213c07c6
-              key:
-                type: string
-                description: The scope's reference key.
-                example: read:logs
-              description:
-                type: string
-                description: Explanation of the scope purpose.
-                example: Read logs scope
-    get_api_scope_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        message:
-          type: string
-          description: Response message.
-          example: success_response
-        scope:
-          type: object
-          properties:
-            id:
-              type: string
-              description: Unique ID of the API scope.
-              example: api_scope_01939128c3d7193ae87c4755213c07c6
-            key:
-              type: string
-              description: The scope's reference key.
-              example: read:logs
-            description:
-              type: string
-              description: Explanation of the scope purpose.
-              example: Read logs scope
     delete_api_response:
       type: object
       properties:
@@ -589,6 +535,15 @@ components:
         code:
           type: string
           example: API_DELETED
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
     authorize_app_api_response:
       type: object
       properties:
@@ -607,24 +562,6 @@ components:
           items:
             type: string
             example: d2db282d6214242b3b145c123f0c123
-    create_apis_response:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A Kinde generated message.
-          example: Success
-        code:
-          type: string
-          description: A Kinde generated status code.
-          example: OK
-        api:
-          type: object
-          properties:
-            id:
-              description: The unique ID for the API.
-              type: string
-              example: 7ccd126599aa422a771abcb341596881
     get_apis_response:
       type: object
       properties:
@@ -672,15 +609,52 @@ components:
                     key:
                       type: string
                       example: create:apis
-    error:
+    get_api_scopes_response:
       type: object
       properties:
         code:
           type: string
-          description: Error code.
+          description: Response code.
+          example: OK
         message:
           type: string
-          description: Error message.
+          description: Response message.
+          example: success_response
+        scopes:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Unique ID of the API scope.
+                example: api_scope_01939128c3d7193ae87c4755213c07c6
+              key:
+                type: string
+                description: The scope's reference key.
+                example: read:logs
+              description:
+                type: string
+                description: Explanation of the scope purpose.
+                example: Read logs scope
+    create_apis_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A Kinde generated message.
+          example: Success
+        code:
+          type: string
+          description: A Kinde generated status code.
+          example: OK
+        api:
+          type: object
+          properties:
+            id:
+              description: The unique ID for the API.
+              type: string
+              example: 7ccd126599aa422a771abcb341596881
     get_api_response:
       type: object
       properties:
@@ -752,6 +726,32 @@ components:
                     - 'null'
                     description: Whether or not the application is authorized to access the API
                     example: true
+    get_api_scope_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: success_response
+        scope:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Unique ID of the API scope.
+              example: api_scope_01939128c3d7193ae87c4755213c07c6
+            key:
+              type: string
+              description: The scope's reference key.
+              example: read:logs
+            description:
+              type: string
+              description: Explanation of the scope purpose.
+              example: Read logs scope
     create_api_scopes_response:
       type: object
       properties:
@@ -777,14 +777,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-    too_many_requests:
-      description: Too many requests. Request was throttled.
+    forbidden:
+      description: Unauthorized - invalid credentials.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-    forbidden:
-      description: Unauthorized - invalid credentials.
+    too_many_requests:
+      description: Too many requests. Request was throttled.
       content:
         application/json:
           schema:

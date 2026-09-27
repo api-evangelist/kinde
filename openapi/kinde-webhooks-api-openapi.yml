@@ -361,65 +361,6 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    delete_webhook_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
-    get_event_types_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        event_types:
-          type: array
-          items:
-            $ref: '#/components/schemas/event_type'
-    update_webhook_response:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
-        webhook:
-          type: object
-          properties:
-            id:
-              type: string
-    webhook:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        endpoint:
-          type: string
-        description:
-          type: string
-        event_types:
-          type: array
-          items:
-            type: string
-        created_on:
-          type: string
-          description: Created on date in ISO 8601 format.
     get_event_response:
       type: object
       properties:
@@ -444,6 +385,31 @@ components:
             data:
               type: object
               description: Event specific data object.
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    delete_webhook_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
     event_type:
       type: object
       properties:
@@ -457,15 +423,36 @@ components:
           type: string
         schema:
           type: object
-    error:
+    webhook:
       type: object
       properties:
-        code:
+        id:
           type: string
-          description: Error code.
+        name:
+          type: string
+        endpoint:
+          type: string
+        description:
+          type: string
+        event_types:
+          type: array
+          items:
+            type: string
+        created_on:
+          type: string
+          description: Created on date in ISO 8601 format.
+    update_webhook_response:
+      type: object
+      properties:
         message:
           type: string
-          description: Error message.
+        code:
+          type: string
+        webhook:
+          type: object
+          properties:
+            id:
+              type: string
     create_webhook_response:
       type: object
       properties:
@@ -482,6 +469,19 @@ components:
               type: string
             endpoint:
               type: string
+    get_event_types_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        event_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/event_type'
     get_webhooks_response:
       type: object
       properties:

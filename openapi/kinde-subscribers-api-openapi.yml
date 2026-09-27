@@ -217,6 +217,19 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
+    subscribers_subscriber:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        full_name:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
     error_response:
       type: object
       properties:
@@ -240,14 +253,12 @@ components:
         next_token:
           description: Pagination token.
           type: string
-    subscribers_subscriber:
+    subscriber:
       type: object
       properties:
         id:
           type: string
-        email:
-          type: string
-        full_name:
+        preferred_email:
           type: string
         first_name:
           type: string
@@ -262,17 +273,6 @@ components:
             subscriber_id:
               type: string
               description: A unique identifier for the subscriber.
-    subscriber:
-      type: object
-      properties:
-        id:
-          type: string
-        preferred_email:
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
     error:
       type: object
       properties:
