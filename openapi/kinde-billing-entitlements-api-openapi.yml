@@ -136,13 +136,6 @@ components:
         message:
           type: string
           description: Error message.
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
     get_billing_entitlements_response:
       type: object
       properties:
@@ -205,6 +198,13 @@ components:
                 type: string
                 format: date-time
                 example: '2024-11-18T13:32:03+11'
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

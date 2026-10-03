@@ -909,13 +909,27 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    error_response:
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    not_found_response:
       type: object
       properties:
         errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
+          type: object
+          properties:
+            code:
+              type: string
+              example: ROUTE_NOT_FOUND
+            message:
+              type: string
+              example: The requested API route does not exist
     create_connection_response:
       type: object
       properties:
@@ -929,52 +943,6 @@ components:
             id:
               description: The connection's ID.
               type: string
-    get_connections_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        connections:
-          type: array
-          items:
-            $ref: '#/components/schemas/connection'
-        has_more:
-          description: Whether more records exist.
-          type: boolean
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
-    success_response:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-        code:
-          type: string
-          example: OK
-    not_found_response:
-      type: object
-      properties:
-        errors:
-          type: object
-          properties:
-            code:
-              type: string
-              example: ROUTE_NOT_FOUND
-            message:
-              type: string
-              example: The requested API route does not exist
     connection:
       type: object
       properties:
@@ -995,15 +963,41 @@ components:
               type: string
             strategy:
               type: string
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    get_connections_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/connection'
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
   responses:
-    not_found:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/not_found_response'
-    bad_request:
-      description: Invalid request.
+    too_many_requests:
+      description: Too many requests. Request was throttled.
       content:
         application/json:
           schema:
@@ -1014,12 +1008,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-    too_many_requests:
-      description: Too many requests. Request was throttled.
+    bad_request:
+      description: Invalid request.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
+    not_found:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/not_found_response'
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

@@ -295,6 +295,27 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    not_found_response:
+      type: object
+      properties:
+        errors:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ROUTE_NOT_FOUND
+            message:
+              type: string
+              example: The requested API route does not exist
     get_directories_response:
       type: object
       properties:
@@ -320,6 +341,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/error'
+    delete_directory_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: DIRECTORY_DELETED
+        message:
+          type: string
+          description: Response message.
+          example: SCIM directory deleted successfully
     create_directory_response:
       type: object
       properties:
@@ -344,6 +376,19 @@ components:
           type: string
           description: Response message.
           example: SCIM directory updated successfully
+        directory:
+          $ref: '#/components/schemas/directory'
+    get_directory_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
         directory:
           $ref: '#/components/schemas/directory'
     directory:
@@ -404,60 +449,9 @@ components:
           format: date-time
           description: When the directory was created.
           example: '2024-11-18T13:32:03+11'
-    delete_directory_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: DIRECTORY_DELETED
-        message:
-          type: string
-          description: Response message.
-          example: SCIM directory deleted successfully
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
-    get_directory_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        message:
-          type: string
-          description: Response message.
-          example: Success
-        directory:
-          $ref: '#/components/schemas/directory'
-    not_found_response:
-      type: object
-      properties:
-        errors:
-          type: object
-          properties:
-            code:
-              type: string
-              example: ROUTE_NOT_FOUND
-            message:
-              type: string
-              example: The requested API route does not exist
   responses:
-    not_found:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/not_found_response'
-    bad_request:
-      description: Invalid request.
+    too_many_requests:
+      description: Too many requests. Request was throttled.
       content:
         application/json:
           schema:
@@ -468,12 +462,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-    too_many_requests:
-      description: Too many requests. Request was throttled.
+    bad_request:
+      description: Invalid request.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
+    not_found:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/not_found_response'
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

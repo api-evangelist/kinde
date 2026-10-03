@@ -508,13 +508,44 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    error_response:
+    applications:
       type: object
       properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    connection:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        connection:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            display_name:
+              type: string
+            strategy:
+              type: string
     get_application_response:
       type: object
       properties:
@@ -562,56 +593,6 @@ components:
               description: Whether the application has a cancel button to allow users to exit the auth flow [Beta].
               type: boolean
               example: false
-    success_response:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-        code:
-          type: string
-          example: OK
-    get_applications_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        applications:
-          type: array
-          items:
-            $ref: '#/components/schemas/applications'
-        next_token:
-          description: Pagination token.
-          type: string
-    applications:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        type:
-          type: string
-    get_connections_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        connections:
-          type: array
-          items:
-            $ref: '#/components/schemas/connection'
-        has_more:
-          description: Whether more records exist.
-          type: boolean
     property_value:
       type: object
       properties:
@@ -634,15 +615,45 @@ components:
           - string
           - 'null'
           example: West-side Staines massive
-    error:
+    get_connections_response:
       type: object
       properties:
         code:
           type: string
-          description: Error code.
+          description: Response code.
         message:
           type: string
-          description: Error message.
+          description: Response message.
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/connection'
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+    get_property_values_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/property_value'
+        next_token:
+          description: Pagination token.
+          type: string
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
     create_application_response:
       type: object
       properties:
@@ -667,7 +678,7 @@ components:
               description: The application's client secret.
               type: string
               example: sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC
-    get_property_values_response:
+    get_applications_response:
       type: object
       properties:
         code:
@@ -676,33 +687,41 @@ components:
         message:
           type: string
           description: Response message.
-        properties:
+        applications:
           type: array
           items:
-            $ref: '#/components/schemas/property_value'
+            $ref: '#/components/schemas/applications'
         next_token:
           description: Pagination token.
           type: string
-    connection:
+    success_response:
       type: object
       properties:
-        code:
-          type: string
-          description: Response code.
         message:
           type: string
-          description: Response message.
-        connection:
-          type: object
-          properties:
-            id:
-              type: string
-            name:
-              type: string
-            display_name:
-              type: string
-            strategy:
-              type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+  responses:
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
   parameters:
     application_id:
       in: path
@@ -720,25 +739,6 @@ components:
       schema:
         type: string
         example: kp_some_key
-  responses:
-    bad_request:
-      description: Invalid request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    forbidden:
-      description: Unauthorized - invalid credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    too_many_requests:
-      description: Too many requests. Request was throttled.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

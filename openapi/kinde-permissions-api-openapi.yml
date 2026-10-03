@@ -329,13 +329,15 @@ components:
               type: string
               description: The ID of the last record on the current page.
               example: perm_0195ac80a14e8d71f42b98e75d3c61ad
-    error_response:
+    error:
       type: object
       properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
     get_permissions_response:
       type: object
       properties:
@@ -352,6 +354,13 @@ components:
         next_token:
           type: string
           description: Pagination token.
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
     permissions:
       type: object
       properties:
@@ -367,15 +376,6 @@ components:
         description:
           type: string
           description: The permission's description.
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
     success_response:
       type: object
       properties:

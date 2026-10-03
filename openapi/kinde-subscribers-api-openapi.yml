@@ -217,6 +217,33 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    subscriber:
+      type: object
+      properties:
+        id:
+          type: string
+        preferred_email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
     subscribers_subscriber:
       type: object
       properties:
@@ -230,13 +257,6 @@ components:
           type: string
         last_name:
           type: string
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
     get_subscribers_response:
       type: object
       properties:
@@ -253,17 +273,6 @@ components:
         next_token:
           description: Pagination token.
           type: string
-    subscriber:
-      type: object
-      properties:
-        id:
-          type: string
-        preferred_email:
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
     create_subscriber_success_response:
       type: object
       properties:
@@ -273,15 +282,6 @@ components:
             subscriber_id:
               type: string
               description: A unique identifier for the subscriber.
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
     get_subscriber_response:
       type: object
       properties:

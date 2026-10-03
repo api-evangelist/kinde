@@ -61,13 +61,6 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
     error:
       type: object
       properties:
@@ -77,6 +70,13 @@ components:
         message:
           type: string
           description: Error message.
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
     get_industries_response:
       type: object
       properties:
@@ -102,6 +102,12 @@ components:
                 description: The display name for the industry.
                 example: Administration & Office Support
   responses:
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
     bad_request:
       description: Invalid request.
       content:
@@ -110,12 +116,6 @@ components:
             $ref: '#/components/schemas/error_response'
     forbidden:
       description: Unauthorized - invalid credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    too_many_requests:
-      description: Too many requests. Request was throttled.
       content:
         application/json:
           schema:

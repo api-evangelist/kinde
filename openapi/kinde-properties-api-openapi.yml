@@ -366,6 +366,31 @@ components:
               type: string
               description: The ID of the last record on the current page.
               example: prop_0195ac80a14e8d71f42b98e75d3c61ad
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    get_properties_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/property'
+        has_more:
+          description: Whether more records exist.
+          type: boolean
     error_response:
       type: object
       properties:
@@ -386,6 +411,15 @@ components:
             id:
               description: The property's ID.
               type: string
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
     property:
       type: object
       properties:
@@ -400,40 +434,6 @@ components:
         description:
           type: string
         is_kinde_property:
-          type: boolean
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
-    success_response:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-        code:
-          type: string
-          example: OK
-    get_properties_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        properties:
-          type: array
-          items:
-            $ref: '#/components/schemas/property'
-        has_more:
-          description: Whether more records exist.
           type: boolean
   securitySchemes:
     kindeBearerAuth:

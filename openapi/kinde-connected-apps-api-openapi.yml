@@ -209,31 +209,6 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
-    connected_apps_access_token:
-      type: object
-      properties:
-        access_token:
-          type: string
-          description: The access token to access a third-party provider.
-        access_token_expiry:
-          type: string
-          description: The date and time that the access token expires.
-    connected_apps_auth_url:
-      type: object
-      properties:
-        url:
-          type: string
-          description: A URL that is used to authenticate an end-user against a connected app.
-        session_id:
-          type: string
-          description: A unique identifier for the login session.
     error:
       type: object
       properties:
@@ -243,6 +218,31 @@ components:
         message:
           type: string
           description: Error message.
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    connected_apps_auth_url:
+      type: object
+      properties:
+        url:
+          type: string
+          description: A URL that is used to authenticate an end-user against a connected app.
+        session_id:
+          type: string
+          description: A unique identifier for the login session.
+    connected_apps_access_token:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: The access token to access a third-party provider.
+        access_token_expiry:
+          type: string
+          description: The date and time that the access token expires.
     success_response:
       type: object
       properties:

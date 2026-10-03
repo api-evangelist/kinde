@@ -1017,98 +1017,76 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    update_user_response:
+    get_user_sessions_response:
       type: object
       properties:
-        id:
-          type: string
-          description: Unique ID of the user in Kinde.
-        given_name:
-          type: string
-          description: User's first name.
-        family_name:
-          type: string
-          description: User's last name.
-        email:
-          type: string
-          description: User's preferred email.
-        is_suspended:
-          type: boolean
-          description: Whether the user is currently suspended or not.
-        is_password_reset_requested:
-          type: boolean
-          description: Whether a password reset has been requested.
-        picture:
-          type:
-          - string
-          - 'null'
-          description: User's profile picture URL.
-    get_identities_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        identities:
-          type: array
-          items:
-            $ref: '#/components/schemas/identity'
-        has_more:
-          description: Whether more records exist.
-          type: boolean
-    create_user_response:
-      type: object
-      properties:
-        id:
-          description: Unique ID of the user in Kinde.
-          type: string
-        created:
-          description: True if the user was successfully created.
-          type: boolean
-        identities:
-          type: array
-          items:
-            $ref: '#/components/schemas/user_identity'
-    success_response:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
         code:
           type: string
           example: OK
-    get_property_values_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
         message:
           type: string
-          description: Response message.
-        properties:
+          example: Success
+        has_more:
+          type: boolean
+          example: false
+        sessions:
           type: array
           items:
-            $ref: '#/components/schemas/property_value'
-        next_token:
-          description: Pagination token.
-          type: string
-    not_found_response:
-      type: object
-      properties:
-        errors:
-          type: object
-          properties:
-            code:
-              type: string
-              example: ROUTE_NOT_FOUND
-            message:
-              type: string
-              example: The requested API route does not exist
+            type: object
+            properties:
+              user_id:
+                description: The unique identifier of the user associated with the session.
+                type: string
+                example: kp_5fc30d0547734f30aca617450202169f
+              org_code:
+                description: The organization code associated with the session, if applicable.
+                type:
+                - string
+                - 'null'
+                example: org_1ccfb819462
+              client_id:
+                description: The client ID used to initiate the session.
+                type: string
+                example: 3b0b5c6c8fcc464fab397f4969b5f482
+              expires_on:
+                description: The timestamp indicating when the session will expire.
+                type: string
+                format: date-time
+                example: '2025-04-02T13:04:20.315701+11:00'
+              session_id:
+                description: The unique identifier of the session.
+                type: string
+                example: session_0xc75ec12fe8434ffc9d527794f00692e5
+              started_on:
+                description: The timestamp when the session was initiated.
+                type: string
+                format: date-time
+                example: '2025-04-01T13:04:20.315701+11:00'
+              updated_on:
+                description: The timestamp of the last update to the session.
+                type: string
+                format: date-time
+                example: '2025-04-01T13:04:20+11'
+              connection_id:
+                description: The identifier of the connection through which the session was established.
+                type: string
+                example: conn_75ab8ec0faae4f73bae9fc64daf120c9
+              last_ip_address:
+                description: The last known IP address of the user during this session.
+                type: string
+                example: 192.168.65.1
+              last_user_agent:
+                description: The last known user agent (browser or app) used during this session.
+                type: string
+                example: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+              initial_ip_address:
+                description: The IP address from which the session was initially started.
+                type: string
+                example: 192.168.65.1
+              initial_user_agent:
+                description: The user agent (browser or app) used when the session was first created.
+                type: string
+                example: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
     error_response:
       type: object
       properties:
@@ -1116,178 +1094,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/error'
-    identity:
-      type: object
-      properties:
-        id:
-          type: string
-          description: The unique ID for the identity
-          example: identity_019617f0cd72460a42192cf37b41084f
-        type:
-          type: string
-          description: The type of identity
-          example: email
-        is_confirmed:
-          type: boolean
-          description: Whether the identity is confirmed
-          example: true
-        created_on:
-          type: string
-          description: Date of user creation in ISO 8601 format
-          example: '2025-01-01T00:00:00Z'
-        last_login_on:
-          type: string
-          description: Date of last login in ISO 8601 format
-          example: '2025-01-05T00:00:00Z'
-        total_logins:
-          type: integer
-          example: 20
-        name:
-          type: string
-          description: The value of the identity
-          example: sally@example.com
-        email:
-          type: string
-          description: The associated email of the identity
-          example: sally@example.com
-        is_primary:
-          type:
-          - boolean
-          - 'null'
-          description: Whether the identity is the primary identity for the user
-          example: true
-    create_identity_response:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
-        identity:
-          type: object
-          properties:
-            id:
-              description: The identity's ID.
-              type: string
-    user:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique ID of the user in Kinde.
-        provided_id:
-          type: string
-          description: External ID for user.
-        preferred_email:
-          type: string
-          description: Default email address of the user in Kinde.
-        phone:
-          type: string
-          description: User's primary phone number.
-        username:
-          type: string
-          description: Primary username of the user in Kinde.
-        last_name:
-          type: string
-          description: User's last name.
-        first_name:
-          type: string
-          description: User's first name.
-        is_suspended:
-          type: boolean
-          description: Whether the user is currently suspended or not.
-        picture:
-          type: string
-          description: User's profile picture URL.
-        total_sign_ins:
-          type:
-          - integer
-          - 'null'
-          description: Total number of user sign ins.
-        failed_sign_ins:
-          type:
-          - integer
-          - 'null'
-          description: Number of consecutive failed user sign ins.
-        last_signed_in:
-          type:
-          - string
-          - 'null'
-          description: Last sign in date in ISO 8601 format.
-        created_on:
-          type:
-          - string
-          - 'null'
-          description: Date of user creation in ISO 8601 format.
-        organizations:
-          type: array
-          description: Array of organizations a user belongs to.
-          items:
-            type: string
-        identities:
-          type: array
-          description: Array of identities belonging to the user.
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-              identity:
-                type: string
-        billing:
-          type: object
-          properties:
-            customer_id:
-              type: string
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
-    get_user_mfa_response:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
-        mfa:
-          type: object
-          properties:
-            id:
-              description: The MFA's identifier.
-              type: string
-              example: mfa_01933d1ca1f093e7fad48ebcdb65a871
-            type:
-              description: The type of MFA (e.g. email, SMS, authenticator app).
-              type: string
-              example: email
-            created_on:
-              description: The timestamp when the MFA was created.
-              type: string
-              format: date-time
-              example: '2024-11-18T13:31:46.795085+11:00'
-            name:
-              description: The identifier used for MFA (e.g. email address, phone number).
-              type: string
-              example: sally@gmail.com
-            is_verified:
-              description: Whether the MFA is verified or not.
-              type: boolean
-              example: true
-            usage_count:
-              description: The number of times MFA has been used.
-              type: integer
-              example: 2
-            last_used_on:
-              description: The timestamp when the MFA was last used.
-              type: string
-              format: date-time
-              example: '2024-11-18T13:32:07.22538+11:00'
     users_response:
       type: object
       properties:
@@ -1391,6 +1197,15 @@ components:
         next_token:
           type: string
           description: Pagination token.
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
     user_identity:
       type: object
       properties:
@@ -1404,6 +1219,88 @@ components:
             created:
               type: boolean
               description: True if the user identity was successfully created.
+    not_found_response:
+      type: object
+      properties:
+        errors:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ROUTE_NOT_FOUND
+            message:
+              type: string
+              example: The requested API route does not exist
+    user:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique ID of the user in Kinde.
+        provided_id:
+          type: string
+          description: External ID for user.
+        preferred_email:
+          type: string
+          description: Default email address of the user in Kinde.
+        phone:
+          type: string
+          description: User's primary phone number.
+        username:
+          type: string
+          description: Primary username of the user in Kinde.
+        last_name:
+          type: string
+          description: User's last name.
+        first_name:
+          type: string
+          description: User's first name.
+        is_suspended:
+          type: boolean
+          description: Whether the user is currently suspended or not.
+        picture:
+          type: string
+          description: User's profile picture URL.
+        total_sign_ins:
+          type:
+          - integer
+          - 'null'
+          description: Total number of user sign ins.
+        failed_sign_ins:
+          type:
+          - integer
+          - 'null'
+          description: Number of consecutive failed user sign ins.
+        last_signed_in:
+          type:
+          - string
+          - 'null'
+          description: Last sign in date in ISO 8601 format.
+        created_on:
+          type:
+          - string
+          - 'null'
+          description: Date of user creation in ISO 8601 format.
+        organizations:
+          type: array
+          description: Array of organizations a user belongs to.
+          items:
+            type: string
+        identities:
+          type: array
+          description: Array of identities belonging to the user.
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              identity:
+                type: string
+        billing:
+          type: object
+          properties:
+            customer_id:
+              type: string
     property_value:
       type: object
       properties:
@@ -1426,76 +1323,179 @@ components:
           - string
           - 'null'
           example: West-side Staines massive
-    get_user_sessions_response:
+    get_property_values_response:
       type: object
       properties:
         code:
           type: string
-          example: OK
+          description: Response code.
         message:
           type: string
-          example: Success
-        has_more:
-          type: boolean
-          example: false
-        sessions:
+          description: Response message.
+        properties:
           type: array
           items:
-            type: object
-            properties:
-              user_id:
-                description: The unique identifier of the user associated with the session.
-                type: string
-                example: kp_5fc30d0547734f30aca617450202169f
-              org_code:
-                description: The organization code associated with the session, if applicable.
-                type:
-                - string
-                - 'null'
-                example: org_1ccfb819462
-              client_id:
-                description: The client ID used to initiate the session.
-                type: string
-                example: 3b0b5c6c8fcc464fab397f4969b5f482
-              expires_on:
-                description: The timestamp indicating when the session will expire.
-                type: string
-                format: date-time
-                example: '2025-04-02T13:04:20.315701+11:00'
-              session_id:
-                description: The unique identifier of the session.
-                type: string
-                example: session_0xc75ec12fe8434ffc9d527794f00692e5
-              started_on:
-                description: The timestamp when the session was initiated.
-                type: string
-                format: date-time
-                example: '2025-04-01T13:04:20.315701+11:00'
-              updated_on:
-                description: The timestamp of the last update to the session.
-                type: string
-                format: date-time
-                example: '2025-04-01T13:04:20+11'
-              connection_id:
-                description: The identifier of the connection through which the session was established.
-                type: string
-                example: conn_75ab8ec0faae4f73bae9fc64daf120c9
-              last_ip_address:
-                description: The last known IP address of the user during this session.
-                type: string
-                example: 192.168.65.1
-              last_user_agent:
-                description: The last known user agent (browser or app) used during this session.
-                type: string
-                example: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
-              initial_ip_address:
-                description: The IP address from which the session was initially started.
-                type: string
-                example: 192.168.65.1
-              initial_user_agent:
-                description: The user agent (browser or app) used when the session was first created.
-                type: string
-                example: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36
+            $ref: '#/components/schemas/property_value'
+        next_token:
+          description: Pagination token.
+          type: string
+    get_identities_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        identities:
+          type: array
+          items:
+            $ref: '#/components/schemas/identity'
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+    identity:
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID for the identity
+          example: identity_019617f0cd72460a42192cf37b41084f
+        type:
+          type: string
+          description: The type of identity
+          example: email
+        is_confirmed:
+          type: boolean
+          description: Whether the identity is confirmed
+          example: true
+        created_on:
+          type: string
+          description: Date of user creation in ISO 8601 format
+          example: '2025-01-01T00:00:00Z'
+        last_login_on:
+          type: string
+          description: Date of last login in ISO 8601 format
+          example: '2025-01-05T00:00:00Z'
+        total_logins:
+          type: integer
+          example: 20
+        name:
+          type: string
+          description: The value of the identity
+          example: sally@example.com
+        email:
+          type: string
+          description: The associated email of the identity
+          example: sally@example.com
+        is_primary:
+          type:
+          - boolean
+          - 'null'
+          description: Whether the identity is the primary identity for the user
+          example: true
+    get_user_mfa_response:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        mfa:
+          type: object
+          properties:
+            id:
+              description: The MFA's identifier.
+              type: string
+              example: mfa_01933d1ca1f093e7fad48ebcdb65a871
+            type:
+              description: The type of MFA (e.g. email, SMS, authenticator app).
+              type: string
+              example: email
+            created_on:
+              description: The timestamp when the MFA was created.
+              type: string
+              format: date-time
+              example: '2024-11-18T13:31:46.795085+11:00'
+            name:
+              description: The identifier used for MFA (e.g. email address, phone number).
+              type: string
+              example: sally@gmail.com
+            is_verified:
+              description: Whether the MFA is verified or not.
+              type: boolean
+              example: true
+            usage_count:
+              description: The number of times MFA has been used.
+              type: integer
+              example: 2
+            last_used_on:
+              description: The timestamp when the MFA was last used.
+              type: string
+              format: date-time
+              example: '2024-11-18T13:32:07.22538+11:00'
+    create_identity_response:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        identity:
+          type: object
+          properties:
+            id:
+              description: The identity's ID.
+              type: string
+    create_user_response:
+      type: object
+      properties:
+        id:
+          description: Unique ID of the user in Kinde.
+          type: string
+        created:
+          description: True if the user was successfully created.
+          type: boolean
+        identities:
+          type: array
+          items:
+            $ref: '#/components/schemas/user_identity'
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    update_user_response:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique ID of the user in Kinde.
+        given_name:
+          type: string
+          description: User's first name.
+        family_name:
+          type: string
+          description: User's last name.
+        email:
+          type: string
+          description: User's preferred email.
+        is_suspended:
+          type: boolean
+          description: Whether the user is currently suspended or not.
+        is_password_reset_requested:
+          type: boolean
+          description: Whether a password reset has been requested.
+        picture:
+          type:
+          - string
+          - 'null'
+          description: User's profile picture URL.
   responses:
     bad_request:
       description: Invalid request.

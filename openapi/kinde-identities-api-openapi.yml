@@ -190,13 +190,6 @@ components:
         message:
           type: string
           description: Error message.
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
     identity:
       type: object
       properties:
@@ -246,6 +239,13 @@ components:
         code:
           type: string
           example: OK
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

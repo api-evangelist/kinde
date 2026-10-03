@@ -638,28 +638,6 @@ components:
               type: string
               description: The ID of the last record on the current page.
               example: role_0195ac80a14e8d71f42b98e75d3c61ad
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
-    update_role_permissions_response:
-      type: object
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        permissions_added:
-          type: array
-          items:
-            type: string
-        permissions_removed:
-          type: array
-          items:
-            type: string
     error:
       type: object
       properties:
@@ -680,6 +658,63 @@ components:
           type: string
           description: Response message.
           example: Scope deleted from role
+    create_roles_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        role:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The role's ID.
+    get_roles_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/roles'
+        next_token:
+          description: Pagination token.
+          type: string
+    scopes:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Scope ID.
+          example: api_scope_019541f3fa0c874fc47b3ae73585b21c
+        key:
+          type: string
+          description: Scope key.
+          example: create:users
+        description:
+          type: string
+          description: Description of scope.
+          example: Create users
+        api_id:
+          type: string
+          description: API ID.
+          example: 3635b4431f174de6b789c67481bd0c7a
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
     add_role_scope_response:
       type: object
       properties:
@@ -711,37 +746,6 @@ components:
         is_default_role:
           type: boolean
           description: Whether the role is the default role.
-    create_roles_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        role:
-          type: object
-          properties:
-            id:
-              type: string
-              description: The role's ID.
-    role_permissions_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        permissions:
-          type: array
-          items:
-            $ref: '#/components/schemas/permissions'
-        next_token:
-          type: string
-          description: Pagination token.
     permissions:
       type: object
       properties:
@@ -757,21 +761,21 @@ components:
         description:
           type: string
           description: The permission's description.
-    role_scopes_response:
+    update_role_permissions_response:
       type: object
       properties:
         code:
           type: string
-          description: Response code.
-          example: OK
         message:
           type: string
-          description: Response message.
-          example: Success
-        scopes:
+        permissions_added:
           type: array
           items:
-            $ref: '#/components/schemas/scopes'
+            type: string
+        permissions_removed:
+          type: array
+          items:
+            type: string
     get_role_response:
       type: object
       properties:
@@ -804,6 +808,21 @@ components:
               type: boolean
               description: Whether the role is the default role.
               example: false
+    role_scopes_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        scopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/scopes'
     success_response:
       type: object
       properties:
@@ -813,26 +832,7 @@ components:
         code:
           type: string
           example: OK
-    scopes:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Scope ID.
-          example: api_scope_019541f3fa0c874fc47b3ae73585b21c
-        key:
-          type: string
-          description: Scope key.
-          example: create:users
-        description:
-          type: string
-          description: Description of scope.
-          example: Create users
-        api_id:
-          type: string
-          description: API ID.
-          example: 3635b4431f174de6b789c67481bd0c7a
-    get_roles_response:
+    role_permissions_response:
       type: object
       properties:
         code:
@@ -841,20 +841,14 @@ components:
         message:
           type: string
           description: Response message.
-        roles:
+        permissions:
           type: array
           items:
-            $ref: '#/components/schemas/roles'
+            $ref: '#/components/schemas/permissions'
         next_token:
-          description: Pagination token.
           type: string
+          description: Pagination token.
   responses:
-    bad_request:
-      description: Invalid request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
     too_many_requests:
       description: Too many requests. Request was throttled.
       content:
@@ -863,6 +857,12 @@ components:
             $ref: '#/components/schemas/error_response'
     forbidden:
       description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    bad_request:
+      description: Invalid request.
       content:
         application/json:
           schema:
