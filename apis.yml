@@ -37,6 +37,9 @@ accessModel:
   generated: '2026-09-03'
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/kinde.png
+x-docs-platform: scalar
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-10-03
 tags:
   - Authentication
   - Authorization
@@ -1755,6 +1758,9 @@ apis:
   - type: OpenAPICanonical
     url: https://api-spec.kinde.com/kinde-frontend-api-spec.yaml
 common:
+  - type: CapabilityMap
+    url: capabilities/kinde-capability-edges.yml
+    name: Kinde Business Capability Map
   - type: Website
     url: https://www.kinde.com/
     name: Kinde Business Capability Map
