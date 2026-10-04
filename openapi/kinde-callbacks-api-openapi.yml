@@ -406,16 +406,26 @@ paths:
       security:
       - kindeBearerAuth: []
 components:
+  responses:
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
   schemas:
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
     error_response:
       type: object
       properties:
@@ -439,14 +449,6 @@ components:
           type: string
           description: Response message.
           example: Success
-    redirect_callback_urls:
-      type: object
-      properties:
-        redirect_urls:
-          type: array
-          description: An application's redirect URLs.
-          items:
-            type: string
     success_response:
       type: object
       properties:
@@ -456,25 +458,23 @@ components:
         code:
           type: string
           example: OK
-  responses:
-    too_many_requests:
-      description: Too many requests. Request was throttled.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    bad_request:
-      description: Invalid request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    forbidden:
-      description: Unauthorized - invalid credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    redirect_callback_urls:
+      type: object
+      properties:
+        redirect_urls:
+          type: array
+          description: An application's redirect URLs.
+          items:
+            type: string
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

@@ -319,37 +319,67 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
-    rotate_api_key_response:
+    verify_api_key_response:
       type: object
       properties:
         code:
           type: string
           description: Response code.
-          example: API_KEY_ROTATED
+          example: API_KEY_VERIFIED
         message:
           type: string
           description: Response message.
-          example: API key rotated successfully
-        api_key:
-          type: object
-          properties:
-            id:
-              type: string
-              description: The unique ID for the API key.
-              example: api_key_0195ac80a14e8d71f42b98e75d3c61ad
-            key:
-              type: string
-              description: The new API key value (only shown once).
-              example: k_live_1234567890abcdef1234567890abcdef
+          example: API key verified
+        is_valid:
+          type: boolean
+          description: Whether the API key is valid.
+          example: true
+        key_id:
+          type: string
+          description: The unique ID for the API key.
+          example: api_key_0195ac80a14e8d71f42b98e75d3c61ad
+        status:
+          type: string
+          description: The status of the API key.
+          example: active
+        scopes:
+          type: array
+          description: Array of scopes associated with this key.
+          items:
+            type: string
+          example:
+          - read:users
+          - write:users
+        org_code:
+          type:
+          - string
+          - 'null'
+          description: The organization code associated with this key.
+          example: org_123
+        user_id:
+          type:
+          - string
+          - 'null'
+          description: The user ID associated with this key.
+          example: user_456
+        last_verified_on:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: When the API key was last verified.
+          example: '2024-11-18T13:32:03+11'
+        verification_count:
+          type: integer
+          description: Number of times this API key has been verified.
+          example: 42
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
     not_found_response:
       type: object
       properties:
@@ -362,6 +392,28 @@ components:
             message:
               type: string
               example: The requested API route does not exist
+    create_api_key_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A Kinde generated message.
+          example: API key created
+        code:
+          type: string
+          description: A Kinde generated status code.
+          example: API_KEY_CREATED
+        api_key:
+          type: object
+          properties:
+            id:
+              description: The unique ID for the API key.
+              type: string
+              example: api_key_0195ac80a14e8d71f42b98e75d3c61ad
+            key:
+              description: The API key value (only shown once on creation).
+              type: string
+              example: k_live_1234567890abcdef
     get_api_keys_response:
       type: object
       properties:
@@ -447,6 +499,28 @@ components:
                 example:
                 - read:users
                 - write:users
+    rotate_api_key_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: API_KEY_ROTATED
+        message:
+          type: string
+          description: Response message.
+          example: API key rotated successfully
+        api_key:
+          type: object
+          properties:
+            id:
+              type: string
+              description: The unique ID for the API key.
+              example: api_key_0195ac80a14e8d71f42b98e75d3c61ad
+            key:
+              type: string
+              description: The new API key value (only shown once).
+              example: k_live_1234567890abcdef1234567890abcdef
     get_api_key_response:
       type: object
       properties:
@@ -545,89 +619,6 @@ components:
               - 'null'
               description: The user ID associated with this key.
               example: user_456
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
-    create_api_key_response:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A Kinde generated message.
-          example: API key created
-        code:
-          type: string
-          description: A Kinde generated status code.
-          example: API_KEY_CREATED
-        api_key:
-          type: object
-          properties:
-            id:
-              description: The unique ID for the API key.
-              type: string
-              example: api_key_0195ac80a14e8d71f42b98e75d3c61ad
-            key:
-              description: The API key value (only shown once on creation).
-              type: string
-              example: k_live_1234567890abcdef
-    verify_api_key_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: API_KEY_VERIFIED
-        message:
-          type: string
-          description: Response message.
-          example: API key verified
-        is_valid:
-          type: boolean
-          description: Whether the API key is valid.
-          example: true
-        key_id:
-          type: string
-          description: The unique ID for the API key.
-          example: api_key_0195ac80a14e8d71f42b98e75d3c61ad
-        status:
-          type: string
-          description: The status of the API key.
-          example: active
-        scopes:
-          type: array
-          description: Array of scopes associated with this key.
-          items:
-            type: string
-          example:
-          - read:users
-          - write:users
-        org_code:
-          type:
-          - string
-          - 'null'
-          description: The organization code associated with this key.
-          example: org_123
-        user_id:
-          type:
-          - string
-          - 'null'
-          description: The user ID associated with this key.
-          example: user_456
-        last_verified_on:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          description: When the API key was last verified.
-          example: '2024-11-18T13:32:03+11'
-        verification_count:
-          type: integer
-          description: Number of times this API key has been verified.
-          example: 42
     success_response:
       type: object
       properties:
@@ -637,15 +628,18 @@ components:
         code:
           type: string
           example: OK
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
   responses:
     forbidden:
       description: Unauthorized - invalid credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    too_many_requests:
-      description: Too many requests. Request was throttled.
       content:
         application/json:
           schema:
@@ -662,6 +656,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/not_found_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

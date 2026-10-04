@@ -221,15 +221,6 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
     error_response:
       type: object
       properties:
@@ -250,6 +241,31 @@ components:
             id:
               description: The category's ID.
               type: string
+    category:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
     get_categories_response:
       type: object
       properties:
@@ -266,22 +282,6 @@ components:
         has_more:
           description: Whether more records exist.
           type: boolean
-    category:
-      type: object
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-    success_response:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-        code:
-          type: string
-          example: OK
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

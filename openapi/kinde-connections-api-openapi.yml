@@ -908,16 +908,39 @@ paths:
       security:
       - kindeBearerAuth: []
 components:
+  responses:
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    not_found:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/not_found_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
   schemas:
-    error:
+    error_response:
       type: object
       properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
     not_found_response:
       type: object
       properties:
@@ -930,19 +953,6 @@ components:
             message:
               type: string
               example: The requested API route does not exist
-    create_connection_response:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
-        connection:
-          type: object
-          properties:
-            id:
-              description: The connection's ID.
-              type: string
     connection:
       type: object
       properties:
@@ -963,13 +973,6 @@ components:
               type: string
             strategy:
               type: string
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
     get_connections_response:
       type: object
       properties:
@@ -995,31 +998,28 @@ components:
         code:
           type: string
           example: OK
-  responses:
-    too_many_requests:
-      description: Too many requests. Request was throttled.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    forbidden:
-      description: Unauthorized - invalid credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    bad_request:
-      description: Invalid request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    not_found:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/not_found_response'
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    create_connection_response:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        connection:
+          type: object
+          properties:
+            id:
+              description: The connection's ID.
+              type: string
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

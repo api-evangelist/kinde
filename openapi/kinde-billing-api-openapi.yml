@@ -93,62 +93,6 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    get_entitlement_response:
-      type: object
-      properties:
-        data:
-          type: object
-          properties:
-            org_code:
-              type: string
-              description: The organization code the entitlements are associated with.
-              example: org_0195ac80a14e
-            entitlement:
-              type: object
-              description: The entitlement data
-              properties:
-                id:
-                  type: string
-                  description: The friendly ID of an entitlement
-                  example: entitlement_0195ac80a14e8d71f42b98e75d3c61ad
-                fixed_charge:
-                  type:
-                  - integer
-                  - 'null'
-                  description: The price charged if this is an entitlement for a fixed charged
-                  example: null
-                price_name:
-                  type: string
-                  description: The name of the price associated with the entitlement
-                  example: Seats
-                unit_amount:
-                  type:
-                  - integer
-                  - 'null'
-                  description: The price charged for this entitlement in cents
-                  example: null
-                feature_key:
-                  type: string
-                  description: The key of the feature corresponding to this entitlement
-                  example: seats
-                feature_name:
-                  type: string
-                  description: The name of the feature corresponding to this entitlement
-                  example: Seats
-                entitlement_limit_max:
-                  type:
-                  - integer
-                  - 'null'
-                  description: The maximum number of units of the feature the customer is entitled to
-                  example: 10
-                entitlement_limit_min:
-                  type:
-                  - integer
-                  - 'null'
-                  description: The minimum number of units of the feature the customer is entitled to
-                  example: null
-        metadata:
-          type: object
     get_entitlements_response:
       type: object
       properties:
@@ -235,6 +179,62 @@ components:
               type: string
               description: The ID of the last record on the current page.
               example: entitlement_0195ac80a14e8d71f42b98e75d3c61ad
+    get_entitlement_response:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            org_code:
+              type: string
+              description: The organization code the entitlements are associated with.
+              example: org_0195ac80a14e
+            entitlement:
+              type: object
+              description: The entitlement data
+              properties:
+                id:
+                  type: string
+                  description: The friendly ID of an entitlement
+                  example: entitlement_0195ac80a14e8d71f42b98e75d3c61ad
+                fixed_charge:
+                  type:
+                  - integer
+                  - 'null'
+                  description: The price charged if this is an entitlement for a fixed charged
+                  example: null
+                price_name:
+                  type: string
+                  description: The name of the price associated with the entitlement
+                  example: Seats
+                unit_amount:
+                  type:
+                  - integer
+                  - 'null'
+                  description: The price charged for this entitlement in cents
+                  example: null
+                feature_key:
+                  type: string
+                  description: The key of the feature corresponding to this entitlement
+                  example: seats
+                feature_name:
+                  type: string
+                  description: The name of the feature corresponding to this entitlement
+                  example: Seats
+                entitlement_limit_max:
+                  type:
+                  - integer
+                  - 'null'
+                  description: The maximum number of units of the feature the customer is entitled to
+                  example: 10
+                entitlement_limit_min:
+                  type:
+                  - integer
+                  - 'null'
+                  description: The minimum number of units of the feature the customer is entitled to
+                  example: null
+        metadata:
+          type: object
   securitySchemes:
     kindeBearerAuth:
       description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.

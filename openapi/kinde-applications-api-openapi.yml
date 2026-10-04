@@ -508,6 +508,46 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
+    get_property_values_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/property_value'
+        next_token:
+          description: Pagination token.
+          type: string
+    create_application_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        application:
+          type: object
+          properties:
+            id:
+              description: The application's identifier.
+              type: string
+              example: 3b0b5c6c8fcc464fab397f4969b5f482
+            client_id:
+              description: The application's client ID.
+              type: string
+              example: 3b0b5c6c8fcc464fab397f4969b5f482
+            client_secret:
+              description: The application's client secret.
+              type: string
+              example: sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC
     applications:
       type: object
       properties:
@@ -517,15 +557,29 @@ components:
           type: string
         type:
           type: string
-    error:
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    get_applications_response:
       type: object
       properties:
         code:
           type: string
-          description: Error code.
+          description: Response code.
         message:
           type: string
-          description: Error message.
+          description: Response message.
+        applications:
+          type: array
+          items:
+            $ref: '#/components/schemas/applications'
+        next_token:
+          description: Pagination token.
+          type: string
     connection:
       type: object
       properties:
@@ -546,6 +600,31 @@ components:
               type: string
             strategy:
               type: string
+    get_connections_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/connection'
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
     get_application_response:
       type: object
       properties:
@@ -593,6 +672,15 @@ components:
               description: Whether the application has a cancel button to allow users to exit the auth flow [Beta].
               type: boolean
               example: false
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
     property_value:
       type: object
       properties:
@@ -615,101 +703,24 @@ components:
           - string
           - 'null'
           example: West-side Staines massive
-    get_connections_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        connections:
-          type: array
-          items:
-            $ref: '#/components/schemas/connection'
-        has_more:
-          description: Whether more records exist.
-          type: boolean
-    get_property_values_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        properties:
-          type: array
-          items:
-            $ref: '#/components/schemas/property_value'
-        next_token:
-          description: Pagination token.
-          type: string
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
-    create_application_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        application:
-          type: object
-          properties:
-            id:
-              description: The application's identifier.
-              type: string
-              example: 3b0b5c6c8fcc464fab397f4969b5f482
-            client_id:
-              description: The application's client ID.
-              type: string
-              example: 3b0b5c6c8fcc464fab397f4969b5f482
-            client_secret:
-              description: The application's client secret.
-              type: string
-              example: sUJSHI3ZQEVTJkx6hOxdOSHaLsZkCBRFLzTNOI791rX8mDjgt7LC
-    get_applications_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
-        applications:
-          type: array
-          items:
-            $ref: '#/components/schemas/applications'
-        next_token:
-          description: Pagination token.
-          type: string
-    success_response:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-        code:
-          type: string
-          example: OK
+  parameters:
+    property_key:
+      in: path
+      name: property_key
+      description: The property's key.
+      required: true
+      schema:
+        type: string
+        example: kp_some_key
+    application_id:
+      in: path
+      name: application_id
+      description: The application's ID / client ID.
+      required: true
+      schema:
+        type: string
+        example: 3b0b5c6c8fcc464fab397f4969b5f482
   responses:
-    too_many_requests:
-      description: Too many requests. Request was throttled.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
     forbidden:
       description: Unauthorized - invalid credentials.
       content:
@@ -722,23 +733,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-  parameters:
-    application_id:
-      in: path
-      name: application_id
-      description: The application's ID / client ID.
-      required: true
-      schema:
-        type: string
-        example: 3b0b5c6c8fcc464fab397f4969b5f482
-    property_key:
-      in: path
-      name: property_key
-      description: The property's key.
-      required: true
-      schema:
-        type: string
-        example: kp_some_key
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

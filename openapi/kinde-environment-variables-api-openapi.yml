@@ -208,46 +208,17 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
-    get_environment_variable_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        message:
-          type: string
-          description: Response message.
-          example: Success
-        environment_variable:
-          $ref: '#/components/schemas/environment_variable'
-    create_environment_variable_response:
+    update_environment_variable_response:
       type: object
       properties:
         message:
           type: string
           description: A Kinde generated message.
-          example: Environment variable created
+          example: Environment variable updated
         code:
           type: string
           description: A Kinde generated status code.
-          example: VARIABLE_CREATED
-        environment_variable:
-          type: object
-          properties:
-            id:
-              description: The unique ID for the environment variable.
-              type: string
-              example: env_var_0192b194f6156fb7452fe38cfb144958
+          example: ENVIRONMENT_VARIABLE_UPDATED
     error_response:
       type: object
       properties:
@@ -255,35 +226,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/error'
-    delete_environment_variable_response:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A Kinde generated message.
-          example: Environment variable deleted
-        code:
-          type: string
-          description: A Kinde generated status code.
-          example: ENVIRONMENT_VARIABLE_DELETED
-    get_environment_variables_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        message:
-          type: string
-          description: Response message.
-          example: Success
-        has_more:
-          description: Whether more records exist.
-          type: boolean
-        environment_variables:
-          type: array
-          items:
-            $ref: '#/components/schemas/environment_variable'
     environment_variable:
       type: object
       properties:
@@ -309,24 +251,76 @@ components:
           type: string
           description: The date the environment variable was created.
           example: '2021-01-01T00:00:00Z'
-    update_environment_variable_response:
+    delete_environment_variable_response:
       type: object
       properties:
         message:
           type: string
           description: A Kinde generated message.
-          example: Environment variable updated
+          example: Environment variable deleted
         code:
           type: string
           description: A Kinde generated status code.
-          example: ENVIRONMENT_VARIABLE_UPDATED
+          example: ENVIRONMENT_VARIABLE_DELETED
+    get_environment_variable_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        environment_variable:
+          $ref: '#/components/schemas/environment_variable'
+    get_environment_variables_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        has_more:
+          description: Whether more records exist.
+          type: boolean
+        environment_variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/environment_variable'
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    create_environment_variable_response:
+      type: object
+      properties:
+        message:
+          type: string
+          description: A Kinde generated message.
+          example: Environment variable created
+        code:
+          type: string
+          description: A Kinde generated status code.
+          example: VARIABLE_CREATED
+        environment_variable:
+          type: object
+          properties:
+            id:
+              description: The unique ID for the environment variable.
+              type: string
+              example: env_var_0192b194f6156fb7452fe38cfb144958
   responses:
-    too_many_requests:
-      description: Too many requests. Request was throttled.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
     forbidden:
       description: Unauthorized - invalid credentials.
       content:
@@ -335,6 +329,12 @@ components:
             $ref: '#/components/schemas/error_response'
     bad_request:
       description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
       content:
         application/json:
           schema:

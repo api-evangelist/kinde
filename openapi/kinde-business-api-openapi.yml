@@ -153,7 +153,42 @@ paths:
       security:
       - kindeBearerAuth: []
 components:
+  responses:
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
   schemas:
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
     error:
       type: object
       properties:
@@ -163,13 +198,6 @@ components:
         message:
           type: string
           description: Error message.
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
     get_business_response:
       type: object
       properties:
@@ -240,34 +268,6 @@ components:
               type: string
               description: Date of business creation in ISO 8601 format.
               example: '2021-01-01T00:00:00Z'
-    success_response:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-        code:
-          type: string
-          example: OK
-  responses:
-    too_many_requests:
-      description: Too many requests. Request was throttled.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    bad_request:
-      description: Invalid request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    forbidden:
-      description: Unauthorized - invalid credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

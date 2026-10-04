@@ -366,30 +366,20 @@ components:
               type: string
               description: The ID of the last record on the current page.
               example: prop_0195ac80a14e8d71f42b98e75d3c61ad
-    error:
+    property:
       type: object
       properties:
-        code:
+        id:
           type: string
-          description: Error code.
-        message:
+        key:
           type: string
-          description: Error message.
-    get_properties_response:
-      type: object
-      properties:
-        code:
+        name:
           type: string
-          description: Response code.
-        message:
+        is_private:
+          type: boolean
+        description:
           type: string
-          description: Response message.
-        properties:
-          type: array
-          items:
-            $ref: '#/components/schemas/property'
-        has_more:
-          description: Whether more records exist.
+        is_kinde_property:
           type: boolean
     error_response:
       type: object
@@ -411,6 +401,22 @@ components:
             id:
               description: The property's ID.
               type: string
+    get_properties_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/property'
+        has_more:
+          description: Whether more records exist.
+          type: boolean
     success_response:
       type: object
       properties:
@@ -420,21 +426,15 @@ components:
         code:
           type: string
           example: OK
-    property:
+    error:
       type: object
       properties:
-        id:
+        code:
           type: string
-        key:
+          description: Error code.
+        message:
           type: string
-        name:
-          type: string
-        is_private:
-          type: boolean
-        description:
-          type: string
-        is_kinde_property:
-          type: boolean
+          description: Error message.
   securitySchemes:
     kindeBearerAuth:
       description: 'To access these endpoints, you will need to use a user token. This can be obtained when your users sign in via the methods you''ve setup in Kinde (e.g. Google, passwordless, etc). Find this using the getToken command in the relevant SDK.

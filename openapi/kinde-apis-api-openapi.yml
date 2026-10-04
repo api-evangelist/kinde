@@ -519,33 +519,6 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
-    create_api_scopes_response:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A Kinde generated message.
-          example: Success
-        code:
-          type: string
-          description: A Kinde generated status code.
-          example: OK
-        scope:
-          type: object
-          properties:
-            id:
-              description: The unique ID for the API scope.
-              type: string
-              example: api_scope_0193ab57965aef77b2b687d0ef673713
     get_api_response:
       type: object
       properties:
@@ -617,6 +590,24 @@ components:
                     - 'null'
                     description: Whether or not the application is authorized to access the API
                     example: true
+    authorize_app_api_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: API applications updated
+        code:
+          type: string
+          example: API_APPLICATIONS_UPDATED
+        applications_disconnected:
+          type: array
+          items:
+            type: string
+        applications_connected:
+          type: array
+          items:
+            type: string
+            example: d2db282d6214242b3b145c123f0c123
     error_response:
       type: object
       properties:
@@ -624,24 +615,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/error'
-    create_apis_response:
-      type: object
-      properties:
-        message:
-          type: string
-          description: A Kinde generated message.
-          example: Success
-        code:
-          type: string
-          description: A Kinde generated status code.
-          example: OK
-        api:
-          type: object
-          properties:
-            id:
-              description: The unique ID for the API.
-              type: string
-              example: 7ccd126599aa422a771abcb341596881
     get_apis_response:
       type: object
       properties:
@@ -689,34 +662,24 @@ components:
                     key:
                       type: string
                       example: create:apis
-    get_api_scopes_response:
+    create_apis_response:
       type: object
       properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
         message:
           type: string
-          description: Response message.
-          example: success_response
-        scopes:
-          type: array
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                description: Unique ID of the API scope.
-                example: api_scope_01939128c3d7193ae87c4755213c07c6
-              key:
-                type: string
-                description: The scope's reference key.
-                example: read:logs
-              description:
-                type: string
-                description: Explanation of the scope purpose.
-                example: Read logs scope
+          description: A Kinde generated message.
+          example: Success
+        code:
+          type: string
+          description: A Kinde generated status code.
+          example: OK
+        api:
+          type: object
+          properties:
+            id:
+              description: The unique ID for the API.
+              type: string
+              example: 7ccd126599aa422a771abcb341596881
     get_api_scope_response:
       type: object
       properties:
@@ -752,33 +715,70 @@ components:
         code:
           type: string
           example: API_DELETED
-    authorize_app_api_response:
+    create_api_scopes_response:
       type: object
       properties:
         message:
           type: string
-          example: API applications updated
+          description: A Kinde generated message.
+          example: Success
         code:
           type: string
-          example: API_APPLICATIONS_UPDATED
-        applications_disconnected:
+          description: A Kinde generated status code.
+          example: OK
+        scope:
+          type: object
+          properties:
+            id:
+              description: The unique ID for the API scope.
+              type: string
+              example: api_scope_0193ab57965aef77b2b687d0ef673713
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    get_api_scopes_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: success_response
+        scopes:
           type: array
           items:
-            type: string
-        applications_connected:
-          type: array
-          items:
-            type: string
-            example: d2db282d6214242b3b145c123f0c123
+            type: object
+            properties:
+              id:
+                type: string
+                description: Unique ID of the API scope.
+                example: api_scope_01939128c3d7193ae87c4755213c07c6
+              key:
+                type: string
+                description: The scope's reference key.
+                example: read:logs
+              description:
+                type: string
+                description: Explanation of the scope purpose.
+                example: Read logs scope
   responses:
-    bad_request:
-      description: Invalid request.
+    forbidden:
+      description: Unauthorized - invalid credentials.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-    forbidden:
-      description: Unauthorized - invalid credentials.
+    bad_request:
+      description: Invalid request.
       content:
         application/json:
           schema:

@@ -217,26 +217,6 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
-    subscriber:
-      type: object
-      properties:
-        id:
-          type: string
-        preferred_email:
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
     error_response:
       type: object
       properties:
@@ -273,6 +253,17 @@ components:
         next_token:
           description: Pagination token.
           type: string
+    subscriber:
+      type: object
+      properties:
+        id:
+          type: string
+        preferred_email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
     create_subscriber_success_response:
       type: object
       properties:
@@ -295,6 +286,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/subscriber'
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

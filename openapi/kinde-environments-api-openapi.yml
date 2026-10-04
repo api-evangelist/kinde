@@ -344,16 +344,26 @@ paths:
       security:
       - kindeBearerAuth: []
 components:
+  responses:
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    bad_request:
+      description: Invalid request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
   schemas:
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
     error_response:
       type: object
       properties:
@@ -361,6 +371,31 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/error'
+    read_env_logo_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        logos:
+          type: array
+          description: A list of logos.
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                description: The type of logo (light or dark).
+                example: light
+              file_name:
+                type: string
+                description: The name of the logo file.
+                example: kinde_light.jpeg
+        message:
+          type: string
+          description: Response message.
+          example: Success
     get_environment_feature_flags_response:
       type: object
       properties:
@@ -387,6 +422,24 @@ components:
         next_token:
           type: string
           description: Pagination token.
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
     get_environment_response:
       type: object
       properties:
@@ -617,59 +670,6 @@ components:
               type: string
               description: Date of environment creation in ISO 8601 format.
               example: '2021-01-01T00:00:00Z'
-    read_env_logo_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        logos:
-          type: array
-          description: A list of logos.
-          items:
-            type: object
-            properties:
-              type:
-                type: string
-                description: The type of logo (light or dark).
-                example: light
-              file_name:
-                type: string
-                description: The name of the logo file.
-                example: kinde_light.jpeg
-        message:
-          type: string
-          description: Response message.
-          example: Success
-    success_response:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-        code:
-          type: string
-          example: OK
-  responses:
-    too_many_requests:
-      description: Too many requests. Request was throttled.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    bad_request:
-      description: Invalid request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    forbidden:
-      description: Unauthorized - invalid credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

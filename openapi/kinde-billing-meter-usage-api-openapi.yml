@@ -96,22 +96,6 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
     create_meter_usage_record_response:
       type: object
       properties:
@@ -123,9 +107,25 @@ components:
           type: string
           description: Response code.
           example: OK
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
   responses:
-    too_many_requests:
-      description: Too many requests. Request was throttled.
+    forbidden:
+      description: Unauthorized - invalid credentials.
       content:
         application/json:
           schema:
@@ -136,8 +136,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
-    forbidden:
-      description: Unauthorized - invalid credentials.
+    too_many_requests:
+      description: Too many requests. Request was throttled.
       content:
         application/json:
           schema:

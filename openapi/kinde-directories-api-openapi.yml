@@ -295,15 +295,63 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    error:
+    delete_directory_response:
       type: object
       properties:
         code:
           type: string
-          description: Error code.
+          description: Response code.
+          example: DIRECTORY_DELETED
         message:
           type: string
-          description: Error message.
+          description: Response message.
+          example: SCIM directory deleted successfully
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    get_directory_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        directory:
+          $ref: '#/components/schemas/directory'
+    create_directory_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: DIRECTORY_CREATED
+        message:
+          type: string
+          description: Response message.
+          example: SCIM directory created successfully
+        directory:
+          $ref: '#/components/schemas/directory'
+    update_directory_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: DIRECTORY_UPDATED
+        message:
+          type: string
+          description: Response message.
+          example: SCIM directory updated successfully
+        directory:
+          $ref: '#/components/schemas/directory'
     not_found_response:
       type: object
       properties:
@@ -334,63 +382,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/directory'
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
-    delete_directory_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: DIRECTORY_DELETED
-        message:
-          type: string
-          description: Response message.
-          example: SCIM directory deleted successfully
-    create_directory_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: DIRECTORY_CREATED
-        message:
-          type: string
-          description: Response message.
-          example: SCIM directory created successfully
-        directory:
-          $ref: '#/components/schemas/directory'
-    update_directory_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: DIRECTORY_UPDATED
-        message:
-          type: string
-          description: Response message.
-          example: SCIM directory updated successfully
-        directory:
-          $ref: '#/components/schemas/directory'
-    get_directory_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        message:
-          type: string
-          description: Response message.
-          example: Success
-        directory:
-          $ref: '#/components/schemas/directory'
     directory:
       type: object
       properties:
@@ -449,13 +440,16 @@ components:
           format: date-time
           description: When the directory was created.
           example: '2024-11-18T13:32:03+11'
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
   responses:
-    too_many_requests:
-      description: Too many requests. Request was throttled.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
     forbidden:
       description: Unauthorized - invalid credentials.
       content:
@@ -474,6 +468,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/not_found_response'
+    too_many_requests:
+      description: Too many requests. Request was throttled.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

@@ -361,16 +361,7 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
-    get_webhooks_response:
+    get_event_types_response:
       type: object
       properties:
         code:
@@ -379,42 +370,10 @@ components:
         message:
           type: string
           description: Response message.
-        webhooks:
+        event_types:
           type: array
           items:
-            $ref: '#/components/schemas/webhook'
-    event_type:
-      type: object
-      properties:
-        id:
-          type: string
-        code:
-          type: string
-        name:
-          type: string
-        origin:
-          type: string
-        schema:
-          type: object
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
-    update_webhook_response:
-      type: object
-      properties:
-        message:
-          type: string
-        code:
-          type: string
-        webhook:
-          type: object
-          properties:
-            id:
-              type: string
+            $ref: '#/components/schemas/event_type'
     create_webhook_response:
       type: object
       properties:
@@ -431,6 +390,35 @@ components:
               type: string
             endpoint:
               type: string
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    delete_webhook_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+        message:
+          type: string
+          description: Response message.
+    event_type:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        name:
+          type: string
+        origin:
+          type: string
+        schema:
+          type: object
     get_event_response:
       type: object
       properties:
@@ -455,7 +443,19 @@ components:
             data:
               type: object
               description: Event specific data object.
-    get_event_types_response:
+    update_webhook_response:
+      type: object
+      properties:
+        message:
+          type: string
+        code:
+          type: string
+        webhook:
+          type: object
+          properties:
+            id:
+              type: string
+    get_webhooks_response:
       type: object
       properties:
         code:
@@ -464,10 +464,19 @@ components:
         message:
           type: string
           description: Response message.
-        event_types:
+        webhooks:
           type: array
           items:
-            $ref: '#/components/schemas/event_type'
+            $ref: '#/components/schemas/webhook'
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
     webhook:
       type: object
       properties:
@@ -486,15 +495,6 @@ components:
         created_on:
           type: string
           description: Created on date in ISO 8601 format.
-    delete_webhook_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-        message:
-          type: string
-          description: Response message.
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.
