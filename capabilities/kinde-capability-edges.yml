@@ -1,0 +1,136 @@
+slug: kinde
+provider: Kinde
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 12
+edges:
+- tag: Feature Flags
+  spec_file: kinde-feature-flags-api-openapi.yml
+  capability_id: BC-4210.50
+  capability_id_l1: BC-4210
+  capability_name: Feature Flag Management
+  confidence: 0.9
+  evidence: POST /api/v1/feature_flags CreateFeatureFlag 'Create Feature Flag'; DELETE /api/v1/feature_flags/{feature_flag_key}
+  reason: Explicit lifecycle management of feature flags (create, replace, delete) plus retrieval of flags
+    for an authenticated account — exactly Feature Flag Management.
+- tag: Billing Meter Usage
+  spec_file: kinde-billing-meter-usage-api-openapi.yml
+  capability_id: BC-4250.10
+  capability_id_l1: BC-4250
+  capability_name: Usage Metering
+  confidence: 0.85
+  evidence: POST /api/v1/billing/meter_usage  createMeterUsageRecord  Create meter usage record
+  reason: The endpoint ingests metered usage records that feed downstream rating and billing — a textbook
+    usage-metering surface for a consumption-billed SaaS product.
+- tag: Roles
+  spec_file: kinde-roles-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.85
+  evidence: PATCH /api/v1/roles/{role_id}/permissions UpdateRolePermissions 'Update role permissions';
+    GET /api/v1/roles/{role_id}/scopes 'Get role scopes'
+  reason: 'Role-based access control: roles, scopes and role-permission assignments. Classic Identity
+    & Access Management surface.'
+- tag: Permissions
+  spec_file: kinde-permissions-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.82
+  evidence: POST /api/v1/permissions CreatePermission 'Create Permission'; GET /account_api/v1/permissions
+    GetUserPermissions
+  reason: Defines and assigns permissions governing user access — authorisation management, squarely Identity
+    & Access Management.
+- tag: Identities
+  spec_file: kinde-identities-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.78
+  evidence: GET /api/v1/identities/{identity_id} GetIdentity 'Get identity'; schema 'identity'
+  reason: Kinde is a customer identity platform and these operations manage end-user identity records
+    (the credentials/identifiers attached to a user). Identity & Access Management is the honest fit;
+    it is not customer master data in a CRM sense.
+- tag: OAuth
+  spec_file: kinde-oauth-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.78
+  evidence: POST /oauth2/introspect tokenIntrospection 'Introspect'; POST /oauth2/revoke tokenRevocation
+    'Revoke token'
+  reason: Token introspection/revocation and authenticated user profile retrieval are authentication and
+    access-token lifecycle operations, i.e. Identity & Access Management rather than any business-domain
+    capability.
+- tag: Billing
+  spec_file: kinde-billing-api-openapi.yml
+  capability_id: BC-4240.70
+  capability_id_l1: BC-4240
+  capability_name: Entitlement Enforcement
+  confidence: 0.75
+  evidence: GET /account_api/v1/entitlements  GetEntitlements  Get entitlements; GET /account_api/v1/entitlement  GetEntitlement  Get
+    entitlement
+  reason: Despite the 'Billing' tag, the operations resolve the authenticated user's entitlements at runtime
+    — i.e. what the customer is entitled to use — which is entitlement resolution/enforcement rather than
+    invoicing or payment collection.
+- tag: MFA
+  spec_file: kinde-mfa-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: PUT /api/v1/mfa ReplaceMFA 'Replace MFA Configuration'
+  reason: Configures multi-factor authentication policy for the business — an authentication control,
+    mapping to Identity & Access Management. Single operation so context is thin.
+- tag: Users
+  spec_file: kinde-users-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.75
+  evidence: PUT /api/v1/users/{user_id}/password SetUserPassword 'Set User password'; GET /api/v1/users/{user_id}/identities
+    'Get identities'
+  reason: User account lifecycle for an authentication platform — creation, deletion, password setting,
+    claims refresh, linked identities. This is identity/access administration, not customer relationship
+    data management.
+- tag: Webhooks
+  spec_file: kinde-webhooks-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.72
+  evidence: POST /api/v1/webhooks CreateWebHook 'Create a Webhook'; GET /api/v1/event_types GetEventTypes
+    'List Event Types'
+  reason: The vendor exposes lifecycle management of outbound webhook subscriptions and the event-type
+    catalogue to its developer customers, which is the named Webhook & Event Subscription Management capability.
+    Confidence moderated because webhook endpoints are often mere plumbing.
+- tag: Connections
+  spec_file: kinde-connections-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: 'POST /api/v1/connections  CreateConnection  Create Connection; schemas: connection, get_connections_response'
+  reason: In Kinde's identity platform, connections are the configured authentication/identity-provider
+    connections (social, passwordless, enterprise SSO) described in the vendor blurb, so CRUD over them
+    is identity federation configuration under Identity & Access Management.
+- tag: Directories
+  spec_file: kinde-directories-api-openapi.yml
+  capability_id: BC-620.20
+  capability_id_l1: BC-620
+  capability_name: Identity & Access Management
+  confidence: 0.7
+  evidence: GET /api/v1/directories  getDirectories  Get SCIM directories; POST /api/v1/directories  createDirectory  Create
+    SCIM directory
+  reason: Operations manage SCIM directory connections used to synchronise user accounts from an enterprise
+    directory, which is federation and joiner-mover-leaver provisioning within Identity & Access Management.
