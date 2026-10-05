@@ -1,0 +1,12 @@
+{
+ "url": "https://api-spec.kinde.com/kinde-frontend-api-spec.yaml",
+ "requested_url": "https://api-spec.kinde.com/kinde-frontend-api-spec.yaml",
+ "status": 200,
+ "content_type": "text/yaml",
+ "bytes": 30674,
+ "sha256": "34c0c06ba676a319859cad997b8f8e3215f951999700c4414e26eff4d4d2b42d",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
