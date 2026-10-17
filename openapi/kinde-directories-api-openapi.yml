@@ -306,64 +306,6 @@ components:
           type: string
           description: Response message.
           example: SCIM directory deleted successfully
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
-    get_directory_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: OK
-        message:
-          type: string
-          description: Response message.
-          example: Success
-        directory:
-          $ref: '#/components/schemas/directory'
-    create_directory_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: DIRECTORY_CREATED
-        message:
-          type: string
-          description: Response message.
-          example: SCIM directory created successfully
-        directory:
-          $ref: '#/components/schemas/directory'
-    update_directory_response:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Response code.
-          example: DIRECTORY_UPDATED
-        message:
-          type: string
-          description: Response message.
-          example: SCIM directory updated successfully
-        directory:
-          $ref: '#/components/schemas/directory'
-    not_found_response:
-      type: object
-      properties:
-        errors:
-          type: object
-          properties:
-            code:
-              type: string
-              example: ROUTE_NOT_FOUND
-            message:
-              type: string
-              example: The requested API route does not exist
     get_directories_response:
       type: object
       properties:
@@ -382,6 +324,66 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/directory'
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    get_directory_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: OK
+        message:
+          type: string
+          description: Response message.
+          example: Success
+        directory:
+          $ref: '#/components/schemas/directory'
+    not_found_response:
+      type: object
+      properties:
+        errors:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ROUTE_NOT_FOUND
+            message:
+              type: string
+              example: The requested API route does not exist
+    update_directory_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: DIRECTORY_UPDATED
+        message:
+          type: string
+          description: Response message.
+          example: SCIM directory updated successfully
+        directory:
+          $ref: '#/components/schemas/directory'
+    create_directory_response:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Response code.
+          example: DIRECTORY_CREATED
+        message:
+          type: string
+          description: Response message.
+          example: SCIM directory created successfully
+        directory:
+          $ref: '#/components/schemas/directory'
     directory:
       type: object
       properties:
@@ -440,24 +442,16 @@ components:
           format: date-time
           description: When the directory was created.
           example: '2024-11-18T13:32:03+11'
-    error:
+    error_response:
       type: object
       properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
   responses:
-    forbidden:
-      description: Unauthorized - invalid credentials.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/error_response'
-    bad_request:
-      description: Invalid request.
+    too_many_requests:
+      description: Too many requests. Request was throttled.
       content:
         application/json:
           schema:
@@ -468,8 +462,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/not_found_response'
-    too_many_requests:
-      description: Too many requests. Request was throttled.
+    forbidden:
+      description: Unauthorized - invalid credentials.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+    bad_request:
+      description: Invalid request.
       content:
         application/json:
           schema:

@@ -209,6 +209,33 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
+    error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Error code.
+        message:
+          type: string
+          description: Error message.
+    success_response:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Success
+        code:
+          type: string
+          example: OK
+    connected_apps_access_token:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: The access token to access a third-party provider.
+        access_token_expiry:
+          type: string
+          description: The date and time that the access token expires.
     connected_apps_auth_url:
       type: object
       properties:
@@ -225,33 +252,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/error'
-    connected_apps_access_token:
-      type: object
-      properties:
-        access_token:
-          type: string
-          description: The access token to access a third-party provider.
-        access_token_expiry:
-          type: string
-          description: The date and time that the access token expires.
-    success_response:
-      type: object
-      properties:
-        message:
-          type: string
-          example: Success
-        code:
-          type: string
-          example: OK
-    error:
-      type: object
-      properties:
-        code:
-          type: string
-          description: Error code.
-        message:
-          type: string
-          description: Error message.
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.

@@ -217,26 +217,6 @@ paths:
       - kindeBearerAuth: []
 components:
   schemas:
-    error_response:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/error'
-    subscribers_subscriber:
-      type: object
-      properties:
-        id:
-          type: string
-        email:
-          type: string
-        full_name:
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
     get_subscribers_response:
       type: object
       properties:
@@ -253,26 +233,6 @@ components:
         next_token:
           description: Pagination token.
           type: string
-    subscriber:
-      type: object
-      properties:
-        id:
-          type: string
-        preferred_email:
-          type: string
-        first_name:
-          type: string
-        last_name:
-          type: string
-    create_subscriber_success_response:
-      type: object
-      properties:
-        subscriber:
-          type: object
-          properties:
-            subscriber_id:
-              type: string
-              description: A unique identifier for the subscriber.
     get_subscriber_response:
       type: object
       properties:
@@ -295,6 +255,46 @@ components:
         message:
           type: string
           description: Error message.
+    create_subscriber_success_response:
+      type: object
+      properties:
+        subscriber:
+          type: object
+          properties:
+            subscriber_id:
+              type: string
+              description: A unique identifier for the subscriber.
+    error_response:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+    subscribers_subscriber:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        full_name:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+    subscriber:
+      type: object
+      properties:
+        id:
+          type: string
+        preferred_email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
   securitySchemes:
     kindeBearerAuth:
       description: 'Requires an access token obtained using the client_credentials flow.
