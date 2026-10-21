@@ -1,21 +1,4 @@
 edges:
-- partner_name: WordPress (own)
-  partner: wordpress
-  partner_match: mirror
-  mirror_match: domain
-  type: marketplace
-  relationship: platform-app
-  direction: third-party
-  channel: partner-built
-  marketplace: own
-  evidence: https://wordpress.org/plugins/kinde-auth/
-  mirror_of: wordpress/integrations/wordpress-integration-edges.yml
-  apps:
-  - Kinde Auth
-  listing_count: 1
-  detected: '2026-10-15'
-  detected_by: mirror-platform-listings.py
-  category: WordPress plugin
 - partner_name: npm registry
   partner: npm
   partner_match: register
@@ -157,6 +140,42 @@ edges:
     detected: '2026-10-20'
   detected_by: sweep-compliance-assurance.py
   first_seen: '2026-10-20'
+- partner_name: WordPress (own)
+  partner: wordpress
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://wordpress.org/plugins/kinde-auth/
+  mirror_of: wordpress/integrations/wordpress-integration-edges.yml
+  apps:
+  - Kinde Auth
+  listing_count: 1
+  detected: '2026-10-15'
+  detected_by: mirror-platform-listings.py
+  category: WordPress plugin
+- partner_name: Terraform (terraform-registry)
+  partner: terraform
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: terraform-registry
+  evidence: https://registry.terraform.io/providers/kinde-oss/kinde
+  mirror_of: terraform/integrations/terraform-integration-edges.yml
+  apps:
+  - kinde-oss/kinde
+  listing_count: 1
+  detected: '2026-10-21'
+  detected_by: mirror-platform-listings.py
+  category: infrastructure-as-code provider registry listing
+  badges:
+  - Verified publisher (GitHub domain-verified organization)
 generated: '2026-10-15'
 method: searched
 checked:
@@ -170,5 +189,6 @@ checked:
 - https://repo1.maven.org/maven2
 - https://rubygems.org/api/v1
 - wordpress/integrations/wordpress-integration-edges.yml
+- terraform/integrations/terraform-integration-edges.yml
 source:
 - wordpress/integrations/wordpress-integration-edges.yml
