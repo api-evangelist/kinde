@@ -7,35 +7,38 @@ artifacts:
     method: generated
     evidence: declared in the artifact
   arazzo/kinde-assign-org-user-role-workflow.yml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: Arazzo whose sourceDescriptions are our split specs (../openapi/)
   arazzo/kinde-create-organization-with-users-workflow.yml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: Arazzo whose sourceDescriptions are our split specs (../openapi/)
   arazzo/kinde-create-role-with-permission-workflow.yml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: Arazzo whose sourceDescriptions are our split specs (../openapi/)
   arazzo/kinde-end-user-self-serve-portal-workflow.yml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: Arazzo whose sourceDescriptions are our split specs (../openapi/)
   arazzo/kinde-invite-user-to-organization-workflow.yml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: Arazzo whose sourceDescriptions are our split specs (../openapi/)
   arazzo/kinde-migrate-user-with-password-workflow.yml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: Arazzo whose sourceDescriptions are our split specs (../openapi/)
   arazzo/kinde-provision-user-workflow.yml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: Arazzo whose sourceDescriptions are our split specs (../openapi/)
   arazzo/kinde-register-application-with-connection-workflow.yml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: Arazzo whose sourceDescriptions are our split specs (../openapi/)
   arazzo/kinde-rollout-feature-flag-workflow.yml:
-    method: unknown
-    evidence: no authorship recorded
+    method: derived
+    evidence: Arazzo whose sourceDescriptions are our split specs (../openapi/)
   authentication/kinde-authentication.yml:
     method: searched
     evidence: declared in the artifact
+  capabilities/kinde-capability-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
   changelog/kinde-changelog.yml:
     method: searched
     evidence: declared in the artifact
@@ -172,9 +175,15 @@ artifacts:
     method: unknown
     evidence: no authorship recorded
   finops/kinde-finops.yml:
+    method: generated
+    evidence: declared in the artifact
+  front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
-  front-door-ai/2026-09-17.yml:
+  integrations/_index.yml:
+    method: generated
+    evidence: carries an API Evangelist house phrase
+  integrations/kinde-integration-edges.yml:
     method: unknown
     evidence: no authorship recorded
   json-ld/kinde-context.jsonld:
@@ -207,127 +216,7 @@ artifacts:
   json-structure/kinde-user-structure.json:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-24T161608.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T125852.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T133943.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T143147.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-25T154045.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-26T215308.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T094438.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T103455.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T123021.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T132314.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-27T140727.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-28T221322.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-29T213958.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-29T230545.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-30T203505.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-30T220315.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-08-31T223420.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T063623.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T210448.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-01T222808.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-02T211804.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-02T224043.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-03T161828.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-03T174231.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T062714.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T212454.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-04T224856.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T055819.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T072335.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T144739.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T195450.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-05T211839.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T011047.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T211804.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-06T224210.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-07T200636.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-07T213054.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-08T214843.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-08T232836.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-10T204815.yml:
-    method: generated
-    evidence: Kin Score snapshot written by score.rb
-  kin/score-2026-09-10T222408.yml:
+  kin/checks-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-12T062655.yml:
@@ -411,6 +300,21 @@ artifacts:
   kin/score-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T210408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T232841.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T000835.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T024842.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-11T110117.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/kinde-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
@@ -431,8 +335,8 @@ artifacts:
     evidence: no authorship recorded
   openapi/_original/kinde-frontend-api-openapi.yml:
     method: harvested
-    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
-      to the provider's source is unverified
+    evidence: the same operations as https://api-spec.kinde.com/kinde-frontend-api-spec.yaml (sha256 34c0c06ba676,
+      fetched 2026-10-04)
   openapi/_original/kinde-management-api-openapi.yml:
     method: harvested
     evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
@@ -528,17 +432,107 @@ artifacts:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
   overlays/kinde-account-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/kinde-api-keys-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-apis-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-applications-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-billing-agreements-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-billing-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-billing-entitlements-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-billing-meter-usage-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-business-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-callbacks-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-connected-apps-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-connections-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-directories-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-environment-variables-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-environments-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-feature-flags-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-identities-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-industries-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/kinde-management-api-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/kinde-mfa-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-oauth-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-organizations-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-permissions-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-properties-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-property-categories-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-roles-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-search-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-self-serve-portal-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-subscribers-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-timezones-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-users-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/kinde-webhooks-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   packages/kinde-packages.yml:
     method: searched
     evidence: declared in the artifact
   plans/kinde-plans-pricing.yml:
-    method: unknown
-    evidence: no authorship recorded
+    method: generated
+    evidence: declared in the artifact
   postman/kinde-frontend-api.postman_collection.json:
     method: unknown
     evidence: no authorship recorded
