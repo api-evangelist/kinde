@@ -1,4 +1,4 @@
-# Kinde (kinde)
+# Kinde
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,190 +66,287 @@
 
 Kinde is a developer-first authentication and customer identity platform that bundles authentication (passwords, passwordless, social, enterprise SSO), authorization (roles, permissions, scopes), B2B organizations, billing, and feature flags into a single integrated product. Founded in Australia, Kinde positions itself as "the fully integrated developer platform — secure and monetize your product from day one" and is used by over 70,000 developers. The platform exposes a Management API for tenant administration and an Account API for end-user self-service flows, both backed by published OpenAPI specs and a large open-source SDK ecosystem on GitHub (TypeScript, React, Next.js, Python, Go, Java, .NET, PHP, Ruby, Elixir, Flutter, iOS, Android, Expo, React Native, SvelteKit, Nuxt, Remix, TanStack Start) plus a Go-based CLI, a Terraform provider, and a Model Context Protocol (MCP) server for AI agents.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/kinde/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/kinde/refs/heads/main/apis.yml)
+**Areas:** Authentication · Authorization · Customer Identity · Identity and Access Management · OpenID Connect · SSO · Multi-Factor Authentication · Role-Based Access Control · Feature Flags · Billing · B2B · Software-as-a-Service
 
-## Scope
+## Kinde on APIs.io
 
-- **Type:** Index
+Everything profiled for Kinde is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/kinde/](https://apis.io/providers/kinde/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (31)
 
-- Authentication
-- Authorization
-- Customer Identity
-- Identity Management
-- OAuth
-- OpenID Connect
-- Single Sign-On
-- Multi-Factor Authentication
-- Role-Based Access Control
-- Feature Flags
-- Billing
-- B2B
-- SaaS
-- Developer Platform
+- [Kinde MCP Server](https://apis.io/apis/kinde/kinde-mcp-server/) — The Kinde Management MCP server bridges AI agents and a Kinde account. It is TENANT-SCOPED — the endpoint is https://{subdomain}.kinde.com/mcp, one per…
+- [Kinde API Keys API](https://apis.io/apis/kinde/kinde-api-keys-api/) — The API Keys API from Kinde — 3 operation(s) for api keys.
+- [Kinde Applications API](https://apis.io/apis/kinde/kinde-applications-api/) — The Applications API from Kinde — 7 operation(s) for applications.
+- [Kinde Billing Agreements API](https://apis.io/apis/kinde/kinde-billing-agreements-api/) — The Billing Agreements API from Kinde — 1 operation(s) for billing agreements.
+- [Kinde Billing API](https://apis.io/apis/kinde/kinde-billing-api/) — The Billing API from Kinde — 2 operation(s) for billing.
+- [Kinde Billing Entitlements API](https://apis.io/apis/kinde/kinde-billing-entitlements-api/) — The Billing Entitlements API from Kinde — 1 operation(s) for billing entitlements.
+- [Kinde Billing Meter Usage API](https://apis.io/apis/kinde/kinde-billing-meter-usage-api/) — The Billing Meter Usage API from Kinde — 1 operation(s) for billing meter usage.
+- [Kinde Business API](https://apis.io/apis/kinde/kinde-business-api/) — The Business API from Kinde — 1 operation(s) for business.
+- [Kinde Callbacks API](https://apis.io/apis/kinde/kinde-callbacks-api/) — The Callbacks API from Kinde — 2 operation(s) for callbacks.
+- [Kinde Connected Apps API](https://apis.io/apis/kinde/kinde-connected-apps-api/) — The Connected Apps API from Kinde — 3 operation(s) for connected apps.
+- [Kinde Connections API](https://apis.io/apis/kinde/kinde-connections-api/) — The Connections API from Kinde — 2 operation(s) for connections.
+- [Kinde Directories API](https://apis.io/apis/kinde/kinde-directories-api/) — The Directories API from Kinde — 2 operation(s) for directories.
+- [Kinde Environment variables API](https://apis.io/apis/kinde/kinde-environment-variables-api/) — The Environment variables API from Kinde — 2 operation(s) for environment variables.
+- [Kinde Environments API](https://apis.io/apis/kinde/kinde-environments-api/) — The Environments API from Kinde — 5 operation(s) for environments.
+- [Kinde Feature flags API](https://apis.io/apis/kinde/kinde-feature-flags-api/) — The Feature flags API from Kinde — 3 operation(s) for feature flags.
+- [Kinde Identities API](https://apis.io/apis/kinde/kinde-identities-api/) — The Identities API from Kinde — 1 operation(s) for identities.
+- [Kinde Industries API](https://apis.io/apis/kinde/kinde-industries-api/) — The Industries API from Kinde — 1 operation(s) for industries.
+- [Kinde MFA API](https://apis.io/apis/kinde/kinde-mfa-api/) — The MFA API from Kinde — 1 operation(s) for mfa.
+- [Kinde Organizations API](https://apis.io/apis/kinde/kinde-organizations-api/) — The Organizations API from Kinde — 25 operation(s) for organizations.
+- [Kinde Permissions API](https://apis.io/apis/kinde/kinde-permissions-api/) — The Permissions API from Kinde — 3 operation(s) for permissions.
+- [Kinde Properties API](https://apis.io/apis/kinde/kinde-properties-api/) — The Properties API from Kinde — 3 operation(s) for properties.
+- [Kinde Property Categories API](https://apis.io/apis/kinde/kinde-property-categories-api/) — The Property Categories API from Kinde — 2 operation(s) for property categories.
+- [Kinde Roles API](https://apis.io/apis/kinde/kinde-roles-api/) — The Roles API from Kinde — 7 operation(s) for roles.
+- [Kinde Search API](https://apis.io/apis/kinde/kinde-search-api/) — The Search API from Kinde — 1 operation(s) for search.
+- [Kinde Self-serve portal API](https://apis.io/apis/kinde/kinde-self-serve-portal-api/) — The Self-serve portal API from Kinde — 1 operation(s) for self-serve portal.
+- [Kinde Subscribers API](https://apis.io/apis/kinde/kinde-subscribers-api/) — The Subscribers API from Kinde — 2 operation(s) for subscribers.
+- [Kinde Timezones API](https://apis.io/apis/kinde/kinde-timezones-api/) — The Timezones API from Kinde — 1 operation(s) for timezones.
+- [Kinde Users API](https://apis.io/apis/kinde/kinde-users-api/) — The Users API from Kinde — 11 operation(s) for users.
+- [Kinde Webhooks API](https://apis.io/apis/kinde/kinde-webhooks-api/) — The Webhooks API from Kinde — 4 operation(s) for webhooks.
+- [Kinde APIs API](https://apis.io/apis/kinde/kinde-apis-api/) — The APIs API from Kinde — 6 operation(s) for apis.
+- [Kinde O Auth API](https://apis.io/apis/kinde/kinde-oauth-api/) — The OAuth API from Kinde — 3 operation(s) for oauth.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-05-22
-- **Modified:** 2026-05-22
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Arazzo workflows (9)
 
-### Kinde Management API
+Multi-step workflows that chain operations into a business task.
 
-The Kinde Management API exposes administrative endpoints for managing a Kinde business: users, organizations, applications, APIs, scopes, roles, permissions, connections, directories, environments, environment variables, feature flags, properties, property categories, webhooks, subscribers, billing entitlements/agreements/meter usage, API keys, connected apps, and identities. The spec covers 97 paths and 169 operations across 27 tag groups. Authentication uses an M2M (machine-to-machine) OAuth client to obtain a bearer token, and the base URL is templated as ``https://{subdomain}.kinde.com``.
+- [Kinde Assign Organization User Role](https://apis.io/arazzos/kinde/kinde-assign-org-user-role-workflow/)
+- [Kinde Create Organization with Users](https://apis.io/arazzos/kinde/kinde-create-organization-with-users-workflow/)
+- [Kinde Create Role with Permission](https://apis.io/arazzos/kinde/kinde-create-role-with-permission-workflow/)
+- [Kinde End User Self-Serve Portal](https://apis.io/arazzos/kinde/kinde-end-user-self-serve-portal-workflow/)
+- [Kinde Invite User to Organization](https://apis.io/arazzos/kinde/kinde-invite-user-to-organization-workflow/)
+- [Kinde Migrate User with Password](https://apis.io/arazzos/kinde/kinde-migrate-user-with-password-workflow/)
+- [Kinde Provision User into Organization](https://apis.io/arazzos/kinde/kinde-provision-user-workflow/)
+- [Kinde Register Application with Connection](https://apis.io/arazzos/kinde/kinde-register-application-with-connection-workflow/)
+- [Kinde Roll Out Feature Flag to Organization](https://apis.io/arazzos/kinde/kinde-rollout-feature-flag-workflow/)
 
-- **Human URL:** [https://docs.kinde.com/kinde-apis/management/](https://docs.kinde.com/kinde-apis/management/)
-- **Base URL:** `https://{subdomain}.kinde.com/api/v1`
+#### MCP servers (1)
 
-#### Tags
+Model Context Protocol servers that expose the API to agents.
 
-- Authentication
-- Authorization
-- Customer Identity
-- User Management
-- Organizations
-- Roles
-- Permissions
-- Feature Flags
-- Webhooks
-- Billing
-- API Keys
-- Connections
+- [kinde-mcp.yml](https://apis.io/servers/kinde/kinde-mcp-yml/)
 
-#### Properties
+#### Agentic access (1)
 
-- [Documentation](https://docs.kinde.com/kinde-apis/management/)
-- [Getting Started](https://docs.kinde.com/developer-tools/kinde-api/connect-to-kinde-api/)
-- [Authentication](https://docs.kinde.com/developer-tools/kinde-api/access-token-for-api/)
-- [OpenAPI](openapi/kinde-management-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Open Collection](collections/kinde-management-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Open A P I Canonical](https://api-spec.kinde.com/kinde-management-api-spec.yaml)
-- [Spectral Rules](rules/kinde-rules.yml)
-- [JSON Schema](json-schema/kinde-user-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/kinde-organization-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/kinde-application-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/kinde-role-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/kinde-permission-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/kinde-feature-flag-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/kinde-webhook-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Structure](json-structure/kinde-user-structure.json)
-- [JSON Structure](json-structure/kinde-organization-structure.json)
-- [Examples](examples/kinde-create-user-example.json)
-- [Examples](examples/kinde-create-organization-example.json)
-- [Examples](examples/kinde-create-application-example.json)
-- [Examples](examples/kinde-create-role-example.json)
-- [Examples](examples/kinde-create-feature-flag-example.json)
-- [Examples](examples/kinde-create-webhook-example.json)
+Which operations an agent can call, which act, and which need a human in the loop.
 
-### Kinde Account API
+- [Kinde Agentic Access](https://apis.io/agentic-access/kinde/kinde-agentic-access/)
 
-The Kinde Account API (also documented as the Frontend API) provides endpoints for the currently signed-in user to inspect their own identity, sessions, billing entitlements, feature-flag values, organization memberships, roles, permissions, properties, and self-serve portal URLs. The spec covers 10 paths across 7 tag groups (Billing, Feature Flags, OAuth, Permissions, Self-serve Portal, Properties, Roles). It is intended to be called from the user's own browser/app using their authenticated session token rather than a backend M2M token.
+#### JSON Schema (7)
 
-- **Human URL:** [https://docs.kinde.com/kinde-apis/frontend/](https://docs.kinde.com/kinde-apis/frontend/)
-- **Base URL:** `https://{subdomain}.kinde.com/account_api/v1`
+The data models the API reads and writes.
 
-#### Tags
+- [Application](https://apis.io/schemas/kinde/kinde-application/)
+- [FeatureFlag](https://apis.io/schemas/kinde/kinde-feature-flag/)
+- [Organization](https://apis.io/schemas/kinde/kinde-organization/)
+- [Permission](https://apis.io/schemas/kinde/kinde-permission/)
+- [Role](https://apis.io/schemas/kinde/kinde-role/)
+- [User](https://apis.io/schemas/kinde/kinde-user/)
+- [Webhook](https://apis.io/schemas/kinde/kinde-webhook/)
 
-- Account Management
-- Self-Service
-- Billing
-- Feature Flags
-- Permissions
-- Roles
-- Properties
+#### JSON Structure (2)
 
-#### Properties
+Data models expressed in JSON Structure.
 
-- [Documentation](https://docs.kinde.com/kinde-apis/frontend/)
-- [OpenAPI](openapi/kinde-frontend-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Open Collection](collections/kinde-frontend-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Open A P I Canonical](https://api-spec.kinde.com/kinde-frontend-api-spec.yaml)
+- [Kinde Organization Structure](https://apis.io/json-structure/kinde/kinde-organization-structure/)
+- [Kinde User Structure](https://apis.io/json-structure/kinde/kinde-user-structure/)
 
-### Kinde MCP Server
+#### JSON-LD (1)
 
-The Kinde MCP (Model Context Protocol) server acts as a bridge between AI assistants and a Kinde account. It exposes a subset of the Kinde Management API as MCP tools (query organizations, check user existence by email, retrieve user roles, list users in an organization, manage users and permissions), authenticated via an environment-level API key whose scopes constrain which tools the AI client can call.
+Linked-data contexts for the provider's vocabulary.
 
-- **Human URL:** [https://docs.kinde.com/mcp-server/about-mcp-server/](https://docs.kinde.com/mcp-server/about-mcp-server/)
+- [Kinde Context](https://apis.io/jsonld/kinde/kinde-context/)
 
-#### Tags
+#### Vocabulary (1)
 
-- MCP
-- AI Agents
-- Model Context Protocol
-- Identity
+The provider's domain terms, defined.
 
-#### Properties
+- [Kinde Vocabulary](https://apis.io/vocabularies/kinde/kinde-vocabulary/)
 
-- [Documentation](https://docs.kinde.com/mcp-server/about-mcp-server/)
+#### Examples (6)
 
-## Common Properties
+Example requests and responses.
 
-- [Arazzo Workflows](arazzo/) — [Arazzo Specification](https://spec.openapis.org/arazzo/latest.html)
-- [Portal](https://docs.kinde.com)
-- [Sign In](https://app.kinde.com/admin)
-- [Sign Up](https://app.kinde.com/register)
-- [Pricing](https://kinde.com/pricing/)
-- [Blog](https://kinde.com/blog/)
-- [Status Page](https://status.kinde.com)
-- [Status Page R S S](https://status.kinde.com/history.rss)
-- [Status Page Atom](https://status.kinde.com/history.atom)
-- [Changelog](https://updates.kinde.com)
-- [Roadmap](https://updates.kinde.com/board)
-- [Git Hub](https://github.com/kinde-oss)
-- [Terms of Service](https://docs.kinde.com/trust-center/agreements/terms-of-service/)
-- [Trust Center](https://docs.kinde.com/trust-center/)
-- [Support](mailto:support@kinde.com)
-- [Contact Sales](https://kinde.com/contact-us/)
-- [Plans](plans/kinde-plans-pricing.yml)
-- [Rate Limits](rate-limits/kinde-rate-limits.yml)
-- [Fin Ops](finops/kinde-finops.yml)
-- [Vocabulary](vocabulary/kinde-vocabulary.yml)
-- [JSON-LD](json-ld/kinde-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [SDK](https://github.com/kinde-oss/kinde-typescript-sdk)
-- [SDK](https://github.com/kinde-oss/kinde-auth-nextjs)
-- [SDK](https://github.com/kinde-oss/kinde-auth-react)
-- [SDK](https://github.com/kinde-oss/kinde-auth-pkce-js)
-- [SDK](https://github.com/kinde-oss/kinde-nodejs-sdk)
-- [SDK](https://github.com/kinde-oss/kinde-node-express)
-- [SDK](https://github.com/kinde-oss/kinde-node-express-api)
-- [SDK](https://github.com/kinde-oss/kinde-remix-sdk)
-- [SDK](https://github.com/kinde-oss/kinde-auth-remix-sdk)
-- [SDK](https://github.com/kinde-oss/kinde-sveltekit-sdk)
-- [SDK](https://github.com/kinde-oss/nuxt-kinde)
-- [SDK](https://github.com/kinde-oss/kinde-tsr)
-- [SDK](https://github.com/kinde-oss/kinde-python-sdk)
-- [SDK](https://github.com/kinde-oss/kinde-go)
-- [SDK](https://github.com/kinde-oss/kinde-java-sdk)
-- [SDK](https://github.com/kinde-oss/kinde-dotnet-sdk)
-- [SDK](https://github.com/kinde-oss/kinde-php-sdk)
-- [SDK](https://github.com/kinde-oss/kinde-ruby-sdk)
-- [SDK](https://github.com/kinde-oss/kinde-elixir-sdk)
-- [SDK](https://github.com/kinde-oss/kinde-auth-wordpress)
-- [SDK](https://github.com/kinde-oss/kinde-flutter-sdk)
-- [SDK](https://github.com/kinde-oss/kinde-sdk-ios)
-- [SDK](https://github.com/kinde-oss/kinde-sdk-android)
-- [SDK](https://github.com/kinde-oss/expo)
-- [SDK](https://github.com/kinde-oss/kinde-react-native-sdk-0-7x)
-- [SDK](https://github.com/kinde-oss/management-api-js)
-- [C L I](https://github.com/kinde-oss/kinde-cli)
-- [C L I](https://github.com/kinde-oss/homebrew-kinde-cli)
-- [C L I](https://github.com/kinde-oss/scoop-kinde-cli)
-- [Tools](https://github.com/kinde-oss/jwt-validator)
-- [Tools](https://github.com/kinde-oss/jwt-decoder)
-- [Tools](https://github.com/kinde-oss/js-utils)
-- [Tools](https://github.com/kinde-oss/webhook)
-- [Tools](https://github.com/kinde-oss/kinde-translations)
-- [Tools](https://github.com/kinde-oss/infrastructure)
-- [Tools](https://github.com/kinde-oss/workflows-runtime)
-- [Tools](https://github.com/kinde-oss/terraform-provider-kinde)
-- [Tools](https://github.com/kinde-oss/kinde-convex-sync)
-- [Tools](https://github.com/kinde-oss/kinde-convex-billing)
+- [Kinde Create Application Example](https://apis.io/examples/kinde/kinde-create-application-example/)
+- [Kinde Create Feature Flag Example](https://apis.io/examples/kinde/kinde-create-feature-flag-example/)
+- [Kinde Create Organization Example](https://apis.io/examples/kinde/kinde-create-organization-example/)
+- [Kinde Create Role Example](https://apis.io/examples/kinde/kinde-create-role-example/)
+- [Kinde Create User Example](https://apis.io/examples/kinde/kinde-create-user-example/)
+- [Kinde Create Webhook Example](https://apis.io/examples/kinde/kinde-create-webhook-example/)
+
+#### Collections (34)
+
+Postman and Open Collection request collections.
+
+- [Kinde Account API Keys API](https://apis.io/collections/kinde/open-kinde-api-keys-api/)
+- [Kinde Account API Keys APIs API](https://apis.io/collections/kinde/open-kinde-apis-api/)
+- [Kinde Account API Keys Applications API](https://apis.io/collections/kinde/open-kinde-applications-api/)
+- [Kinde Account API Keys Billing Agreements API](https://apis.io/collections/kinde/open-kinde-billing-agreements-api/)
+- [Kinde Account API Keys Billing API](https://apis.io/collections/kinde/open-kinde-billing-api/)
+- [Kinde Account API Keys Billing Entitlements API](https://apis.io/collections/kinde/open-kinde-billing-entitlements-api/)
+- [Kinde Account API Keys Billing Meter Usage API](https://apis.io/collections/kinde/open-kinde-billing-meter-usage-api/)
+- [Kinde Account API Keys Business API](https://apis.io/collections/kinde/open-kinde-business-api/)
+- [Kinde Account API Keys Callbacks API](https://apis.io/collections/kinde/open-kinde-callbacks-api/)
+- [Kinde Account API Keys Connected Apps API](https://apis.io/collections/kinde/open-kinde-connected-apps-api/)
+- [Kinde Account API Keys Connections API](https://apis.io/collections/kinde/open-kinde-connections-api/)
+- [Kinde Account API Keys Directories API](https://apis.io/collections/kinde/open-kinde-directories-api/)
+- [Kinde Account API Keys Environment variables API](https://apis.io/collections/kinde/open-kinde-environment-variables-api/)
+- [Kinde Account API Keys Environments API](https://apis.io/collections/kinde/open-kinde-environments-api/)
+- [Kinde Account API Keys Feature flags API](https://apis.io/collections/kinde/open-kinde-feature-flags-api/)
+- [Kinde Account API](https://apis.io/collections/kinde/open-kinde-frontend-api/)
+- [Kinde Account API Keys Identities API](https://apis.io/collections/kinde/open-kinde-identities-api/)
+- [Kinde Account API Keys Industries API](https://apis.io/collections/kinde/open-kinde-industries-api/)
+- [Kinde Management API](https://apis.io/collections/kinde/open-kinde-management-api/)
+- [Kinde Account API Keys MFA API](https://apis.io/collections/kinde/open-kinde-mfa-api/)
+- [Kinde Account API Keys OAuth API](https://apis.io/collections/kinde/open-kinde-oauth-api/)
+- [Kinde Account API Keys Organizations API](https://apis.io/collections/kinde/open-kinde-organizations-api/)
+- [Kinde Account API Keys Permissions API](https://apis.io/collections/kinde/open-kinde-permissions-api/)
+- [Kinde Account API Keys Properties API](https://apis.io/collections/kinde/open-kinde-properties-api/)
+- [Kinde Account API Keys Property Categories API](https://apis.io/collections/kinde/open-kinde-property-categories-api/)
+- …and 9 more published on APIs.io
+
+#### Overlays (32)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Kinde Account Api Overlay](https://apis.io/overlays/kinde/kinde-account-api-overlay/)
+- [Kinde Api Keys Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-api-keys-api-phrasing-overlay/)
+- [Kinde Apis Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-apis-api-phrasing-overlay/)
+- [Kinde Applications Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-applications-api-phrasing-overlay/)
+- [Kinde Billing Agreements Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-billing-agreements-api-phrasing-overlay/)
+- [Kinde Billing Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-billing-api-phrasing-overlay/)
+- [Kinde Billing Entitlements Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-billing-entitlements-api-phrasing-overlay/)
+- [Kinde Billing Meter Usage Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-billing-meter-usage-api-phrasing-overlay/)
+- [Kinde Business Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-business-api-phrasing-overlay/)
+- [Kinde Callbacks Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-callbacks-api-phrasing-overlay/)
+- [Kinde Connected Apps Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-connected-apps-api-phrasing-overlay/)
+- [Kinde Connections Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-connections-api-phrasing-overlay/)
+- [Kinde Directories Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-directories-api-phrasing-overlay/)
+- [Kinde Environment Variables Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-environment-variables-api-phrasing-overlay/)
+- [Kinde Environments Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-environments-api-phrasing-overlay/)
+- [Kinde Feature Flags Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-feature-flags-api-phrasing-overlay/)
+- [Kinde Identities Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-identities-api-phrasing-overlay/)
+- [Kinde Industries Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-industries-api-phrasing-overlay/)
+- [Kinde Management Api Overlay](https://apis.io/overlays/kinde/kinde-management-api-overlay/)
+- [Kinde Mfa Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-mfa-api-phrasing-overlay/)
+- [Kinde Oauth Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-oauth-api-phrasing-overlay/)
+- [Kinde Organizations Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-organizations-api-phrasing-overlay/)
+- [Kinde Permissions Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-permissions-api-phrasing-overlay/)
+- [Kinde Properties Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-properties-api-phrasing-overlay/)
+- [Kinde Property Categories Api Phrasing Overlay](https://apis.io/overlays/kinde/kinde-property-categories-api-phrasing-overlay/)
+- …and 7 more published on APIs.io
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [Kinde — jsonschema rules](https://apis.io/rules/kinde/kinde-jsonschema-spectral-rules/)
+- [Kinde API Rules](https://apis.io/rules/kinde/kinde-rules/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Kinde Authentication](https://apis.io/security/kinde/kinde-authentication/)
+- [Kinde Domain Security](https://apis.io/security/kinde/kinde-domain-security/)
+- [Kinde Trust Center](https://apis.io/security/kinde/kinde-trust-center/)
+- [Kinde Vulnerability Disclosure](https://apis.io/security/kinde/kinde-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Kinde Scopes](https://apis.io/scopes/kinde/kinde-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Kinde Plans Pricing](https://apis.io/plans/kinde/kinde-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Kinde Rate Limits](https://apis.io/rate-limits/kinde/kinde-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Kinde Finops](https://apis.io/finops/kinde/kinde-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.kinde.com/)
 - [Documentation](https://github.com/kinde-oss/documentation)
-- [L L Ms Txt](https://docs.kinde.com/llms.txt)
+- [API reference](https://docs.kinde.com/kinde-apis/)
+- [Pricing](https://kinde.com/pricing/)
+- [Changelog](https://updates.kinde.com)
+- [Blog](https://kinde.com/blog/)
+- [Compliance](https://docs.kinde.com/trust-center/privacy-and-compliance/compliance/)
+- [Trust centre](https://docs.kinde.com/trust-center/)
+- [Terms of service](https://docs.kinde.com/trust-center/agreements/terms-of-service/)
+- [Privacy policy](https://docs.kinde.com/trust-center/privacy-and-compliance/privacy-policy/)
+- [Status](https://status.kinde.com)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** info@apievangelist.com
+**Kin Score 82.4** — exemplar · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 68.3 |
+| Contract quality | 68.2 |
+| Contract governance | 45.5 |
+| Operational transparency | 92.1 |
+| Developer ergonomics | 91.1 |
+| Access clarity | 61.8 |
+
+**Agent readiness 50.9** — agent-ready (gated down from agent-native)
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | templated |
+| Auth Clarity | served (partial credit) |
+| Idempotency | documented (partial credit) |
+| Error Semantics | verified |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | unknown |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | paginated |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 45.1** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/kinde/](https://apis.io/providers/kinde/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Kinde: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/kinde/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
